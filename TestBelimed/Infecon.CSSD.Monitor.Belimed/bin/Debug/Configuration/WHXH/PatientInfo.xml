@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+      select
+      /*--zy.BRBH as PatientID,
+      zy.ZYH as InPatientID,
+      zy.XM as PatientName,
+      zy.XB as PatientSex,
+      zy.NL as PatientBirthday,
+      zy.BQ as WardArea,
+      zy.CH as BedNo,
+      zy.SFZH as PatientIDCard--*/
+      *
+      from ZYBRXX zy
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      zy.BRBH as VALUE,--病人编号
+      zy.BRBH as INPATIENTCODE,--病人编号
+      zy.XM as NAME,  --病人姓名
+      zy.XM as DISPLAYNAME, --病人姓名
+      zy.XB as PATIENTSEX,   --病人性别
+      zy.NL as PatientBirthday, --出生年月
+      --住院信息
+      zy.BQ as WARDAREA,--病区
+      zy.CH as BEDNO --床位
+      from MZBRXX zy
+      where 1=1 {0}
+
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      select
+      --手术信息
+      br.ZYH as VALUE,--病人编号
+      br.BRXM as NAME,  --病人姓名
+      br.BRXM as DISPLAYNAME, --病人姓名
+      br.XB as PATIENTSEX,   --病人性别
+      br.CSNY as PatientBirthday, --出生年月
+      year(getdate())-substring(CONVERT(nvarchar(30),zy.NL,112),1,4) as PATIENTAGE,--年龄
+      ss.SSBH as MEDICALRECORDCODE,   --病案号
+      ss.SSKS as OPERATIONROOM,   --手术室
+      ss.SQKS as OPERATIONDEPARTMENT,    --科室
+      ss.SSRQ as OPERATIONDATE,  --手术时间
+      ss.SSYS as OPERATIONDOCTOR,  --手术医生
+      ss.SSMC as OPERATIONNAME  --手术名称
+      from VI_ZS_ZYXX br
+      left join VI_ZS_SSXX ss on br.ZYH=ss.ZYH
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      select
+      /*--zy.BRBH as PatientID,
+      zy.MZH as InPatientID,
+      zy.XM as PatientName,
+      zy.XB as PatientSex,
+      zy.NL as PatientBirthday,
+      zy.SFZH as PatientIDCard--*/
+      *
+      from MZBRXX zy
+      where 1=1 {0}
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      zy.BRBH as VALUE,--病人编号
+      zy.XM as NAME,  --病人姓名
+      zy.XM as DISPLAYNAME, --病人姓名
+      zy.XB as PATIENTSEX,   --病人性别
+      zy.NL as PatientBirthday --出生年月
+      from MZBRXX zy
+      where 1=1 {0}
+    </Content>
+  </Contents>
+</SqlConfig>

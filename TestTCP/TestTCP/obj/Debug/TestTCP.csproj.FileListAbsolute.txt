@@ -1,0 +1,16 @@
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\TestTCP.exe
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\TestTCP.pdb
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\TestTCP.FrmMain.resources
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\TestTCP.Properties.Resources.resources
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\TestTCP.csproj.GenerateResource.Cache
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\TestTCP.exe
+E:\MyProjects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\TestTCP.pdb
+E:\MyProjects\TestTCP\TestTCP\bin\Debug\TestTCP.exe
+E:\MyProjects\TestTCP\TestTCP\bin\Debug\TestTCP.pdb
+E:\MyProjects\TestTCP\TestTCP\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestTCP\TestTCP\obj\Debug\TestTCP.FrmMain.resources
+E:\MyProjects\TestTCP\TestTCP\obj\Debug\TestTCP.Properties.Resources.resources
+E:\MyProjects\TestTCP\TestTCP\obj\Debug\TestTCP.csproj.GenerateResource.Cache
+E:\MyProjects\TestTCP\TestTCP\obj\Debug\TestTCP.exe
+E:\MyProjects\TestTCP\TestTCP\obj\Debug\TestTCP.pdb

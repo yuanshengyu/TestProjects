@@ -1,0 +1,6 @@
+E:\MyProjects\Command\Command\bin\Debug\Command.exe.config
+E:\MyProjects\Command\Command\bin\Debug\Command.exe
+E:\MyProjects\Command\Command\bin\Debug\Command.pdb
+E:\MyProjects\Command\Command\obj\Debug\Command.csprojResolveAssemblyReference.cache
+E:\MyProjects\Command\Command\obj\Debug\Command.exe
+E:\MyProjects\Command\Command\obj\Debug\Command.pdb

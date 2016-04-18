@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      /*--病人基本信息--*/
+      select
+      病人编号 AS PatientCode,
+      patient_no,
+      name AS PatientName,
+      性别 AS PatientSex,
+      birthday AS PatientBirthday,
+      年龄 AS PatientAge,
+      idenno AS PatientIDCard,--身份证号
+      mcard_no AS PatientMcard,--医保卡号
+      home AS PatientAddress,--地址
+      linkman_tel AS PatientTel,--电话
+      是否高危 AS IsHighRiskInfectivity,
+      /*--住院号--*/
+      inpatient_no AS InpatientNo,
+      dept_name AS DeptName,
+      床位 AS BedNumber,
+      床位护士 AS BedNurse,
+      /*--手术信息--*/
+      clinic_code AS ClinicCode,--病例号
+      手术室 AS OperationRoom,
+      科室 AS OperationDepartment,
+      operationdate AS OperationDate,
+      手术台次 AS OperationOrderCode,
+      手术医生 AS OperationDoctor,
+      手术名称 AS OperationName,
+      洗手护士1 AS HandWashingNurse1,
+      洗手护士2 AS HandWashingNurse2,
+      巡回护士1 AS ItinerateNurse1,
+      巡回护士2 AS ItinerateNurse2,
+      手术状态 AS OperationStatus,
+      手术开始时间 AS OperationBegin,
+      手术结束时间 AS OperationEnd
+      from v_infecon_住院信息
+      left join  v_infecon_病人基本信息  on inpatient_no=patient_no
+      left join v_infecon_手术信息  on inpatient_no=clinic_code
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      病人编号 as VALUE,--病人编号
+      病人编号 as INPATIENTCODE,--病人编号
+      name as NAME,  --病人姓名
+      name as DISPLAYNAME, --病人姓名
+      性别 as PATIENTSEX,   --病人性别
+      年龄 as PATIENTAGE,--年龄
+      patient_no,
+      --住院信息
+      inpatient_no as SocialSecurityCard, --住院号
+      dept_name as WARDAREA,--病区
+      床位 as BEDNO --床位
+      from v_infecon_病人基本信息
+      left join v_infecon_住院信息 on patient_no=inpatient_no
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      病人编号 as VALUE,--病人编号
+      name as NAME,  --病人姓名
+      name as DISPLAYNAME, --病人姓名
+      性别 as PATIENTSEX,   --病人性别
+      年龄 as PATIENTAGE,--年龄
+      patient_no,
+      科室 as OPERATIONDEPARTMENT    --科室
+      from v_infecon_病人基本信息
+      left join v_infecon_手术信息 on patient_no=clinic_code
+      where 1=1 {0}
+    </Content>
+    
+    <!---->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      /*--病人基本信息--*/
+      select
+      病人编号 AS PatientCode,
+      name AS PatientName,
+      性别 AS PatientSex,
+      birthday AS PatientBirthday,
+      年龄 AS PatientAge,
+      idenno AS PatientIDCard,--身份证号
+      mcard_no AS PatientMcard,--医保卡号
+      home AS PatientAddress,--地址
+      linkman_tel AS PatientTel,--电话
+      是否高危 AS IsHighRiskInfectivity,
+      clinic_code,--挂号系统编号
+      是否急诊 AS OutPatientEmergency,
+      reg_date,
+      dept_name,
+      seeno
+      from v_infecon_病人基本信息
+      left join v_infecon_挂号信息 on 病人编号=clinic_code
+      where 1=1 {0}
+      order by reg_date Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      病人编号 as VALUE,--病人编号
+      name as NAME,  --病人姓名
+      name as DISPLAYNAME, --病人姓名
+      性别 as PATIENTSEX,   --病人性别
+      birthday as PatientBirthday, --出生年月
+      年龄 as PATIENTAGE,--年龄
+      clinic_code as REGISTERCODE,   --挂号系统编号
+      reg_date as REGISTERDATETIME, --挂号时间
+      dept_name as REGISTERDEPARTMENT --挂号科室
+      from v_infecon_病人基本信息 
+      left join v_infecon_挂号信息 on 病人编号=clinic_code
+      where 1=1 {0}
+      order by reg_date Desc
+    </Content>
+  </Contents>
+</SqlConfig>

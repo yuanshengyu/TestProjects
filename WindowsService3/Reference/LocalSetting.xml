@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <DeviceList>
+      <!--灭菌设备-->
+      <SterilizeList>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>1</Number>
+          <!--设备编码-->
+          <Code>11501</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>4</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>2</Number>
+          <!--设备编码-->
+          <Code>11502</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>4</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>3</Number>
+          <!--设备编码-->
+          <Code>11503</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>4</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>4</Number>
+          <!--设备编码-->
+          <Code>11504</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>4</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+      </SterilizeList>
+      <!--清洗设备-->
+      <DisinfectList>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>5</Number>
+          <!--设备编码-->
+          <Code>11107</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>0</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>6</Number>
+          <!--设备编码-->
+          <Code>11101</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>0</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>7</Number>
+          <!--设备编码-->
+          <Code>11104</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>0</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>8</Number>
+          <!--设备编码-->
+          <Code>11105</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>0</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+        <MonitorDeviceEntity>
+          <!--设备序号-->
+          <Number>9</Number>
+          <!--设备编码-->
+          <Code>11106</Code>
+          <!--设备类型(0:清洗 4:灭菌)-->
+          <DeviceType>0</DeviceType>
+          <!--数据来源-->
+          <SourceType>3</SourceType>
+          <!--Tcp通讯地址(IP,Port)-->
+          <TcpAddress></TcpAddress>
+          <!--串口配置(COM3,19200,2,8,1)-->
+          <ComPort></ComPort>
+        </MonitorDeviceEntity>
+      </DisinfectList>
+  </DeviceList>
+
+  <CommonSetting>
+    <!--命名管道名称-->
+    <NamedPipe></NamedPipe>
+
+    <!--灭菌串口设置-->
+    <SterilizeCom value="COM3,19200,2,8,1"></SterilizeCom>
+    <!--清洗串口设置-->
+    <DisinfectCom value="COM1,38400,2,8,1"></DisinfectCom>
+    <!--读取数据间隔时间(秒)-->
+    <DataInterval value="5"></DataInterval>
+      
+  </CommonSetting>
+
+  <CustomSetting>
+    <!--以下是北京301樱花设备使用-->
+    <!--取数温度下限-->
+    <GetDataTemperature value="60"></GetDataTemperature>
+    <!--判断灭菌开始/停止的压力上下限-->
+    <StopPressure MaxValue="0.01" MinValue="-0.01"></StopPressure>
+    <!---->
+    <StopGetDataTime value="30"></StopGetDataTime>
+  </CustomSetting>
+</config>

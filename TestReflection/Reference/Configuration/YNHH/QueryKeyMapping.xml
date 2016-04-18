@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+  <MappingKey Key="MedicalRecordCode" Content="CSSD_PatientInfo.MedicalRecordCode">
+  </MappingKey>
+  <MappingKey Key="PatientCode" Content="CSSD_PatientInfo.PatientCode">	  
+  </MappingKey>
+  <MappingKey Key="RegisterCode" Content="CSSD_RegisterInfo.RegisterCode">
+  </MappingKey>
+  <MappingKey Key="InPatientCode" Content="CSSD_InPatientInfo.InPatientCode">
+  </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

@@ -1,0 +1,5 @@
+E:\MyProjects\TestListSort\TestDict\bin\Debug\TestDict.exe
+E:\MyProjects\TestListSort\TestDict\bin\Debug\TestDict.pdb
+E:\MyProjects\TestListSort\TestDict\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestListSort\TestDict\obj\Debug\TestDict.exe
+E:\MyProjects\TestListSort\TestDict\obj\Debug\TestDict.pdb

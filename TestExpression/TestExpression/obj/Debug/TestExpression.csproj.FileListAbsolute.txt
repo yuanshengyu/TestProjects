@@ -1,0 +1,8 @@
+E:\MyProjects\TestExpression\TestExpression\bin\Debug\TestExpression.exe.config
+E:\MyProjects\TestExpression\TestExpression\bin\Debug\TestExpression.exe
+E:\MyProjects\TestExpression\TestExpression\bin\Debug\TestExpression.pdb
+E:\MyProjects\TestExpression\TestExpression\obj\Debug\TestExpression.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestExpression\TestExpression\obj\Debug\TestExpression.Properties.Resources.resources
+E:\MyProjects\TestExpression\TestExpression\obj\Debug\TestExpression.csproj.GenerateResource.Cache
+E:\MyProjects\TestExpression\TestExpression\obj\Debug\TestExpression.exe
+E:\MyProjects\TestExpression\TestExpression\obj\Debug\TestExpression.pdb

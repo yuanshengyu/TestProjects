@@ -1,0 +1,6 @@
+E:\MyProjects\TestEnumrator\TestEnumrator\bin\Debug\TestEnumrator.exe.config
+E:\MyProjects\TestEnumrator\TestEnumrator\bin\Debug\TestEnumrator.exe
+E:\MyProjects\TestEnumrator\TestEnumrator\bin\Debug\TestEnumrator.pdb
+E:\MyProjects\TestEnumrator\TestEnumrator\obj\Debug\TestEnumrator.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestEnumrator\TestEnumrator\obj\Debug\TestEnumrator.exe
+E:\MyProjects\TestEnumrator\TestEnumrator\obj\Debug\TestEnumrator.pdb

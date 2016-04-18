@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResource", "TestResource\TestResource.csproj", "{280C5237-75E0-43DB-9393-722C54754944}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DBF3EBD1-E5E7-49A8-8249-22F02B459DE0} = {DBF3EBD1-E5E7-49A8-8249-22F02B459DE0}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infecon.Resource", "Infecon.Resource\Infecon.Resource.csproj", "{DBF3EBD1-E5E7-49A8-8249-22F02B459DE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{280C5237-75E0-43DB-9393-722C54754944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280C5237-75E0-43DB-9393-722C54754944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280C5237-75E0-43DB-9393-722C54754944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280C5237-75E0-43DB-9393-722C54754944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBF3EBD1-E5E7-49A8-8249-22F02B459DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBF3EBD1-E5E7-49A8-8249-22F02B459DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBF3EBD1-E5E7-49A8-8249-22F02B459DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF3EBD1-E5E7-49A8-8249-22F02B459DE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

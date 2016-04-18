@@ -1,0 +1,6 @@
+E:\MyProjects\TestCompression\TestCompression\bin\Debug\TestCompression.exe.config
+E:\MyProjects\TestCompression\TestCompression\bin\Debug\TestCompression.exe
+E:\MyProjects\TestCompression\TestCompression\bin\Debug\TestCompression.pdb
+E:\MyProjects\TestCompression\TestCompression\obj\Debug\TestCompression.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestCompression\TestCompression\obj\Debug\TestCompression.exe
+E:\MyProjects\TestCompression\TestCompression\obj\Debug\TestCompression.pdb

@@ -1,0 +1,5 @@
+E:\MyProjects\TestPing\TestPing\bin\Debug\TestPing.exe
+E:\MyProjects\TestPing\TestPing\bin\Debug\TestPing.pdb
+E:\MyProjects\TestPing\TestPing\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestPing\TestPing\obj\Debug\TestPing.exe
+E:\MyProjects\TestPing\TestPing\obj\Debug\TestPing.pdb

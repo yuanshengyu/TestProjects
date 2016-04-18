@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      select
+      zy.BRHH,    --病人编号
+      zy.BRXM,    --姓名
+      zy.BRXB,    --性别
+      zy.CSNY,    --出生日期
+      zy.NL  ,    --年龄
+      zy.SFZH,    --身份证号
+      zy.SBHM,    --社保号码
+      zy.DZ  ,    --地址
+      zy.LXDH,    --联系电话
+      zy.GCRX,    --高度传染
+      zy.ZYH ,    --住院号
+      zy.BQ  ,    --病区
+      zy.CW  ,    --床位
+      zy.CWHS,    --床位护士
+      --手术病人信息
+      ss.BRHH,    --病人编号
+      ss.BAHM,    --病案号码
+      ss.SSKS,    --手术科室
+      ss.SQKS,    --手术间
+      ss.SSSJ,    --手术时间
+      ss.SSTC,    --手术台次
+      ss.SSYS,    --手术医生
+      ss.SSMC,    --手术名称
+      ss.XSHS1,   --洗手护士1
+      ss.XSHS2,   --洗手护士2
+      ss.XHHS1,   --巡回护士1
+      ss.XHHS2,   --巡回护士2
+      ss.SSZT,    --手术状态
+      ss.KSSJ,    --开始时间
+      ss.JSSJ     --结束时间
+      from VI_XD_ZYXX zy
+      left join VI_XD_SSXX ss on  zy.BRHH=ss.BRHH
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      zy.BRHH as VALUE,--病人编号
+      zy.BRHH as INPATIENTCODE,--病人编号
+      zy.BRXM as NAME,  --病人姓名
+      zy.BRXM as DISPLAYNAME, --病人姓名
+      zy.BRXB as PATIENTSEX,   --病人性别
+      zy.CSNY as PatientBirthday, --出生年月
+      zy.NL as PATIENTAGE,--年龄
+      --住院信息
+      zy.ZYH as SocialSecurityCard, --住院号
+      zy.BQ as WARDAREA,--病区
+      zy.CW as BEDNO, --床位
+      zy.CWHS as BEDNURSE --床位护士
+      from VI_XD_ZYXX zy
+      where 1=1 {0}
+
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      ss.BRHH as VALUE,--病人编号
+      ss.BRXM as NAME,  --病人姓名
+      ss.BRXM as DISPLAYNAME, --病人姓名
+      ss.BRXB as PATIENTSEX,   --病人性别
+      ss.CSNY as PatientBirthday, --出生年月
+      ss.NL as PATIENTAGE,--年龄
+      ss.BAHM as MEDICALRECORDCODE,   --病案号
+      ss.SQKS as OPERATIONROOM,   --手术室
+      ss.SSKS as OPERATIONDEPARTMENT,    --科室
+      ss.SSSJ as OPERATIONDATE,  --手术时间
+      ss.SSYS as OPERATIONDOCTOR,  --手术医生
+      ss.SSMC as OPERATIONNAME  --手术名称
+      from VI_XD_SSXX ss
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      select
+      BRBH,    --病人编号
+      BRXM,    --姓名
+      BRXB,    --性别
+      CSNY,    --出生年月
+      NL  ,    --年龄
+      SFZH,    --身份证号
+      SBHM,    --社保号码
+      DZ  ,    --地址
+      LXDH,    --联系电话
+      GCRX,    --高度传染
+      GHBH,    --挂号编号
+      MZJZ,    --门诊急诊
+      GHSJ,    --挂号时间
+      GHKS,    --挂号科室
+      GHH      --挂号号
+      from VI_XD_GHXX
+      where 1=1 {0}
+      order by  GHSJ Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      BRBH as VALUE,--病人编号
+      BRXM as NAME,  --病人姓名
+      BRXM as DISPLAYNAME, --病人姓名
+      BRXB as PATIENTSEX,   --病人性别
+      CSNY as PatientBirthday, --出生年月
+      NL as PATIENTAGE,--年龄
+      GHBH as REGISTERCODE,   --挂号系统编号
+      MZJZ as OUTPATIENTEMERGENCY,--挂号类型
+      GHSJ as REGISTERDATETIME, --挂号时间
+      GHH as REGISTERNUMBER, --挂号序号
+      GHKS as REGISTERDEPARTMENT --挂号科室
+      from VI_XD_GHXX
+      where 1=1 {0}
+      order by  GHSJ Desc
+    </Content>
+  </Contents>
+</SqlConfig>

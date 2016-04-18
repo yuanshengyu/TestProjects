@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      select
+      br.PATIENTCODE, --病人编号
+      br.PATIENTNAME, --病人姓名
+      br.PATIENTSEX,  --性别
+      br.PATIENTBIRTHDAY, --出生日期
+      br.PATIENTAGE,  --年龄
+      br.PATIENTIDCARD, --身份证
+      br.SOCIALSECURITYCARD, --社保卡号
+      br.PATIENTADDRESS, --地址
+      br.PATIENTPHONE,  --电话
+      br.HIGHRISKINFECTIVITY, --是否高危
+      zy.INPATIENTCODE,--住院号
+      zy.WARDAREA,--病区
+      zy.BEDNUMBER,--床位
+      zy.BEDNURSE --床位护士
+      from gk_patientinfo br
+      left join gk_inpatientinfo zy on br.PATIENTCODE=zy.INPATIENTCODE
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      select
+      /*--病人基本信息--*/
+      br.patid,   --病人编号
+      br.hzxm,    --姓名
+      br.sex,     --性别
+      br.birth,   --出生年月
+      br.AGE,     --年龄
+      br.sfzh,    --身份证号
+      br.sbh,     --社保卡号
+      br.lxdz,    --地址
+      br.lxdh,    --联系电话
+      br.GDCR,    --是否具有高度传染
+      br.brzt,    --0门诊 1住院
+      gh.xh,      --挂号编号
+      gh.ghlb,    --1急诊  门诊
+      gh.ghrq,    --挂号时间
+      gh.ksmc,    --挂号科室
+      gh.GHH,     --挂号号
+      gh.patid    --病人编号
+      from VW_GHXX gh
+      left join VW_BRJBXX br on gh.patid=br.patid
+      where 1=1 {0}
+      order by gh.ghrq Desc
+    </Content>
+    
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PATIENTCODE as VALUE,        --病人编号
+      br.PATIENTCODE as INPATIENTCODE,--病人编号
+      br.PATIENTNAME as NAME,        --病人姓名
+      br.PATIENTNAME as DISPLAYNAME, --病人姓名
+      br.PATIENTSEX as PATIENTSEX,   --病人性别
+      br.PATIENTAGE as PATIENTAGE,   --年龄
+      zy.WARDAREA as WARDAREA,--病区
+      zy.BEDNUMBER as BEDNO   --床位
+      from gk_patientinfo br
+      left join gk_inpatientinfo zy on br.PATIENTCODE=zy.INPATIENTCODE
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.BRBH as VALUE,         --病人编号
+      br.BRBH as INPATIENTCODE, --病人编号
+      br.XM as NAME,        --病人姓名
+      br.XM as DISPLAYNAME, --病人姓名
+      br.XB as PATIENTSEX,   --病人性别
+      br.BIRTHDAY as PATIENTAGE,   --年龄
+      ss.SSQBH01 as MEDICALRECORDCODE,    --病案号
+      ss.SSQXX18 as OPERATIONROOM,    --手术室
+      ss.SSQXX02 as OPERATIONDEPARTMENT,--科室名称
+      ss.DSQAP01 as OPERATIONDATE,      --手术时间
+      ss.SSQXX06 as OPERATIONDOCTOR    --手术医生
+      from v_gys_zybrxx br
+      left join yygls10 ss on br.Szybh01=ss.SZYBH01
+      where 1=1 {0}
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      br.patid as VALUE,         --病人编号
+      br.patid as INPATIENTCODE, --病人编号
+      br.hzxm as NAME,        --病人姓名
+      br.hzxm as DISPLAYNAME, --病人姓名
+      br.sex as PATIENTSEX,   --病人性别
+      br.AGE as PATIENTAGE,   --年龄
+      gh.xh as REGISTERCODE,  --挂号编号
+      gh.ghlb as OUTPATIENTEMERGENCY,--1急诊  门诊
+      gh.ghrq as REGISTERDATETIME,   --挂号时间
+      gh.ksmc as REGISTERDEPARTMENT, --挂号科室
+      gh.GHH as REGISTERNUMBER       --挂号号
+      from VW_BRJBXX br
+      left join VW_GHXX gh on br.patid=gh.patid
+      where 1=1 {0}
+      order by gh.ghrq Desc
+    </Content>
+  </Contents>
+</SqlConfig>

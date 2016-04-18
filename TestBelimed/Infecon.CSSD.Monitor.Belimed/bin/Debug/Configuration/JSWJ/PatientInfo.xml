@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents> 
+	  <Content Key="GetInPatientPopupData" DataBaseType="SqlServer">
+		  <![CDATA[
+		  SELECT
+		  BRBH AS VALUE,
+		  BRBH AS INPATIENTCODE,
+		  BRXM AS NAME,
+		  BRXB AS PATIENTSEX,
+		  BRXM AS DISPLAYNAME,
+		  ksmc AS WARDAREA, 
+		  datediff(year,CSNY,getdate())
+		-(case when right(convert(char(8),getdate(),112),4)>right(convert(char(8),csny,112),4) then 0 else 1 end) AS PATIENTAGE,
+		  ksmc AS INDEPARTMENT,
+		  CWFS AS BEDNURSE,
+		  brch AS BEDNO,
+		  NULL AS INPATIENTDOCTOR
+		  FROM V_XDGY_ZYBR
+		  WHERE 1=1 {0} 
+      ]]>
+	  </Content>
+	  <!-- 未确认 数据库无权限-->
+	  <!-- 根据挂号信息查询 (需要指定科室) -->
+	  <Content Key="GetRegisterPopupData" DataBaseType="Oracle">
+		  <![CDATA[
+      SELECT
+      BRBH AS VALUE,
+      jzxh AS VisitNo,
+      BRXM AS NAME,
+      brxb AS SEX,
+      BRXM AS DISPLAYNAME,
+      ksmc AS VisitDepartment,
+      GHSJ AS VisitDate,
+      jzmz AS ClinicType,
+      CSNY AS PatientBirthday
+      FROM V_XDGY_GHXX 
+      WHERE 1=1  
+      ]]>
+	  </Content> 
+    <Content Key="GetPatientInfoPopupData" DataBaseType="SqlServer">
+		SELECT
+		BRBH AS VALUE
+		,BAHM AS MEDICALRECORDCODE
+		,SSMC  AS OPERATIONNAME
+		,BRXM AS NAME
+		,BRXM AS DISPLAYNAME
+		,datediff(year,CSNY,getdate())
+		-(case when right(convert(char(8),getdate(),112),4)>right(convert(char(8),csny,112),4) then 0 else 1 end)  AS AGE
+		,case BRXB when  1 then '男' when 2 then '女' end  AS PATIENTSEX
+		,SSMC AS OPERATIONDEPARTMENT
+		,SSFJ AS OPERATIONROOM
+		,SSYS  AS OPERATIONDOCTOR
+		,SSRQ AS OPERATIONDATE
+		,BRCH
+		FROM V_XDGY_SSXX
+		WHERE 1 = 1 {0}
+		Order By OPERATIONDATE DESC
+	</Content>
+    <Content Key="GetPatientInfo" DataBaseType="SqlServer">
+		SELECT
+		V_XDGY_ZYBR.BRBH AS PatientCode
+		,V_XDGY_ZYBR.YBKH  AS SocialSecurityCard
+		,zyh AS MedicalRecordCode
+		,V_XDGY_ZYBR.BRXM AS PatientName
+		,datediff(year,V_XDGY_ZYBR.CSNY,getdate())
+		-(case when right(convert(char(8),getdate(),112),4)>right(convert(char(8),V_XDGY_ZYBR.csny,112),4) then 0 else 1 end)  AS PatientAge
+		,V_XDGY_ZYBR.BRXB AS PatientSex
+		,V_XDGY_ZYBR.SFZH AS PatientIDCard
+		,V_XDGY_ZYBR.csny AS PatientBirthday
+		,V_XDGY_ZYBR.hkDZ AS MailingAddress
+		,V_XDGY_ZYBR.LXDH AS PhoneNumber
+		FROM V_XDGY_ZYBR
+		where 1 = 1 {0}
+	</Content>
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+		SELECT
+		BRBH AS PatientCode
+		,YBKH  AS SocialSecurityCard
+		,NULL AS MedicalRecordCode
+		,BRXM AS PatientName
+		,datediff(year,CSNY,getdate())
+		-(case when right(convert(char(8),getdate(),112),4)>right(convert(char(8),csny,112),4) then 0 else 1 end)  AS PatientAge
+		,BRXB AS PatientSex
+		,SFZH AS PatientIDCard
+		,csny AS PatientBirthday
+		,DZ AS MailingAddress
+		,LXDH AS PhoneNumber
+		,SBXH AS RegisterCode
+		,JZXH as RegisterNumber
+		,GHSJ as RegisterDateTime
+		,KSMC as RegisterDepartment
+		FROM V_XDGY_GHXX
+		WHERE 1 = 1 {0}
+		Order By GHSJ DESC
+	</Content>
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+		SELECT
+		 BRBH AS PatientCode
+		,YBKH  AS SocialSecurityCard
+		,NULL AS MedicalRecordCode
+		,BRXM AS PatientName
+		,datediff(year,CSNY,getdate())
+		-(case when right(convert(char(8),getdate(),112),4)>right(convert(char(8),csny,112),4) then 0 else 1 end)  AS PatientAge
+		,BRXB AS PatientSex
+		,SFZH AS PatientIDCard
+		,csny AS PatientBirthday
+		,DZ AS MailingAddress
+		,LXDH AS PhoneNumber
+		,ksmc AS OPERATIONDEPARTMENT
+		,SSFJ AS OPERATIONROOM
+		,ssys  AS OPERATIONDOCTOR
+		,ssrq AS OPERATIONDATE
+		,ssmc  AS OperationName
+		,ssth as OperationOrderCode
+		,NULL AS OperationBegin
+		,NULL AS OperationEnd
+		,NULL as OperationStatus
+		,ssth as OperationOrderCode
+		,XSHS1 AS HandWashingNurse1
+		,XSHS2 AS HandWashingNurse2
+		,XHHS AS ItinerateNurse1
+		,xhhs2   AS ItinerateNurse2
+		FROM V_XDGY_SSXX
+		WHERE 1 = 1 {0}
+		Order By OperationBegin DESC
+	</Content>
+    <Content Key="GetInHospitalInfo" DataBaseType="SqlServer">
+		SELECT
+		BRBH AS PatientCode
+		,YBKH  AS SocialSecurityCard
+		,ZYH AS MedicalRecordCode
+		,BRXM AS PatientName
+		,datediff(year,CSNY,getdate())
+		-(case when right(convert(char(8),getdate(),112),4)>right(convert(char(8),csny,112),4) then 0 else 1 end)  AS PatientAge
+		,BRXB AS PatientSex
+		,SFZH AS PatientIDCard
+		,csny AS PatientBirthday		
+		,LXDH AS PhoneNumber
+		,KSMC AS WardArea
+		,BRCH AS BedNumber
+		,KSMC as InDepartment
+		FROM V_XDGY_ZYBR
+		where 1 = 1 {0}
+	</Content>
+  </Contents>
+</SqlConfig>

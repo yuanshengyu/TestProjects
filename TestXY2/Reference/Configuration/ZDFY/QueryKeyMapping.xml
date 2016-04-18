@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="PatientCode" Content="vii.住院号">
+    </MappingKey>
+    <MappingKey Key="MedicalRecordCode" Content="vii.住院号">      
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="vii.住院号">
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="vri.门诊号">
+    </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

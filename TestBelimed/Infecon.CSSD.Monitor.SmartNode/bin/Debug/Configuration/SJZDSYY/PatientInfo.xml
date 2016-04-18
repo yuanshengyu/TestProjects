@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      /*--病人基本信息--*/
+      select
+      br.PatientCode, --病人编号
+      br.PatientName, --病人姓名
+      br.MedicalRecordCode, --病历号
+      br.PatientSex as PatientSex,--性别
+      br.PatientBirthday,--出生年月
+      --year(getdate())-substring(br.PatientBirthday,1,4) as Age, --年龄
+      br.PatientIDCard, --身份证号
+      br.SocialSecurityCard,--社保号
+      br.PatientAddress,--地址
+      br.PatientPhone, --联系电话
+      br.HighRiskInfectivity, --是否高危
+
+      zy.InPatientCode,--住院号
+      zy.WardArea,--病区
+      zy.BedNumber, --床位
+      zy.BedNurse, --床位护士
+
+      ss.OperationRoom,--手术室
+      ss.OPERAT_DEPT_CODE,--科室
+      ss.OperationDate, --手术时间
+      ss.OperationOrderCode,--手术台次
+      ss.OperationDoctor,--手术医生
+      ss.OperationName, --手术名称
+      ss.HandWashingNurse1,--洗手护士1
+      ss.HandWashingNurse2,--洗手护士2
+      ss.ItinerateNurse1,--巡回护士1
+      ss.ItinerateNurse2,--巡回护士2
+      ss.OperationStatus,--手术状态
+      ss.OperationBegin,--手术开始时间
+      ss.OperationEnd, --手术结束时间
+      ss.InRoomTime,--入手术室时间
+      ss.OutRoomTime--出手术室时间
+
+      from v_disinfect_patientinfo br
+      left join v_disinfect_inpatientinfos zy on br.PatientCode=zy.PatientCode
+      left join v_disinfect_operationinfos ss on br.MedicalRecordCode=ss.MedicalRecordCode
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientCode as INPATIENTCODE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      case when br.PatientSex=0 then '男' else '女' end as PATIENTSEX,   --病人性别
+      --year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      --住院信息
+      zy.InPatientCode as SocialSecurityCard, --住院号
+      zy.WardArea as WARDAREA,--病区
+      zy.BedNumber as BEDNO --床位
+
+      from v_disinfect_patientinfo br
+      left join v_disinfect_inpatientinfos zy on br.PatientCode=zy.PatientCode
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      case when br.PatientSex=0 then '男' else '女' end as PATIENTSEX,   --病人性别
+      --year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      ss.OPERAT_DEPT_CODE as OPERATIONDEPARTMENT    --科室
+      from v_disinfect_patientinfo br
+      left join v_disinfect_operationinfos ss on br.MedicalRecordCode=ss.MedicalRecordCode
+      where 1=1 {0}
+    </Content>
+    
+    <!---->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      select
+      br.PatientCode, --病人编号
+      br.PatientName, --病人姓名
+      br.MedicalRecordCode, --病历号
+      br.PatientSex as PatientSex,--性别
+      br.PatientBirthday,--出生年月
+      --year(getdate())-substring(br.PatientBirthday,1,4) as Age,--年龄
+      br.PatientIDCard, --身份证号
+      br.SocialSecurityCard,--社保号
+      br.PatientAddress,--地址
+      br.PatientPhone, --联系电话
+      br.HighRiskInfectivity, --是否高危
+
+      gh.RegisterCode,--挂号系统编号
+      gh.OutPatientEmergency,--急诊，门诊
+      gh.RegisterDateTime, --挂号时间
+      gh.RegisterDepartment,--挂号科室
+      gh.RegisterNumber --挂号号
+
+      from v_disinfect_patientinfo br
+      left join v_disinfect_registerinfos gh on br.PatientCode=gh.PatientCode
+      where 1=1 {0}
+      order by  gh.RegisterDateTime Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      case when br.PatientSex=0 then '男' else '女' end as PATIENTSEX,   --病人性别
+      br.PatientBirthday as PatientBirthday, --出生年月
+      --year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+
+      gh.RegisterCode as REGISTERCODE,   --挂号系统编号
+      gh.RegisterDateTime as REGISTERDATETIME, --挂号时间
+      gh.RegisterDepartment as REGISTERDEPARTMENT --挂号科室
+      from v_disinfect_patientinfo br
+      left join v_disinfect_registerinfos gh on br.PatientCode=gh.PatientCode
+      where 1=1 {0}
+      order by  gh.RegisterDateTime Desc
+    </Content>
+  </Contents>
+</SqlConfig>

@@ -1,0 +1,6 @@
+E:\MyProjects\TestDeepCopy\TestDeepCopy\bin\Debug\TestDeepCopy.exe.config
+E:\MyProjects\TestDeepCopy\TestDeepCopy\bin\Debug\TestDeepCopy.exe
+E:\MyProjects\TestDeepCopy\TestDeepCopy\bin\Debug\TestDeepCopy.pdb
+E:\MyProjects\TestDeepCopy\TestDeepCopy\obj\Debug\TestDeepCopy.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestDeepCopy\TestDeepCopy\obj\Debug\TestDeepCopy.exe
+E:\MyProjects\TestDeepCopy\TestDeepCopy\obj\Debug\TestDeepCopy.pdb

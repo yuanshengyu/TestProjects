@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="MedicalRecordCode" Content="病案号">
+    </MappingKey>
+    <MappingKey Key="OperationDepartment" Content="科室">
+    </MappingKey>
+    <MappingKey Key="WardArea" Content="病区">
+    </MappingKey> 
+  </MappingKeys>
+</QueryKeyMapping>

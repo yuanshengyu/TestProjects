@@ -1,0 +1,7 @@
+E:\MyProjects\TestUploadFiles\Test1\bin\Debug\Test1.exe
+E:\MyProjects\TestUploadFiles\Test1\bin\Debug\Test1.pdb
+E:\MyProjects\TestUploadFiles\Test1\bin\Debug\HTTPHelper.dll
+E:\MyProjects\TestUploadFiles\Test1\bin\Debug\HTTPHelper.pdb
+E:\MyProjects\TestUploadFiles\Test1\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestUploadFiles\Test1\obj\Debug\Test1.exe
+E:\MyProjects\TestUploadFiles\Test1\obj\Debug\Test1.pdb

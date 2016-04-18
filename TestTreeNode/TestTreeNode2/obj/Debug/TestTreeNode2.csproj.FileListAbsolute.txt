@@ -1,0 +1,5 @@
+E:\MyProjects\TestTreeNode\TestTreeNode2\bin\Debug\TestTreeNode2.exe
+E:\MyProjects\TestTreeNode\TestTreeNode2\bin\Debug\TestTreeNode2.pdb
+E:\MyProjects\TestTreeNode\TestTreeNode2\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestTreeNode\TestTreeNode2\obj\Debug\TestTreeNode2.exe
+E:\MyProjects\TestTreeNode\TestTreeNode2\obj\Debug\TestTreeNode2.pdb

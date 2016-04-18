@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="MedicalRecordCode" Content="病例ID">
+    </MappingKey>
+  <MappingKey Key="PatientCode" Content="病例ID">
+  </MappingKey>
+    <MappingKey Key="OperationDepartment" Content="科室">
+    </MappingKey>
+    <MappingKey Key="WardArea" Content="病区">
+    </MappingKey>
+    <MappingKey Key="OperationRoom" Content="手术间">
+    </MappingKey>
+    <MappingKey Key="OperationDate" Content="手术时间">
+    </MappingKey>
+    <MappingKey Key="OperationStatus" Content="手术状态">
+      <MappingValues>
+        <MappingValue Key="OperationStatus_ReadyReturnRoom" Content="准备回病房"></MappingValue>
+        <MappingValue Key="OperationStatus_02" Content="未设置"></MappingValue>
+        <MappingValue Key="OperationStatus_03" Content="已设置"></MappingValue>
+      </MappingValues>
+    </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

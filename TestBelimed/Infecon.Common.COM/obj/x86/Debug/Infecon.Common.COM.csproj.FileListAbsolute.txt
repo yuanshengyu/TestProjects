@@ -1,0 +1,6 @@
+E:\CSSDINfECON\Infecon\Infecon.CSSD\Infecon.Common.COM\bin\x86\Debug\Infecon.Common.COM.dll.config
+E:\CSSDINfECON\Infecon\Infecon.CSSD\Infecon.Common.COM\bin\x86\Debug\Infecon.Common.COM.dll
+E:\CSSDINfECON\Infecon\Infecon.CSSD\Infecon.Common.COM\bin\x86\Debug\Infecon.Common.COM.pdb
+E:\CSSDINfECON\Infecon\Infecon.CSSD\Infecon.Common.COM\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\CSSDINfECON\Infecon\Infecon.CSSD\Infecon.Common.COM\obj\x86\Debug\Infecon.Common.COM.dll
+E:\CSSDINfECON\Infecon\Infecon.CSSD\Infecon.Common.COM\obj\x86\Debug\Infecon.Common.COM.pdb

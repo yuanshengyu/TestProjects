@@ -1,0 +1,7 @@
+E:\MyProjects\TestResource\Infecon.Resource\bin\Debug\Infecon.Resource.dll
+E:\MyProjects\TestResource\Infecon.Resource\bin\Debug\Infecon.Resource.pdb
+E:\MyProjects\TestResource\Infecon.Resource\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestResource\Infecon.Resource\obj\Debug\Infecon.Resource.Images.resources
+E:\MyProjects\TestResource\Infecon.Resource\obj\Debug\Infecon.Resource.csproj.GenerateResource.Cache
+E:\MyProjects\TestResource\Infecon.Resource\obj\Debug\Infecon.Resource.dll
+E:\MyProjects\TestResource\Infecon.Resource\obj\Debug\Infecon.Resource.pdb

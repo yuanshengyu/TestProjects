@@ -1,0 +1,5 @@
+E:\MyProjects\TestBytesToASCII\TestBytesToASCII\bin\Debug\TestBytesToASCII.exe
+E:\MyProjects\TestBytesToASCII\TestBytesToASCII\bin\Debug\TestBytesToASCII.pdb
+E:\MyProjects\TestBytesToASCII\TestBytesToASCII\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestBytesToASCII\TestBytesToASCII\obj\Debug\TestBytesToASCII.exe
+E:\MyProjects\TestBytesToASCII\TestBytesToASCII\obj\Debug\TestBytesToASCII.pdb

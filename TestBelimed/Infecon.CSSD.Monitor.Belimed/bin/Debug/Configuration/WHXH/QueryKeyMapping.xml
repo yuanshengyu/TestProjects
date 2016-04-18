@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="MedicalRecordCode" Content="zy.ZYH"></MappingKey><!--病案号-->
+    <MappingKey Key="PatientCode" Content="zy.BRBH"></MappingKey><!--病人ID-->
+    <MappingKey Key="InPatientCode" Content="zy.ZYH"></MappingKey>  <!--住院号-->
+    <MappingKey Key="InPatientDeptCode" Content="zy.BQ"></MappingKey><!--病区-->
+    <MappingKey Key="RegisterCode" Content="zy.MZH"> </MappingKey><!--挂号编号-->
+    <!--<MappingKey Key="OperationDepartment" Content="ss.SQKS"></MappingKey>--><!--科室-->
+    <!--<MappingKey Key="WardArea" Content="zy.bqmc">--><!--病区--><!--
+    </MappingKey>-->
+    <!--<MappingKey Key="OperationRoom" Content="ss.SSKS"></MappingKey>--><!--手术间--><!--
+    <MappingKey Key="OperationDate" Content="ss.SSRQ"></MappingKey>--><!--时间-->
+    <!--<MappingKey Key="OperationStatus" Content="ss.sszt">--><!--手术状态--><!--
+      <MappingValues>
+        <MappingValue Key="OperationStatus_ReadyReturnRoom" Content="1"></MappingValue>
+        <MappingValue Key="OperationStatus_02" Content="未设置"></MappingValue>
+        <MappingValue Key="OperationStatus_03" Content="已设置"></MappingValue>
+      </MappingValues>
+    </MappingKey>-->
+  </MappingKeys>
+</QueryKeyMapping>

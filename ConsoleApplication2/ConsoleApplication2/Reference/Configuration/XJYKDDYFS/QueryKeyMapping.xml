@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="PatientCode" Content="V_INFECON_SICK_BASIC_INFO.SICK_ID"> <!--病案号-->
+    </MappingKey>
+    <MappingKey Key="MedicalRecordCode" Content="V_INFECON_OPERAT_INFO.apply_operat_no">
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="V_INFECON_SICK_VISIT_INFO.residence_no">
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="V_INFECON_OPERAT_INFO.apply_operat_no">
+    </MappingKey>
+	<MappingKey Key="PatientNamePINYINOperationPatient" Content="V_INFECON_SICK_VISIT_INFO.residence_no">
+	</MappingKey>
+    <MappingKey Key="OperatingDepartment" Content="Operation_master.Operating_dept"> <!-- 手术科室 -->
+    </MappingKey>
+    <MappingKey Key="WardArea" Content=""> <!-- 病区 -->
+    </MappingKey>
+    <MappingKey Key="OperationDate" Content="V_INFECON_OPERAT_INFO.operat_time">
+    </MappingKey> 
+	<MappingKey Key="OperationPatientID" Content="Operation_master.Patient_Id">
+	</MappingKey>
+	<MappingKey Key="RegisterInfoPatientID" Content="Clinic_master.Patient_Id">
+	</MappingKey>
+	<MappingKey Key="PatsInHospitalPatientID" Content="Pats_in_hospital.Patient_Id">
+	</MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

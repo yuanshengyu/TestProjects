@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file contains job definitions in schema version 2.0 format -->
+
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+
+  <schedule>
+    
+    <!--定义示例任务 Job
+    <job>
+      <name>DemoJob1</name>
+      <group>DemoJobGroup</group>
+      <description>Quartz.Net示例任务</description>
+      <job-type>Infecon.CSSD.Monitor.Job.DemoJob,Infecon.CSSD.Monitor.Job</job-type>
+
+      <durable>true</durable>
+      <recover>false</recover>
+      <job-data-map>
+        <entry>
+          <key>NetworkName</key>
+          <value>value0</value>
+        </entry>
+        <entry>
+          <key>DatabaseName</key>
+          <value>value1</value>
+        </entry>
+        <entry>
+          <key>RunCount</key>
+          <value>0</value>
+        </entry>
+      </job-data-map>
+    </job>-->
+
+    <!--定义示例任务 触发器 每30秒执行一次DemoJob任务
+    <trigger>
+      <cron>
+        <name>DemoJobTrigger</name>
+        <group>DemoJobTriggerGroup</group>
+        <job-name>DemoJob1</job-name>
+        <job-group>DemoJobGroup</job-group>
+        <cron-expression>0/30 * * * * ?</cron-expression>
+      </cron>
+    </trigger>-->
+
+  </schedule>
+</job-scheduling-data>

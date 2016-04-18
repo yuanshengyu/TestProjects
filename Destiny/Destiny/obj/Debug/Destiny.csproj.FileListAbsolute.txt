@@ -1,0 +1,14 @@
+E:\MyProjects\Destiny\Destiny\bin\Debug\Destiny.exe
+E:\MyProjects\Destiny\Destiny\bin\Debug\Destiny.pdb
+E:\MyProjects\Destiny\Destiny\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.Form1.resources
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.Properties.Resources.resources
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.csproj.GenerateResource.Cache
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.exe
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.pdb
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.Info.resources
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.BoyGirl.resources
+E:\MyProjects\Destiny\Destiny\bin\Debug\Destiny.exe.config
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.ForWhat.resources
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.Pick.resources
+E:\MyProjects\Destiny\Destiny\obj\Debug\Destiny.Show.resources

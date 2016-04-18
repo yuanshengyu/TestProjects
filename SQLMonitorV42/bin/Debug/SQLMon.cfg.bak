@@ -1,0 +1,1802 @@
+<?xml version="1.0"?>
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Servers>
+    <ServerInfo>
+      <AuthType>SQLServer</AuthType>
+      <User>sa</User>
+      <Password>NHhIcpXdTH8PTFo5p5jfzQ==</Password>
+      <IsEncrypted>true</IsEncrypted>
+      <Server>localhost</Server>
+      <Database>master</Database>
+    </ServerInfo>
+  </Servers>
+  <NotifiedAlerts>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+SELECT TOP 20 getdate() as [Log Time], 
+        qs.execution_count AS [Execution Count],qs.plan_generation_num AS [Plan Generation Num],
+        SUBSTRING(qt.text,qs.statement_start_offset/2, 
+                  (case when qs.statement_end_offset = -1 
+                  then len(convert(nvarchar(max), qt.text)) * 2 
+                  else qs.statement_end_offset end -qs.statement_start_offset)/2) 
+            as [Query Text],
+            qt.dbid AS [DB Id], d.name AS [DB Name],
+            qt.objectid AS [Object Id] 
+FROM sys.dm_exec_query_stats qs
+cross apply sys.dm_exec_sql_text(qs.sql_handle) as qt
+left join sys.databases d on qt.dbid = d.database_id
+ORDER BY qs.execution_count DESC
+
+--current statement
+S 
+ raised on localhost at 2016/3/17 14:01:44</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:44.3339898+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+(@_msparam_0 nvarchar(4000),@_msparam_1 nvarchar(4000),@_msparam_2 nvarchar(4000))SELECT
+clmns.name AS [Name]
+FROM
+sys.tables AS tbl
+INNER JOIN sys.all_columns AS clmns ON clmns.object_id=tbl.object_id
+WHERE
+(CAST(clmns.is_sparse AS bit)=@_msparam_0)and((tbl.name=@_msparam_1 and SCHEMA_NAME(tbl.schema_id)=@_msparam_2))
+ORDER BY
+clmns.column_id ASC
+
+--current statement
+( 
+ raised on localhost at 2016/3/17 14:01:48</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:48.3222179+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+declare @now 		datetime
+declare @cpu_busy 	bigint
+declare @io_busy	bigint
+declare @idle		bigint
+declare @pack_received	bigint
+declare @pack_sent	bigint
+declare @pack_errors	bigint
+declare @connections	bigint
+declare @total_read	bigint
+declare @total_write	bigint
+declare @total_errors	bigint
+
+declare @oldcpu_busy 	bigint	/* used to see if DataServer has been rebooted */
+declare @interval	bigint
+declare @mspertick	bigint	/* milliseconds per tick */
+
+
+/*
+**  Set @mspertick.  This is just used to make the numbers easier to handle
+**  and avoid overflow.
+*/
+select @mspertick = convert(int, @@timeticks / 1000.0)
+
+/*
+**  Get current monitor values.
+*/
+select
+	@now = getdate(),
+	@cpu_busy = @@cpu_busy,
+	@io_busy = @@io_busy,
+	@idle = @@idle,
+	@pack_received = @@pack_received,
+	@pack_sent = @@pack_sent,
+	@connections = @@connections,
+	@pack_errors = @@packet_errors,
+	@total_read = @@total_read,
+	@total_write = @@total_write,
+	@total_errors = @@total_errors
+
+/*
+**  Check to see if DataServer has been rebooted.  If it has then the
+**  value of @@cpu_busy will be less than the value of spt_monitor.cpu_busy.
+**  If it has update spt_monitor.
+*/
+select @oldcpu_busy = cpu_busy
+	from master.dbo.spt_monitor
+if @oldcpu_busy &gt; @cpu_busy
+begin
+	update master.dbo.spt_monitor
+		set
+			lastrun = @now,
+			cpu_busy = @cpu_busy,
+			io_busy = @io_busy,
+			idle = @idle,
+			pack_received = @pack_received,
+			pack_sent = @pack_sent,
+			connections = @connections,
+			pack_errors = @pack_errors,
+			total_read = @total_read,
+			total_write = @total_write,
+			total_errors = @total_errors
+end
+
+/*
+**  Now print out old and new monitor values.
+*/
+set nocount on
+select @interval = datediff(ss, lastrun, @now)
+	from master.dbo.spt_monitor
+/* To prevent a divide by zero error when run for the first
+** time after boot up
+*/
+if @interval = 0
+	select @interval = 1
+select last_run = lastrun, current_run = @now, seconds = @interval,
+	cpu_busy_total = convert(bigint, (@cpu_busy / 1000.0 * @mspertick)),
+	cpu_busy_current = convert(bigint, ((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick)),
+	cpu_busy_percentage = convert(bigint, (((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	io_busy_total = convert(bigint, (@io_busy / 1000 * @mspertick)),
+	io_busy_current = convert(bigint, ((@io_busy - io_busy)
+		 / 1000.0 * @mspertick)),
+	io_busy_percentage = convert(bigint, (((@io_busy - io_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	idle_total = convert(bigint, (convert(bigint,@idle) / 1000.0 * @mspertick)),
+	idle_current = convert(bigint, ((@idle - idle)
+		 / 1000.0 * @mspertick)),
+	idle_percentage = convert(bigint, (((@idle - idle)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	packets_received_total = @pack_received,
+	packets_received_current = @pack_received - pack_received,
+	packets_sent_total = @pack_sent,
+	packets_sent_current = @pack_sent - pack_sent,
+	packet_errors_total = @pack_errors,
+	packet_errors_current = @pack_errors - pack_errors,
+	total_read = @total_read,
+	current_read = @total_read - total_read,
+	total_write = @total_write,
+	current_write =	@total_write - total_write,
+	total_errors = @total_errors,
+	current_errors = @total_errors - total_errors,
+	connections_total = @connections,
+	connections_current = @connections - connections
+from master.dbo.spt_monitor
+
+/*
+**  Now update spt_monitor
+*/
+update master.dbo.spt_monitor
+	set
+		lastrun = @now,
+		cpu_busy = @cpu_busy,
+		io_busy = @io_busy,
+		idle = @idle,
+		pack_received = @pack_received,
+		pack_sent = @pack_sent,
+		connections = @connections,
+		pack_errors = @pack_errors,
+		total_read = @total_read,
+		total_write = @total_write,
+		total_errors = @total_errors
+
+--current statement
+d 
+ raised on localhost at 2016/3/17 14:01:49</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:49.740299+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 14:01:51</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:51.6394077+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+dbcc INPUTBUFFER(56)
+
+--current statement
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=56
+
+--full sql
+declare @s nvarchar(max)
+declare @handle binary(20)
+declare @start int
+declare @end int
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=56
+select @s = text FROM sys.dm_exec_sql_text( @handle )
+select @s as FullStatement, SUBSTRING(@s, (@start/2)+1, ((CASE @end WHEN -1 THEN DATALENGTH(@s) ELSE @end END - @start)/2)+1) as CurrentStatement 
+ raised on localhost at 2016/3/17 14:01:53</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:53.4065087+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select @@spid;
+select SERVERPROPERTY('ProductLevel');
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 14:01:54</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:54.3575631+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+DECLARE @edition sysname; SET @edition = cast(SERVERPROPERTY(N'EDITION') as sysname); select case when @edition = N'SQL Azure' then 1 else 0 end as 'IsCloud'
+
+--current statement
+D 
+ raised on localhost at 2016/3/17 14:01:56</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:56.3776787+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [FID]
+      ,[FLogID]
+      ,[FDeviceID]
+      ,[FMonitorType]
+      ,[FDataSourceType]
+      ,[FBeginDate]
+      ,[FEndDate]
+      ,[FSystemNo]
+      ,[FVersion]
+      ,[FProgramNo]
+      ,[FPargramName]
+      ,[FProgramPhrase]
+      ,[FBatchNo]
+      ,[FHasCompress]
+      ,[FZoneNo]
+  FROM [InfeconCZ].[dbo].[MonitorCollectData]
+
+--current statement
+/ 
+ raised on localhost at 2016/3/17 14:01:58</CurrentValue>
+      <CreatedDate>2016-03-17T14:01:58.4607978+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 14:04:14</CurrentValue>
+      <CreatedDate>2016-03-17T14:04:14.4625767+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+SELECT TOP 20 getdate() as [Log Time], 
+        qs.execution_count AS [Execution Count],qs.plan_generation_num AS [Plan Generation Num],
+        SUBSTRING(qt.text,qs.statement_start_offset/2, 
+                  (case when qs.statement_end_offset = -1 
+                  then len(convert(nvarchar(max), qt.text)) * 2 
+                  else qs.statement_end_offset end -qs.statement_start_offset)/2) 
+            as [Query Text],
+            qt.dbid AS [DB Id], d.name AS [DB Name],
+            qt.objectid AS [Object Id] 
+FROM sys.dm_exec_query_stats qs
+cross apply sys.dm_exec_sql_text(qs.sql_handle) as qt
+left join sys.databases d on qt.dbid = d.database_id
+ORDER BY qs.execution_count DESC
+
+--current statement
+S 
+ raised on localhost at 2016/3/17 14:09:15</CurrentValue>
+      <CreatedDate>2016-03-17T14:09:15.5747993+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+(@_msparam_0 nvarchar(4000),@_msparam_1 nvarchar(4000),@_msparam_2 nvarchar(4000))SELECT
+clmns.name AS [Name]
+FROM
+sys.tables AS tbl
+INNER JOIN sys.all_columns AS clmns ON clmns.object_id=tbl.object_id
+WHERE
+(CAST(clmns.is_sparse AS bit)=@_msparam_0)and((tbl.name=@_msparam_1 and SCHEMA_NAME(tbl.schema_id)=@_msparam_2))
+ORDER BY
+clmns.column_id ASC
+
+--current statement
+( 
+ raised on localhost at 2016/3/17 14:09:25</CurrentValue>
+      <CreatedDate>2016-03-17T14:09:25.5553702+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+declare @now 		datetime
+declare @cpu_busy 	bigint
+declare @io_busy	bigint
+declare @idle		bigint
+declare @pack_received	bigint
+declare @pack_sent	bigint
+declare @pack_errors	bigint
+declare @connections	bigint
+declare @total_read	bigint
+declare @total_write	bigint
+declare @total_errors	bigint
+
+declare @oldcpu_busy 	bigint	/* used to see if DataServer has been rebooted */
+declare @interval	bigint
+declare @mspertick	bigint	/* milliseconds per tick */
+
+
+/*
+**  Set @mspertick.  This is just used to make the numbers easier to handle
+**  and avoid overflow.
+*/
+select @mspertick = convert(int, @@timeticks / 1000.0)
+
+/*
+**  Get current monitor values.
+*/
+select
+	@now = getdate(),
+	@cpu_busy = @@cpu_busy,
+	@io_busy = @@io_busy,
+	@idle = @@idle,
+	@pack_received = @@pack_received,
+	@pack_sent = @@pack_sent,
+	@connections = @@connections,
+	@pack_errors = @@packet_errors,
+	@total_read = @@total_read,
+	@total_write = @@total_write,
+	@total_errors = @@total_errors
+
+/*
+**  Check to see if DataServer has been rebooted.  If it has then the
+**  value of @@cpu_busy will be less than the value of spt_monitor.cpu_busy.
+**  If it has update spt_monitor.
+*/
+select @oldcpu_busy = cpu_busy
+	from master.dbo.spt_monitor
+if @oldcpu_busy &gt; @cpu_busy
+begin
+	update master.dbo.spt_monitor
+		set
+			lastrun = @now,
+			cpu_busy = @cpu_busy,
+			io_busy = @io_busy,
+			idle = @idle,
+			pack_received = @pack_received,
+			pack_sent = @pack_sent,
+			connections = @connections,
+			pack_errors = @pack_errors,
+			total_read = @total_read,
+			total_write = @total_write,
+			total_errors = @total_errors
+end
+
+/*
+**  Now print out old and new monitor values.
+*/
+set nocount on
+select @interval = datediff(ss, lastrun, @now)
+	from master.dbo.spt_monitor
+/* To prevent a divide by zero error when run for the first
+** time after boot up
+*/
+if @interval = 0
+	select @interval = 1
+select last_run = lastrun, current_run = @now, seconds = @interval,
+	cpu_busy_total = convert(bigint, (@cpu_busy / 1000.0 * @mspertick)),
+	cpu_busy_current = convert(bigint, ((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick)),
+	cpu_busy_percentage = convert(bigint, (((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	io_busy_total = convert(bigint, (@io_busy / 1000 * @mspertick)),
+	io_busy_current = convert(bigint, ((@io_busy - io_busy)
+		 / 1000.0 * @mspertick)),
+	io_busy_percentage = convert(bigint, (((@io_busy - io_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	idle_total = convert(bigint, (convert(bigint,@idle) / 1000.0 * @mspertick)),
+	idle_current = convert(bigint, ((@idle - idle)
+		 / 1000.0 * @mspertick)),
+	idle_percentage = convert(bigint, (((@idle - idle)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	packets_received_total = @pack_received,
+	packets_received_current = @pack_received - pack_received,
+	packets_sent_total = @pack_sent,
+	packets_sent_current = @pack_sent - pack_sent,
+	packet_errors_total = @pack_errors,
+	packet_errors_current = @pack_errors - pack_errors,
+	total_read = @total_read,
+	current_read = @total_read - total_read,
+	total_write = @total_write,
+	current_write =	@total_write - total_write,
+	total_errors = @total_errors,
+	current_errors = @total_errors - total_errors,
+	connections_total = @connections,
+	connections_current = @connections - connections
+from master.dbo.spt_monitor
+
+/*
+**  Now update spt_monitor
+*/
+update master.dbo.spt_monitor
+	set
+		lastrun = @now,
+		cpu_busy = @cpu_busy,
+		io_busy = @io_busy,
+		idle = @idle,
+		pack_received = @pack_received,
+		pack_sent = @pack_sent,
+		connections = @connections,
+		pack_errors = @pack_errors,
+		total_read = @total_read,
+		total_write = @total_write,
+		total_errors = @total_errors
+
+--current statement
+d 
+ raised on localhost at 2016/3/17 14:09:35</CurrentValue>
+      <CreatedDate>2016-03-17T14:09:35.5549421+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+dbcc INPUTBUFFER(54)
+
+--current statement
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=54
+
+--full sql
+declare @s nvarchar(max)
+declare @handle binary(20)
+declare @start int
+declare @end int
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=54
+select @s = text FROM sys.dm_exec_sql_text( @handle )
+select @s as FullStatement, SUBSTRING(@s, (@start/2)+1, ((CASE @end WHEN -1 THEN DATALENGTH(@s) ELSE @end END - @start)/2)+1) as CurrentStatement 
+ raised on localhost at 2016/3/17 14:09:45</CurrentValue>
+      <CreatedDate>2016-03-17T14:09:45.5585143+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 14:09:53</CurrentValue>
+      <CreatedDate>2016-03-17T14:09:53.9329933+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select @@spid;
+select SERVERPROPERTY('ProductLevel');
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 14:09:55</CurrentValue>
+      <CreatedDate>2016-03-17T14:09:55.572087+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [FID]
+      ,[FLogID]
+      ,[FDeviceID]
+      ,[FMonitorType]
+      ,[FDataSourceType]
+      ,[FBeginDate]
+      ,[FEndDate]
+      ,[FSystemNo]
+      ,[FVersion]
+      ,[FProgramNo]
+      ,[FPargramName]
+      ,[FProgramPhrase]
+      ,[FBatchNo]
+      ,[FHasCompress]
+      ,[FZoneNo]
+  FROM [InfeconCZ].[dbo].[MonitorCollectData]
+
+--current statement
+/ 
+ raised on localhost at 2016/3/17 14:10:05</CurrentValue>
+      <CreatedDate>2016-03-17T14:10:05.58966+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 14:13:45</CurrentValue>
+      <CreatedDate>2016-03-17T14:13:45.7702536+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+SELECT TOP 20 getdate() as [Log Time], 
+        qs.execution_count AS [Execution Count],qs.plan_generation_num AS [Plan Generation Num],
+        SUBSTRING(qt.text,qs.statement_start_offset/2, 
+                  (case when qs.statement_end_offset = -1 
+                  then len(convert(nvarchar(max), qt.text)) * 2 
+                  else qs.statement_end_offset end -qs.statement_start_offset)/2) 
+            as [Query Text],
+            qt.dbid AS [DB Id], d.name AS [DB Name],
+            qt.objectid AS [Object Id] 
+FROM sys.dm_exec_query_stats qs
+cross apply sys.dm_exec_sql_text(qs.sql_handle) as qt
+left join sys.databases d on qt.dbid = d.database_id
+ORDER BY qs.execution_count DESC
+
+--current statement
+S 
+ raised on localhost at 2016/3/17 15:09:16</CurrentValue>
+      <CreatedDate>2016-03-17T15:09:16.6307679+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select value_in_use from sys.configurations where configuration_id = 16384
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:09:26</CurrentValue>
+      <CreatedDate>2016-03-17T15:09:26.5963379+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 15:09:36</CurrentValue>
+      <CreatedDate>2016-03-17T15:09:36.6029103+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+declare @now 		datetime
+declare @cpu_busy 	bigint
+declare @io_busy	bigint
+declare @idle		bigint
+declare @pack_received	bigint
+declare @pack_sent	bigint
+declare @pack_errors	bigint
+declare @connections	bigint
+declare @total_read	bigint
+declare @total_write	bigint
+declare @total_errors	bigint
+
+declare @oldcpu_busy 	bigint	/* used to see if DataServer has been rebooted */
+declare @interval	bigint
+declare @mspertick	bigint	/* milliseconds per tick */
+
+
+/*
+**  Set @mspertick.  This is just used to make the numbers easier to handle
+**  and avoid overflow.
+*/
+select @mspertick = convert(int, @@timeticks / 1000.0)
+
+/*
+**  Get current monitor values.
+*/
+select
+	@now = getdate(),
+	@cpu_busy = @@cpu_busy,
+	@io_busy = @@io_busy,
+	@idle = @@idle,
+	@pack_received = @@pack_received,
+	@pack_sent = @@pack_sent,
+	@connections = @@connections,
+	@pack_errors = @@packet_errors,
+	@total_read = @@total_read,
+	@total_write = @@total_write,
+	@total_errors = @@total_errors
+
+/*
+**  Check to see if DataServer has been rebooted.  If it has then the
+**  value of @@cpu_busy will be less than the value of spt_monitor.cpu_busy.
+**  If it has update spt_monitor.
+*/
+select @oldcpu_busy = cpu_busy
+	from master.dbo.spt_monitor
+if @oldcpu_busy &gt; @cpu_busy
+begin
+	update master.dbo.spt_monitor
+		set
+			lastrun = @now,
+			cpu_busy = @cpu_busy,
+			io_busy = @io_busy,
+			idle = @idle,
+			pack_received = @pack_received,
+			pack_sent = @pack_sent,
+			connections = @connections,
+			pack_errors = @pack_errors,
+			total_read = @total_read,
+			total_write = @total_write,
+			total_errors = @total_errors
+end
+
+/*
+**  Now print out old and new monitor values.
+*/
+set nocount on
+select @interval = datediff(ss, lastrun, @now)
+	from master.dbo.spt_monitor
+/* To prevent a divide by zero error when run for the first
+** time after boot up
+*/
+if @interval = 0
+	select @interval = 1
+select last_run = lastrun, current_run = @now, seconds = @interval,
+	cpu_busy_total = convert(bigint, (@cpu_busy / 1000.0 * @mspertick)),
+	cpu_busy_current = convert(bigint, ((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick)),
+	cpu_busy_percentage = convert(bigint, (((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	io_busy_total = convert(bigint, (@io_busy / 1000 * @mspertick)),
+	io_busy_current = convert(bigint, ((@io_busy - io_busy)
+		 / 1000.0 * @mspertick)),
+	io_busy_percentage = convert(bigint, (((@io_busy - io_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	idle_total = convert(bigint, (convert(bigint,@idle) / 1000.0 * @mspertick)),
+	idle_current = convert(bigint, ((@idle - idle)
+		 / 1000.0 * @mspertick)),
+	idle_percentage = convert(bigint, (((@idle - idle)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	packets_received_total = @pack_received,
+	packets_received_current = @pack_received - pack_received,
+	packets_sent_total = @pack_sent,
+	packets_sent_current = @pack_sent - pack_sent,
+	packet_errors_total = @pack_errors,
+	packet_errors_current = @pack_errors - pack_errors,
+	total_read = @total_read,
+	current_read = @total_read - total_read,
+	total_write = @total_write,
+	current_write =	@total_write - total_write,
+	total_errors = @total_errors,
+	current_errors = @total_errors - total_errors,
+	connections_total = @connections,
+	connections_current = @connections - connections
+from master.dbo.spt_monitor
+
+/*
+**  Now update spt_monitor
+*/
+update master.dbo.spt_monitor
+	set
+		lastrun = @now,
+		cpu_busy = @cpu_busy,
+		io_busy = @io_busy,
+		idle = @idle,
+		pack_received = @pack_received,
+		pack_sent = @pack_sent,
+		connections = @connections,
+		pack_errors = @pack_errors,
+		total_read = @total_read,
+		total_write = @total_write,
+		total_errors = @total_errors
+
+--current statement
+d 
+ raised on localhost at 2016/3/17 15:09:46</CurrentValue>
+      <CreatedDate>2016-03-17T15:09:46.6084826+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+dbcc INPUTBUFFER(57)
+
+--current statement
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=57
+
+--full sql
+declare @s nvarchar(max)
+declare @handle binary(20)
+declare @start int
+declare @end int
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=57
+select @s = text FROM sys.dm_exec_sql_text( @handle )
+select @s as FullStatement, SUBSTRING(@s, (@start/2)+1, ((CASE @end WHEN -1 THEN DATALENGTH(@s) ELSE @end END - @start)/2)+1) as CurrentStatement 
+ raised on localhost at 2016/3/17 15:09:56</CurrentValue>
+      <CreatedDate>2016-03-17T15:09:56.6260555+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select @@spid;
+select SERVERPROPERTY('ProductLevel');
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:10:06</CurrentValue>
+      <CreatedDate>2016-03-17T15:10:06.6326279+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [FID]
+      ,[FLogID]
+      ,[FDeviceID]
+      ,[FMonitorType]
+      ,[FDataSourceType]
+      ,[FBeginDate]
+      ,[FEndDate]
+      ,[FSystemNo]
+      ,[FVersion]
+      ,[FProgramNo]
+      ,[FPargramName]
+      ,[FProgramPhrase]
+      ,[FBatchNo]
+      ,[FHasCompress]
+      ,[FZoneNo]
+  FROM [InfeconCZ].[dbo].[MonitorCollectData]
+
+--current statement
+/ 
+ raised on localhost at 2016/3/17 15:10:16</CurrentValue>
+      <CreatedDate>2016-03-17T15:10:16.6482007+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+SELECT TOP 20 getdate() as [Log Time], 
+        qs.execution_count AS [Execution Count],qs.plan_generation_num AS [Plan Generation Num],
+        SUBSTRING(qt.text,qs.statement_start_offset/2, 
+                  (case when qs.statement_end_offset = -1 
+                  then len(convert(nvarchar(max), qt.text)) * 2 
+                  else qs.statement_end_offset end -qs.statement_start_offset)/2) 
+            as [Query Text],
+            qt.dbid AS [DB Id], d.name AS [DB Name],
+            qt.objectid AS [Object Id] 
+FROM sys.dm_exec_query_stats qs
+cross apply sys.dm_exec_sql_text(qs.sql_handle) as qt
+left join sys.databases d on qt.dbid = d.database_id
+ORDER BY qs.execution_count DESC
+
+--current statement
+S 
+ raised on localhost at 2016/3/17 15:11:23</CurrentValue>
+      <CreatedDate>2016-03-17T15:11:23.1200027+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select value_in_use from sys.configurations where configuration_id = 16384
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:11:24</CurrentValue>
+      <CreatedDate>2016-03-17T15:11:24.2820692+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 15:11:25</CurrentValue>
+      <CreatedDate>2016-03-17T15:11:25.3571307+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 15:11:26</CurrentValue>
+      <CreatedDate>2016-03-17T15:11:26.4161912+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+declare @now 		datetime
+declare @cpu_busy 	bigint
+declare @io_busy	bigint
+declare @idle		bigint
+declare @pack_received	bigint
+declare @pack_sent	bigint
+declare @pack_errors	bigint
+declare @connections	bigint
+declare @total_read	bigint
+declare @total_write	bigint
+declare @total_errors	bigint
+
+declare @oldcpu_busy 	bigint	/* used to see if DataServer has been rebooted */
+declare @interval	bigint
+declare @mspertick	bigint	/* milliseconds per tick */
+
+
+/*
+**  Set @mspertick.  This is just used to make the numbers easier to handle
+**  and avoid overflow.
+*/
+select @mspertick = convert(int, @@timeticks / 1000.0)
+
+/*
+**  Get current monitor values.
+*/
+select
+	@now = getdate(),
+	@cpu_busy = @@cpu_busy,
+	@io_busy = @@io_busy,
+	@idle = @@idle,
+	@pack_received = @@pack_received,
+	@pack_sent = @@pack_sent,
+	@connections = @@connections,
+	@pack_errors = @@packet_errors,
+	@total_read = @@total_read,
+	@total_write = @@total_write,
+	@total_errors = @@total_errors
+
+/*
+**  Check to see if DataServer has been rebooted.  If it has then the
+**  value of @@cpu_busy will be less than the value of spt_monitor.cpu_busy.
+**  If it has update spt_monitor.
+*/
+select @oldcpu_busy = cpu_busy
+	from master.dbo.spt_monitor
+if @oldcpu_busy &gt; @cpu_busy
+begin
+	update master.dbo.spt_monitor
+		set
+			lastrun = @now,
+			cpu_busy = @cpu_busy,
+			io_busy = @io_busy,
+			idle = @idle,
+			pack_received = @pack_received,
+			pack_sent = @pack_sent,
+			connections = @connections,
+			pack_errors = @pack_errors,
+			total_read = @total_read,
+			total_write = @total_write,
+			total_errors = @total_errors
+end
+
+/*
+**  Now print out old and new monitor values.
+*/
+set nocount on
+select @interval = datediff(ss, lastrun, @now)
+	from master.dbo.spt_monitor
+/* To prevent a divide by zero error when run for the first
+** time after boot up
+*/
+if @interval = 0
+	select @interval = 1
+select last_run = lastrun, current_run = @now, seconds = @interval,
+	cpu_busy_total = convert(bigint, (@cpu_busy / 1000.0 * @mspertick)),
+	cpu_busy_current = convert(bigint, ((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick)),
+	cpu_busy_percentage = convert(bigint, (((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	io_busy_total = convert(bigint, (@io_busy / 1000 * @mspertick)),
+	io_busy_current = convert(bigint, ((@io_busy - io_busy)
+		 / 1000.0 * @mspertick)),
+	io_busy_percentage = convert(bigint, (((@io_busy - io_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	idle_total = convert(bigint, (convert(bigint,@idle) / 1000.0 * @mspertick)),
+	idle_current = convert(bigint, ((@idle - idle)
+		 / 1000.0 * @mspertick)),
+	idle_percentage = convert(bigint, (((@idle - idle)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	packets_received_total = @pack_received,
+	packets_received_current = @pack_received - pack_received,
+	packets_sent_total = @pack_sent,
+	packets_sent_current = @pack_sent - pack_sent,
+	packet_errors_total = @pack_errors,
+	packet_errors_current = @pack_errors - pack_errors,
+	total_read = @total_read,
+	current_read = @total_read - total_read,
+	total_write = @total_write,
+	current_write =	@total_write - total_write,
+	total_errors = @total_errors,
+	current_errors = @total_errors - total_errors,
+	connections_total = @connections,
+	connections_current = @connections - connections
+from master.dbo.spt_monitor
+
+/*
+**  Now update spt_monitor
+*/
+update master.dbo.spt_monitor
+	set
+		lastrun = @now,
+		cpu_busy = @cpu_busy,
+		io_busy = @io_busy,
+		idle = @idle,
+		pack_received = @pack_received,
+		pack_sent = @pack_sent,
+		connections = @connections,
+		pack_errors = @pack_errors,
+		total_read = @total_read,
+		total_write = @total_write,
+		total_errors = @total_errors
+
+--current statement
+d 
+ raised on localhost at 2016/3/17 15:11:27</CurrentValue>
+      <CreatedDate>2016-03-17T15:11:27.61926+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+SELECT TOP 20 getdate() as [Log Time], 
+        qs.execution_count AS [Execution Count],qs.plan_generation_num AS [Plan Generation Num],
+        SUBSTRING(qt.text,qs.statement_start_offset/2, 
+                  (case when qs.statement_end_offset = -1 
+                  then len(convert(nvarchar(max), qt.text)) * 2 
+                  else qs.statement_end_offset end -qs.statement_start_offset)/2) 
+            as [Query Text],
+            qt.dbid AS [DB Id], d.name AS [DB Name],
+            qt.objectid AS [Object Id] 
+FROM sys.dm_exec_query_stats qs
+cross apply sys.dm_exec_sql_text(qs.sql_handle) as qt
+left join sys.databases d on qt.dbid = d.database_id
+ORDER BY qs.execution_count DESC
+
+--current statement
+S 
+ raised on localhost at 2016/3/17 15:27:12</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:12.9853319+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select value_in_use from sys.configurations where configuration_id = 16384
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:27:14</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:14.1864006+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+declare @now 		datetime
+declare @cpu_busy 	bigint
+declare @io_busy	bigint
+declare @idle		bigint
+declare @pack_received	bigint
+declare @pack_sent	bigint
+declare @pack_errors	bigint
+declare @connections	bigint
+declare @total_read	bigint
+declare @total_write	bigint
+declare @total_errors	bigint
+
+declare @oldcpu_busy 	bigint	/* used to see if DataServer has been rebooted */
+declare @interval	bigint
+declare @mspertick	bigint	/* milliseconds per tick */
+
+
+/*
+**  Set @mspertick.  This is just used to make the numbers easier to handle
+**  and avoid overflow.
+*/
+select @mspertick = convert(int, @@timeticks / 1000.0)
+
+/*
+**  Get current monitor values.
+*/
+select
+	@now = getdate(),
+	@cpu_busy = @@cpu_busy,
+	@io_busy = @@io_busy,
+	@idle = @@idle,
+	@pack_received = @@pack_received,
+	@pack_sent = @@pack_sent,
+	@connections = @@connections,
+	@pack_errors = @@packet_errors,
+	@total_read = @@total_read,
+	@total_write = @@total_write,
+	@total_errors = @@total_errors
+
+/*
+**  Check to see if DataServer has been rebooted.  If it has then the
+**  value of @@cpu_busy will be less than the value of spt_monitor.cpu_busy.
+**  If it has update spt_monitor.
+*/
+select @oldcpu_busy = cpu_busy
+	from master.dbo.spt_monitor
+if @oldcpu_busy &gt; @cpu_busy
+begin
+	update master.dbo.spt_monitor
+		set
+			lastrun = @now,
+			cpu_busy = @cpu_busy,
+			io_busy = @io_busy,
+			idle = @idle,
+			pack_received = @pack_received,
+			pack_sent = @pack_sent,
+			connections = @connections,
+			pack_errors = @pack_errors,
+			total_read = @total_read,
+			total_write = @total_write,
+			total_errors = @total_errors
+end
+
+/*
+**  Now print out old and new monitor values.
+*/
+set nocount on
+select @interval = datediff(ss, lastrun, @now)
+	from master.dbo.spt_monitor
+/* To prevent a divide by zero error when run for the first
+** time after boot up
+*/
+if @interval = 0
+	select @interval = 1
+select last_run = lastrun, current_run = @now, seconds = @interval,
+	cpu_busy_total = convert(bigint, (@cpu_busy / 1000.0 * @mspertick)),
+	cpu_busy_current = convert(bigint, ((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick)),
+	cpu_busy_percentage = convert(bigint, (((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	io_busy_total = convert(bigint, (@io_busy / 1000 * @mspertick)),
+	io_busy_current = convert(bigint, ((@io_busy - io_busy)
+		 / 1000.0 * @mspertick)),
+	io_busy_percentage = convert(bigint, (((@io_busy - io_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	idle_total = convert(bigint, (convert(bigint,@idle) / 1000.0 * @mspertick)),
+	idle_current = convert(bigint, ((@idle - idle)
+		 / 1000.0 * @mspertick)),
+	idle_percentage = convert(bigint, (((@idle - idle)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	packets_received_total = @pack_received,
+	packets_received_current = @pack_received - pack_received,
+	packets_sent_total = @pack_sent,
+	packets_sent_current = @pack_sent - pack_sent,
+	packet_errors_total = @pack_errors,
+	packet_errors_current = @pack_errors - pack_errors,
+	total_read = @total_read,
+	current_read = @total_read - total_read,
+	total_write = @total_write,
+	current_write =	@total_write - total_write,
+	total_errors = @total_errors,
+	current_errors = @total_errors - total_errors,
+	connections_total = @connections,
+	connections_current = @connections - connections
+from master.dbo.spt_monitor
+
+/*
+**  Now update spt_monitor
+*/
+update master.dbo.spt_monitor
+	set
+		lastrun = @now,
+		cpu_busy = @cpu_busy,
+		io_busy = @io_busy,
+		idle = @idle,
+		pack_received = @pack_received,
+		pack_sent = @pack_sent,
+		connections = @connections,
+		pack_errors = @pack_errors,
+		total_read = @total_read,
+		total_write = @total_write,
+		total_errors = @total_errors
+
+--current statement
+d 
+ raised on localhost at 2016/3/17 15:27:15</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:15.3194654+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 15:27:16</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:16.4655309+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+dbcc INPUTBUFFER(56)
+
+--current statement
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=56
+
+--full sql
+declare @s nvarchar(max)
+declare @handle binary(20)
+declare @start int
+declare @end int
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=56
+select @s = text FROM sys.dm_exec_sql_text( @handle )
+select @s as FullStatement, SUBSTRING(@s, (@start/2)+1, ((CASE @end WHEN -1 THEN DATALENGTH(@s) ELSE @end END - @start)/2)+1) as CurrentStatement 
+ raised on localhost at 2016/3/17 15:27:17</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:17.882612+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select @@spid;
+select SERVERPROPERTY('ProductLevel');
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:27:19</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:19.2846922+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [FID]
+      ,[FLogID]
+      ,[FDeviceID]
+      ,[FMonitorType]
+      ,[FDataSourceType]
+      ,[FBeginDate]
+      ,[FEndDate]
+      ,[FSystemNo]
+      ,[FVersion]
+      ,[FProgramNo]
+      ,[FPargramName]
+      ,[FProgramPhrase]
+      ,[FBatchNo]
+      ,[FHasCompress]
+      ,[FZoneNo]
+  FROM [InfeconCZ].[dbo].[MonitorCollectData]
+
+--current statement
+/ 
+ raised on localhost at 2016/3/17 15:27:20</CurrentValue>
+      <CreatedDate>2016-03-17T15:27:20.3857552+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+SELECT TOP 20 getdate() as [Log Time], 
+        qs.execution_count AS [Execution Count],qs.plan_generation_num AS [Plan Generation Num],
+        SUBSTRING(qt.text,qs.statement_start_offset/2, 
+                  (case when qs.statement_end_offset = -1 
+                  then len(convert(nvarchar(max), qt.text)) * 2 
+                  else qs.statement_end_offset end -qs.statement_start_offset)/2) 
+            as [Query Text],
+            qt.dbid AS [DB Id], d.name AS [DB Name],
+            qt.objectid AS [Object Id] 
+FROM sys.dm_exec_query_stats qs
+cross apply sys.dm_exec_sql_text(qs.sql_handle) as qt
+left join sys.databases d on qt.dbid = d.database_id
+ORDER BY qs.execution_count DESC
+
+--current statement
+S 
+ raised on localhost at 2016/3/17 15:28:27</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:27.116572+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select value_in_use from sys.configurations where configuration_id = 16384
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:28:32</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:32.8428995+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+declare @now 		datetime
+declare @cpu_busy 	bigint
+declare @io_busy	bigint
+declare @idle		bigint
+declare @pack_received	bigint
+declare @pack_sent	bigint
+declare @pack_errors	bigint
+declare @connections	bigint
+declare @total_read	bigint
+declare @total_write	bigint
+declare @total_errors	bigint
+
+declare @oldcpu_busy 	bigint	/* used to see if DataServer has been rebooted */
+declare @interval	bigint
+declare @mspertick	bigint	/* milliseconds per tick */
+
+
+/*
+**  Set @mspertick.  This is just used to make the numbers easier to handle
+**  and avoid overflow.
+*/
+select @mspertick = convert(int, @@timeticks / 1000.0)
+
+/*
+**  Get current monitor values.
+*/
+select
+	@now = getdate(),
+	@cpu_busy = @@cpu_busy,
+	@io_busy = @@io_busy,
+	@idle = @@idle,
+	@pack_received = @@pack_received,
+	@pack_sent = @@pack_sent,
+	@connections = @@connections,
+	@pack_errors = @@packet_errors,
+	@total_read = @@total_read,
+	@total_write = @@total_write,
+	@total_errors = @@total_errors
+
+/*
+**  Check to see if DataServer has been rebooted.  If it has then the
+**  value of @@cpu_busy will be less than the value of spt_monitor.cpu_busy.
+**  If it has update spt_monitor.
+*/
+select @oldcpu_busy = cpu_busy
+	from master.dbo.spt_monitor
+if @oldcpu_busy &gt; @cpu_busy
+begin
+	update master.dbo.spt_monitor
+		set
+			lastrun = @now,
+			cpu_busy = @cpu_busy,
+			io_busy = @io_busy,
+			idle = @idle,
+			pack_received = @pack_received,
+			pack_sent = @pack_sent,
+			connections = @connections,
+			pack_errors = @pack_errors,
+			total_read = @total_read,
+			total_write = @total_write,
+			total_errors = @total_errors
+end
+
+/*
+**  Now print out old and new monitor values.
+*/
+set nocount on
+select @interval = datediff(ss, lastrun, @now)
+	from master.dbo.spt_monitor
+/* To prevent a divide by zero error when run for the first
+** time after boot up
+*/
+if @interval = 0
+	select @interval = 1
+select last_run = lastrun, current_run = @now, seconds = @interval,
+	cpu_busy_total = convert(bigint, (@cpu_busy / 1000.0 * @mspertick)),
+	cpu_busy_current = convert(bigint, ((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick)),
+	cpu_busy_percentage = convert(bigint, (((@cpu_busy - cpu_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	io_busy_total = convert(bigint, (@io_busy / 1000 * @mspertick)),
+	io_busy_current = convert(bigint, ((@io_busy - io_busy)
+		 / 1000.0 * @mspertick)),
+	io_busy_percentage = convert(bigint, (((@io_busy - io_busy)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	idle_total = convert(bigint, (convert(bigint,@idle) / 1000.0 * @mspertick)),
+	idle_current = convert(bigint, ((@idle - idle)
+		 / 1000.0 * @mspertick)),
+	idle_percentage = convert(bigint, (((@idle - idle)
+		 / 1000.0 * @mspertick) / @interval * 100.0)),
+	packets_received_total = @pack_received,
+	packets_received_current = @pack_received - pack_received,
+	packets_sent_total = @pack_sent,
+	packets_sent_current = @pack_sent - pack_sent,
+	packet_errors_total = @pack_errors,
+	packet_errors_current = @pack_errors - pack_errors,
+	total_read = @total_read,
+	current_read = @total_read - total_read,
+	total_write = @total_write,
+	current_write =	@total_write - total_write,
+	total_errors = @total_errors,
+	current_errors = @total_errors - total_errors,
+	connections_total = @connections,
+	connections_current = @connections - connections
+from master.dbo.spt_monitor
+
+/*
+**  Now update spt_monitor
+*/
+update master.dbo.spt_monitor
+	set
+		lastrun = @now,
+		cpu_busy = @cpu_busy,
+		io_busy = @io_busy,
+		idle = @idle,
+		pack_received = @pack_received,
+		pack_sent = @pack_sent,
+		connections = @connections,
+		pack_errors = @pack_errors,
+		total_read = @total_read,
+		total_write = @total_write,
+		total_errors = @total_errors
+
+--current statement
+d 
+ raised on localhost at 2016/3/17 15:28:37</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:37.100143+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  declare @BatchID uniqueidentifier
+
+                                    set @BatchID = newid()
+
+                                    UPDATE [Notifications] WITH (TABLOCKX)
+                                        SET [BatchID] = @BatchID,
+                                        [ProcessStart] = GETUTCDATE(),
+                                        [ProcessHeartbeat] = GETUTCDATE()
+                                    FROM (
+                                        SELECT TOP 4  [NotificationID] FROM [Notifications] WITH (TABLOCKX) WHERE ProcessStart is NULL and
+	                                    (ProcessAfter is NULL or ProcessAfter &lt; GETUTCDATE()) ORDER BY [NotificationEntered]
+                                    ) AS t1
+                                    WHERE [Notifications].[NotificationID] = t1.[NotificationID]
+
+                                    select top 4
+		                                    -- Notification data
+		                                    N.[NotificationID],
+		                                    N.[SubscriptionID],
+		                                    N.[ActivationID],
+		                                    N.[ReportID],
+		                                    N.[SnapShotDate],
+		                                    N.[DeliveryExtension],
+		                                    N.[ExtensionSettings],
+                                            N.[Locale],
+		                                    N.[Parameters],
+		                                    N.[SubscriptionLastRunTime],
+		                                    N.[ProcessStart],
+		                                    N.[NotificationEntered],
+		                                    N.[Attempt],
+		                                    N.[IsDataDriven],
+		                                    SUSER_SNAME(Owner.[Sid]),
+		                                    Owner.[UserName],
+		                                    -- Report Data
+		                                    O.[Path],
+		                                    N.[ReportZone],
+		                                    O.[Type],
+		                                    SD.NtSecDescPrimary,
+                                            N.[Version],
+                                            Owner.[AuthType]
+	                                    from 
+		                                    [Notifications] N with (TABLOCKX) inner join [Catalog] O on O.[ItemID] = N.[ReportID]
+		                                    inner join [Users] Owner on N.SubscriptionOwnerID = Owner.UserID
+		                                    left outer join [SecData] SD on O.[PolicyID] = SD.[PolicyID] AND SD.AuthType = Owner.AuthType
+	                                    where 
+		                                    N.[BatchID] = @BatchID
+                                    ORDER BY [NotificationEntered] 
+ raised on localhost at 2016/3/17 15:28:38</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:38.5852279+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+dbcc INPUTBUFFER(56)
+
+--current statement
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=56
+
+--full sql
+declare @s nvarchar(max)
+declare @handle binary(20)
+declare @start int
+declare @end int
+select @handle = sql_handle,@start = stmt_start, @end = stmt_end from sys.sysprocesses where spid=56
+select @s = text FROM sys.dm_exec_sql_text( @handle )
+select @s as FullStatement, SUBSTRING(@s, (@start/2)+1, ((CASE @end WHEN -1 THEN DATALENGTH(@s) ELSE @end END - @start)/2)+1) as CurrentStatement 
+ raised on localhost at 2016/3/17 15:28:46</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:46.3046695+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+select @@spid;
+select SERVERPROPERTY('ProductLevel');
+
+--current statement
+s 
+ raised on localhost at 2016/3/17 15:28:47</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:47.1607184+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+    <NotifiedMonitorItem>
+      <Server>localhost</Server>
+      <CurrentValue>SQL executes:  --actual command
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [FID]
+      ,[FLogID]
+      ,[FDeviceID]
+      ,[FMonitorType]
+      ,[FDataSourceType]
+      ,[FBeginDate]
+      ,[FEndDate]
+      ,[FSystemNo]
+      ,[FVersion]
+      ,[FProgramNo]
+      ,[FPargramName]
+      ,[FProgramPhrase]
+      ,[FBatchNo]
+      ,[FHasCompress]
+      ,[FZoneNo]
+  FROM [InfeconCZ].[dbo].[MonitorCollectData]
+
+--current statement
+/ 
+ raised on localhost at 2016/3/17 15:28:48</CurrentValue>
+      <CreatedDate>2016-03-17T15:28:48.9348199+08:00</CreatedDate>
+    </NotifiedMonitorItem>
+  </NotifiedAlerts>
+  <MonitorItems>
+    <MonitorItem>
+      <Server>localhost</Server>
+      <AlertType>SQL</AlertType>
+      <Target>select</Target>
+      <CondictionType>0</CondictionType>
+      <CondictionValue>0</CondictionValue>
+      <AlertMethod>Mail</AlertMethod>
+      <Title>SQL Server Alert</Title>
+      <IsEnabled>true</IsEnabled>
+    </MonitorItem>
+  </MonitorItems>
+  <PerformanceItems />
+  <SearchHistories />
+  <ActivityState>All</ActivityState>
+  <LastServer>localhost</LastServer>
+  <LastSearchIsCaseSenstive>false</LastSearchIsCaseSenstive>
+  <LastSearchIsObject>true</LastSearchIsObject>
+  <ActivityType>Process</ActivityType>
+  <MonitorRefreshInterval>10</MonitorRefreshInterval>
+  <PerformanceInterval>5</PerformanceInterval>
+  <EditorFont>
+    <Name>Tahoma</Name>
+    <Size>10</Size>
+    <Bold>false</Bold>
+  </EditorFont>
+  <LogHistory>true</LogHistory>
+  <AutoWordWrap>true</AutoWordWrap>
+  <AlertMailServer>yahoo.com</AlertMailServer>
+  <AlertPort>587</AlertPort>
+  <AlertHost>smtp.mail.yahoo.com</AlertHost>
+  <AlertMailUser>zygonr</AlertMailUser>
+  <AlertMailPassword>Compaq@12$</AlertMailPassword>
+  <AlertMailReceiver>zygonr@yahoo.com</AlertMailReceiver>
+  <AlertTemplate>#Type# #Action# 
+ raised on #Server# at #Now#</AlertTemplate>
+  <VersionControlTableName>SQLMonSystemObjectVersionControls</VersionControlTableName>
+  <VersionControlTriggerName>trg_SQLMonSystemObjectVersionControls</VersionControlTriggerName>
+  <ConnectionTimeout>30</ConnectionTimeout>
+  <ObjectsSplitterDistance>485</ObjectsSplitterDistance>
+  <MainSplitterDistance>190</MainSplitterDistance>
+  <DatabaseDiskFreeSpaceRatio>30</DatabaseDiskFreeSpaceRatio>
+  <DatabaseDataLogSpaceRatio>40</DatabaseDataLogSpaceRatio>
+  <TableDataIndexSpaceRatio>100</TableDataIndexSpaceRatio>
+</Settings>

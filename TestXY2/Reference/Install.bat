@@ -1,0 +1,1 @@
+%SystemRoot%\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe Infecon.Monitor.Service.Environment.exe

@@ -1,0 +1,5 @@
+E:\MyProjects\TestBD\TestBD\bin\x86\Debug\TestBD.exe
+E:\MyProjects\TestBD\TestBD\bin\x86\Debug\TestBD.pdb
+E:\MyProjects\TestBD\TestBD\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestBD\TestBD\obj\x86\Debug\TestBD.exe
+E:\MyProjects\TestBD\TestBD\obj\x86\Debug\TestBD.pdb

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!-- 获取病人信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfo" DataBaseType="Oracle">
+		SELECT
+		pmi.Patient_id AS PatientCode
+		,pmi.Inp_no AS MedicalRecordCode
+		,pmi.Id_no AS PatientIDCard
+		,pmi.Patient_id AS SocialSecurityCard
+		,pmi.name AS PatientName
+		,pmi.sex AS PatientSex
+		,pmi.Date_of_birth AS PatientBirthday
+		,floor(months_between(sysdate,pmi.Date_of_birth)/12) AS PatientAge
+		,pmi.Mailing_address as PatientAddress
+		,NULL AS HighRiskInfectivity
+		FROM Pat_master_index pmi
+		where  1=1 {0}
+	</Content>
+    <!-- 获取病人住院信息 根据 Patient_id-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT
+      pih.patient_id as InPatientCode,
+      pih.Dept_code AS WardArea,
+      pih.Ward_Code AS InDepartment,
+      pih.Nursing_Class AS Nursing,
+      pih.Bed_no AS BedNumber,
+      pih.doctor_in_charge as InPatientDoctor,
+      NULL AS BedNurse
+      FROM Pats_in_hospital pih
+      WHERE rownum <= 200 {0}
+      ]]>
+    </Content>
+    <!-- 获取病人手术信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      opn.Operation AS OperationName,
+      pmi.Inp_no AS MedicalRecordCode,
+      om.Oper_id AS OperationID,
+      om.Operating_dept AS OperationDepartment,
+      om.Operating_room_no AS OperationRoom,
+      om.surgeon AS OperationDoctor,
+      om.Start_date_time AS OperationDate,
+      om.Start_date_time AS OperationBegin,
+      om.End_date_time AS OperationEnd,
+      om.First_operation_nurse AS HandWashingNurse1,
+      om.Second_operation_nurse AS HandWashingNurse2,
+      om.First_supply_nurse AS ItinerateNurse1,
+      om.Second_supply_nurse AS ItinerateNurse2,
+      NULL AS OperationOrderCode,
+      NULL AS OperationStatus
+      FROM Operation_master om
+      ,Pat_master_index  pmi     
+      ,Operation_Name opn
+     where  om.Patient_id=pmi.Patient_id
+      and om.Patient_Id = opn.Patient_Id
+      AND om.Visit_Id = opn.Visit_Id
+      AND om.Oper_Id = opn.Oper_Id
+      and rownum <= 200  {0} order by om.Start_date_time DESC
+      ]]>
+    </Content>
+    <!-- 获取病人挂号信息-->
+    <!-- 未确认 数据库无权限-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      pmi.Patient_id AS RegisterCode,
+      cm.Visit_no AS RegisterNumber,
+      cm.Visit_dept AS RegisterDepartment,
+      cm.Visit_date AS RegisterDateTime,
+      cm.Clinic_type AS OutPatientEmergency
+      FROM Clinic_master cm
+      ,Pat_master_index pmi
+      where cm.Patient_id = pmi.Patient_id {0}
+      Order By Visit_Date DESC
+      ]]>
+    </Content>
+    <Content Key="QueryPatientInfoPopupData" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT
+      pmi.Patient_id AS PatientCode
+      ,pmi.Inp_no AS MedicalRecordCode
+      ,pmi.Id_no AS PatientIDCard
+      ,pmi.Patient_id AS SocialSecurityCard
+      ,pmi.name AS PatientName
+      ,pmi.sex AS PatientSex
+      ,pmi.Date_of_birth AS PatientBirthday
+      ,floor(months_between(sysdate,pmi.Date_of_birth)/12) AS PatientAge
+      ,pmi.Mailing_address as PatientAddress
+      FROM Pat_master_index pmi
+      WHERE rownum <= 200   {0}
+      ]]>
+    </Content>    
+    <!-- 根据手术信息查询 强制条件,手术室,手术时间-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfoPopupData" DataBaseType="Oracle">
+       <![CDATA[
+      SELECT
+      pmi.Inp_no AS VALUE,
+      pmi.Inp_no AS MedicalRecordCode,
+      opn.Operation AS NAME,
+      pmi.name AS PatientName,
+      pmi.sex AS PatientSex,
+      pmi.name AS DISPLAYNAME,
+      pmi.Date_of_birth AS PatientBirthday,
+      opn.Operation AS OperationName,
+      om.Oper_id AS OperationID,
+      om.Operating_dept AS OperationDepartment,
+      om.Operating_room_no AS OperationRoom,
+      om.surgeon AS OperationDoctor,
+      om.Start_date_time AS OperationDate
+      FROM Operation_master om
+      ,Pat_master_index pmi
+      ,Operation_Name opn
+	  where  om.Patient_id = pmi.Patient_id
+      and om.Patient_Id = opn.Patient_Id
+      AND om.Visit_Id = opn.Visit_Id
+      AND om.Oper_Id = opn.Oper_Id
+      and rownum <= 200 {0}
+      Order By om.Start_date_time DESC
+      ]]>
+    </Content>
+
+    <!-- 已测试 Oracle 无问题-->
+    <!-- 根据住院信息查询 (需要指定科室) 检索当前住院病人列表供选择 -->
+    <Content Key="GetInPatientPopupData" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      pmi.Patient_id AS VALUE,
+      pmi.Patient_id AS InPatientCode,
+      pmi.name AS NAME,
+      pmi.sex AS PatientSex,
+      pmi.name AS DISPLAYNAME,
+      Pats_in_hospital.Ward_Code AS WardArea, 
+      floor(months_between(sysdate,pmi.Date_of_birth)/12) AS PatientAge,
+      pih.Dept_code AS InDepartment,
+      pih.Nursing_Class AS Nursing,
+      pih.bed_no AS Bedno,
+      NULL AS BedNurse,
+      NULL AS InPatientDoctor
+      FROM Pats_in_hospital pih
+      ,Pat_master_index pmi
+      where pih.Patient_id = pmi.Patient_id  {0} 
+      ]]>
+    </Content>
+    <!-- 未确认 数据库无权限-->
+    <!-- 根据挂号信息查询 (需要指定科室) -->
+    <Content Key="GetRegisterPopupData" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      pmi.Patient_id AS VALUE,
+      cm.Visit_no AS VisitNo,
+      pmi.name AS NAME,
+      pmi.sex AS SEX,
+      pmi.name AS DISPLAYNAME,
+      cm.Visit_dept AS VisitDepartment,
+      cm.Visit_date AS VisitDate,
+      cm.Clinic_type AS ClinicType,
+      pmi.Date_of_birth AS PatientBirthday
+      FROM Clinic_master cm
+      ,Pat_master_index pmi
+      where cm.Patient_id = pmi.Patient_id
+      and rownum <= 200 {0}
+      Order By VisitDate DESC
+      ]]>
+    </Content>
+  </Contents>
+</SqlConfig>

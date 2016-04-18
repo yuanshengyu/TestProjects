@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!--获取人员信息-->
+    <Content Key="GetUserImport" DataBaseType="Oracle">
+      <![CDATA[
+     select cssd_users.DB_USER
+            ,cssd_users.USER_NAME
+            ,cssd_users.UPDATETIME
+            ,cssd_users.USER_ID
+            ,cssd_users.User_Type
+            ,cssd_users.Dept_CODE
+            ,cssd_users.DEPT_NAME
+            ,cssd_users.SUBJ_DEPT_CODE
+            ,cssd_users.SUBJ_DEPT_NAME
+            ,cssd_users.HRID
+            ,cssd_users.FLAG
+    from cssd_users
+      WHERE 1=1 {0}
+      ]]>
+    </Content>
+    <!--获取科室信息-->
+    <Content Key="GetOrgDept" DataBaseType="Oracle">
+      <![CDATA[
+      select CSSD_DEPT.SUBJ_DEPT_CODE
+            ,CSSD_DEPT.SUBJ_DEPT_NAME
+            ,CSSD_DEPT.FLAG
+      from CSSD_DEPT
+      where 1=1 {0}
+      ]]>
+    </Content>
+    
+    <!-- 获取病人信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfo" DataBaseType="Oracle">
+		SELECT
+		 pmi.Patient_id AS PatientCode
+		,pmi.Inp_no AS MedicalRecordCode
+		,pmi.Id_no AS PatientIDCard
+		,pmi.Patient_id AS SocialSecurityCard
+		,pmi.name AS PatientName
+		,pmi.sex AS PatientSex
+		,pmi.Date_of_birth AS PatientBirthday
+		,floor(months_between(sysdate,pmi.Date_of_birth)/12) AS PatientAge
+		,pmi.Mailing_address as PatientAddress
+		,NULL AS HighRiskInfectivity
+		,pih.patient_id as InPatientCode
+		,pih.Dept_code AS WardArea
+		,pih.Ward_Code AS InDepartment
+		,pih.Bed_no AS BedNumber		
+		FROM Pat_master_index pmi  
+		Left join pats_in_hospital pih on  pih.Patient_id = pmi.Patient_id
+		where  1=1 {0}
+	</Content>
+	  <Content Key="GetPatientInfoByCard" DataBaseType="Oracle">
+		  SELECT
+		  pib.IC_CARD_NO AS PatientCode
+		  ,pmi.Inp_no AS MedicalRecordCode
+		  ,pmi.Id_no AS PatientIDCard
+		  ,pmi.Patient_id AS SocialSecurityCard
+		  ,pmi.name AS PatientName
+		  ,pmi.sex AS PatientSex
+		  ,pmi.Date_of_birth AS PatientBirthday
+		  ,floor(months_between(sysdate,pmi.Date_of_birth)/12) AS PatientAge
+		  ,pmi.Mailing_address as PatientAddress
+		  ,NULL AS HighRiskInfectivity
+		  ,pih.patient_id as InPatientCode
+		  ,pih.Dept_code AS WardArea
+		  ,pih.Ward_Code AS InDepartment
+		  ,pih.Bed_no AS BedNumber
+		  FROM Pat_master_index pmi left join  Pat_ICCARD_base pib
+		  on	pib.MRID= pmi.patient_id
+		  Left join pats_in_hospital pih on  pih.Patient_id = pmi.Patient_id
+		  where  1=1 {0}
+	  </Content>
+	  <Content Key="GetInPatientPopupData" DataBaseType="Oracle">
+		  <![CDATA[
+      SELECT
+      pmi.Patient_id AS VALUE,
+      pmi.Patient_id AS InPatientCode,
+      pmi.name AS NAME,
+      pmi.sex AS PatientSex,
+      pmi.name AS DISPLAYNAME,
+      pih.Ward_Code AS WardArea, 
+      floor(months_between(sysdate,pmi.Date_of_birth)/12) AS PatientAge,
+      pih.Dept_code AS InDepartment,
+      pih.Nursing_Class AS Nursing,
+      pih.bed_no AS Bedno,
+      NULL AS BedNurse,
+      NULL AS InPatientDoctor
+      FROM pats_in_hospital pih
+      LEFT JOIN Pat_master_index pmi
+      ON pih.Patient_id = pmi.Patient_id
+      WHERE 1=1 {0} 
+      ]]>
+	  </Content>
+  </Contents>
+</SqlConfig>

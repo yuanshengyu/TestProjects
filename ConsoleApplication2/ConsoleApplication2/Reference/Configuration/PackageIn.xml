@@ -1,0 +1,1749 @@
+﻿<XtraSerializer version="1.0" application="LayoutControl">
+  <property name="#LayoutVersion" />
+  <property name="LookAndFeel" isnull="true" iskey="true">
+    <property name="UseDefaultLookAndFeel">true</property>
+    <property name="UseWindowsXPTheme">false</property>
+    <property name="SkinName">Caramel</property>
+    <property name="Style">Skin</property>
+  </property>
+  <property name="Items" iskey="true" value="35">
+    <property name="Item1" isnull="true" iskey="true">
+      <property name="ParentName" />
+      <property name="Size">@3,Width=517@3,Height=812</property>
+      <property name="Text">Root</property>
+      <property name="CaptionImageVisible">true</property>
+      <property name="TabbedGroupParentName" />
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="ShowTabPageCloseButton">false</property>
+      <property name="TextLocation">Top</property>
+      <property name="Expanded">true</property>
+      <property name="CaptionImageIndex">-1</property>
+      <property name="CustomizationFormText">layoutControlGroup1</property>
+      <property name="Visibility">Always</property>
+      <property name="Spacing">3, 3, 3, 3</property>
+      <property name="Name">Root</property>
+      <property name="Location">@1,X=0@1,Y=0</property>
+      <property name="TypeName">LayoutGroup</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="Padding">3, 3, 3, 3</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="AppearanceGroup" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="GroupBordersVisible">false</property>
+      <property name="CaptionImageLocation">Default</property>
+      <property name="ExpandButtonLocation">Default</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">0</property>
+      <property name="AllowDrawBackground">true</property>
+      <property name="OptionsItemText" isnull="true" iskey="true">
+        <property name="TextAlignMode">UseParentOptions</property>
+        <property name="TextToControlDistance">3</property>
+      </property>
+      <property name="ExpandButtonVisible">false</property>
+      <property name="DefaultLayoutType">Vertical</property>
+      <property name="AppearanceTabPage" isnull="true" iskey="true">
+        <property name="HeaderHotTracked" isnull="true" iskey="true">
+          <property name="Font">Tahoma, 9pt</property>
+          <property name="BackColor2" />
+          <property name="BackColor" />
+          <property name="ForeColor" />
+          <property name="BorderColor" />
+          <property name="GradientMode">Horizontal</property>
+        </property>
+        <property name="PageClient" isnull="true" iskey="true">
+          <property name="Font">Tahoma, 9pt</property>
+          <property name="BackColor2" />
+          <property name="BackColor" />
+          <property name="ForeColor" />
+          <property name="BorderColor" />
+          <property name="GradientMode">Horizontal</property>
+        </property>
+        <property name="HeaderDisabled" isnull="true" iskey="true">
+          <property name="Font">Tahoma, 9pt</property>
+          <property name="BackColor2" />
+          <property name="BackColor" />
+          <property name="ForeColor" />
+          <property name="BorderColor" />
+          <property name="GradientMode">Horizontal</property>
+        </property>
+        <property name="Header" isnull="true" iskey="true">
+          <property name="Font">Tahoma, 9pt</property>
+          <property name="BackColor2" />
+          <property name="BackColor" />
+          <property name="ForeColor" />
+          <property name="BorderColor" />
+          <property name="GradientMode">Horizontal</property>
+        </property>
+        <property name="HeaderActive" isnull="true" iskey="true">
+          <property name="Font">Tahoma, 9pt</property>
+          <property name="BackColor2" />
+          <property name="BackColor" />
+          <property name="ForeColor" />
+          <property name="BorderColor" />
+          <property name="GradientMode">Horizontal</property>
+        </property>
+      </property>
+      <property name="TextVisible">false</property>
+      <property name="EnableIndentsWithoutBorders">True</property>
+      <property name="ExpandOnDoubleClick">false</property>
+    </property>
+    <property name="Item2" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@1,Y=0</property>
+      <property name="ControlName">buttonEditCargoType</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">包类型:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="TextVisible">true</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="Name">layoutControlItem1</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">包类型:</property>
+    </property>
+    <property name="Item3" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@3,Y=175</property>
+      <property name="ControlName">comboBoxEditFlow</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">操作流程:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">layoutControlItem7</property>
+      <property name="CustomizationFormText">操作流程:</property>
+    </property>
+    <property name="Item4" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@1,Height=0</property>
+      <property name="Location">@1,X=0@3,Y=325</property>
+      <property name="ControlName">memoEditMemo</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=505@2,Height=48</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Custom</property>
+      <property name="MinSize">@2,Width=82@2,Height=21</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">备注:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">lciMemo</property>
+      <property name="CustomizationFormText">备注:</property>
+    </property>
+    <property name="Item5" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@1,X=0@3,Y=225</property>
+      <property name="ControlName">textEditReturnReceiver</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciReceive</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=409@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">接收人:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">接收人:</property>
+    </property>
+    <property name="Item6" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@3,Width=121@2,Height=28</property>
+      <property name="Location">@3,X=384@3,Y=772</property>
+      <property name="ControlName">simpleButtonOK</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=121@2,Height=28</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=121@2,Height=28</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">0</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">layoutControlItemOK</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextVisible">false</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">layoutControlItemOK</property>
+      <property name="ParentName">Root</property>
+      <property name="CustomizationFormText">layoutControlItemOK</property>
+    </property>
+    <property name="Item7" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@2,Y=25</property>
+      <property name="ControlName">textEditPackageName</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">标签名称:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="TextVisible">true</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="Name">lciPackageName</property>
+      <property name="CustomizationFormText">标签名称:</property>
+    </property>
+    <property name="Item8" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@3,X=273@2,Y=25</property>
+      <property name="ControlName">textEditOrg</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">使用科室:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="TextVisible">true</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="Name">lciOrg</property>
+      <property name="CustomizationFormText">使用科室:</property>
+    </property>
+    <property name="Item9" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@2,Y=50</property>
+      <property name="ControlName">textEditDoctor</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">医生姓名:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="TextVisible">true</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="Name">lciDoctor</property>
+      <property name="CustomizationFormText">医生姓名:</property>
+    </property>
+    <property name="Item10" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@2,Y=50</property>
+      <property name="ControlName">textEditPatient</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciPatient</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">病人姓名:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">病人姓名:</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item11" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=409@3,Y=225</property>
+      <property name="ControlName">checkEditSterilizeNextDay</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">layoutControlItemSterilizeNextDay</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@2,Width=96@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@2,Width=75@2,Height=23</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">0</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">layoutControlItemSterilizeNextDay</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="TextVisible">false</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=23</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">layoutControlItemSterilizeNextDay</property>
+    </property>
+    <property name="Item12" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@3,X=273@1,Y=0</property>
+      <property name="ControlName">spinEditQty</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">配包数量:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TextVisible">true</property>
+      <property name="CustomizationFormText">配包数量:</property>
+      <property name="Name">layoutControlItem4</property>
+      <property name="ParentName">Root</property>
+    </property>
+    <property name="Item13" isnull="true" iskey="true">
+      <property name="Location">@1,X=0@3,Y=772</property>
+      <property name="Visibility">Always</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="ControlName" isnull="true" />
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="Size">@3,Width=384@2,Height=28</property>
+      <property name="Name">emptySpaceItemButton</property>
+      <property name="Image" isnull="true" />
+      <property name="Text">emptySpaceItemButton</property>
+      <property name="MinSize">@2,Width=10@2,Height=10</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="TextLocation">Default</property>
+      <property name="TextToControlDistance">0</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="ParentName">Root</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="CustomizationFormText">emptySpaceItemButton</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextVisible">false</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="MaxSize">@1,Width=0@1,Height=0</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">EmptySpaceItem</property>
+    </property>
+    <property name="Item14" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@2,Y=75</property>
+      <property name="ControlName">spinEdit_ApplianceQty</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciInstrumentQty</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">器械数量:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">器械数量:</property>
+    </property>
+    <property name="Item15" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@2,Y=75</property>
+      <property name="ControlName">dateEdit_OperationDate</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">手术时间:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TextVisible">true</property>
+      <property name="Name">lciOperationDate</property>
+      <property name="CustomizationFormText">手术时间:</property>
+      <property name="ParentName">Root</property>
+    </property>
+    <property name="Item16" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@1,X=0@3,Y=150</property>
+      <property name="ControlName">textEditSenderUnit</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">layoutControlItem2</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">送包单位:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">送包单位:</property>
+    </property>
+    <property name="Item17" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@1,X=0@3,Y=250</property>
+      <property name="ControlName">textEditSurgeryPart</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciSurgeryPart</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">手术部位:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">手术部位:</property>
+    </property>
+    <property name="Item18" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@3,Y=200</property>
+      <property name="ControlName">textEditReceiver</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">配包人:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextVisible">true</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">lciPackager</property>
+      <property name="ParentName">Root</property>
+      <property name="CustomizationFormText">配包人:</property>
+    </property>
+    <property name="Item19" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@3,Y=200</property>
+      <property name="ControlName">dateEditPackageInDate</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciDate</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">登记日期:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">登记日期:</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item20" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@3,Y=175</property>
+      <property name="ControlName">comboBoxEditType</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">layoutControlItem15</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">灭菌方式:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">灭菌方式:</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item21" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@1,X=0@3,Y=100</property>
+      <property name="ControlName">comboBox_IsImplant</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciIsImplant</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">有无植入物:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">有无植入物:</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item22" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@3,Y=100</property>
+      <property name="ControlName">comboBox_IsEmergency</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciIsEmergency</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">门急诊:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">门急诊:</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item23" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@3,X=273@3,Y=250</property>
+      <property name="ControlName">tbSurgeryRoom</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">手术间：</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">lciSurgeryRoom</property>
+      <property name="CustomizationFormText">手术间：</property>
+    </property>
+    <property name="Item24" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@1,X=0@3,Y=275</property>
+      <property name="ControlName">tbMeasureMents</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciMeasureMents</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">台次：</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">台次：</property>
+    </property>
+    <property name="Item25" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@3,Y=275</property>
+      <property name="ControlName">tbinpatientArea</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciInpatientArea</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">病区：</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">病区：</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item26" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@1,X=0@3,Y=300</property>
+      <property name="ControlName">tbBedNo</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciBedNo</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">床号：</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">床号：</property>
+    </property>
+    <property name="Item27" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@3,Y=300</property>
+      <property name="ControlName">tbHospitalizedNo</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">lciHospitalizedNo</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">住院号：</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">住院号：</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item28" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="ImageIndex">-1</property>
+      <property name="Location">@3,X=273@3,Y=150</property>
+      <property name="ControlName">textEditSender</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="Name">layoutControlItem3</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">送包人:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="CustomizationFormText">送包人:</property>
+      <property name="TypeName">LayoutControlItem</property>
+    </property>
+    <property name="Item29" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@1,X=0@3,Y=125</property>
+      <property name="ControlName">comboBox_IsSpare</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=273@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">是否备用:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">lciIsSpare</property>
+      <property name="CustomizationFormText">是否备用:</property>
+    </property>
+    <property name="Item30" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@2,Height=25</property>
+      <property name="Location">@3,X=273@3,Y=125</property>
+      <property name="ControlName">comboBox_OutPacking</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=232@2,Height=25</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="MinSize">@3,Width=122@2,Height=25</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">4</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">外包装:</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@2,Width=64@2,Height=14</property>
+      <property name="TextVisible">true</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="Name">lciOutPackage</property>
+      <property name="CustomizationFormText">外包装:</property>
+    </property>
+    <property name="Item31" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@1,Height=0</property>
+      <property name="Location">@1,X=0@3,Y=657</property>
+      <property name="ControlName">groupControl2</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=505@3,Height=105</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Custom</property>
+      <property name="MinSize">@2,Width=24@1,Height=1</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">0</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">layoutControlItemContainer</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="TextVisible">false</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="Name">layoutControlItemContainer</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">layoutControlItemContainer</property>
+    </property>
+    <property name="Item32" isnull="true" iskey="true">
+      <property name="Visibility">Always</property>
+      <property name="MaxSize">@1,Width=0@1,Height=0</property>
+      <property name="Location">@1,X=0@3,Y=379</property>
+      <property name="ControlName">groupControl1</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="TextLocation">Left</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=505@3,Height=272</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="SizeConstraintsType">Custom</property>
+      <property name="MinSize">@3,Width=104@2,Height=24</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextToControlDistance">0</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="Text">layoutControlItemPackageSetting</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="ParentName">Root</property>
+      <property name="TextVisible">false</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="Name">layoutControlItemPackageSetting</property>
+      <property name="TypeName">LayoutControlItem</property>
+      <property name="CustomizationFormText">layoutControlItemPackageSetting</property>
+    </property>
+    <property name="Item33" isnull="true" iskey="true">
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Text">splitterItemContainer</property>
+      <property name="TextToControlDistance">0</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="TextAlignMode">AutoSize</property>
+      <property name="CustomizationFormText">splitterItemContainer</property>
+      <property name="ControlName" isnull="true" />
+      <property name="Visibility">Always</property>
+      <property name="ParentName">Root</property>
+      <property name="ResizeMode">OnlyAdjacentControls</property>
+      <property name="Location">@1,X=0@3,Y=651</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=505@1,Height=6</property>
+      <property name="MaxSize">@1,Width=0@1,Height=6</property>
+      <property name="Name">splitterItemContainer</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextLocation">Default</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="MinSize">@1,Width=6@1,Height=6</property>
+      <property name="ImageIndex">-1</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextVisible">false</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">SplitterItem</property>
+    </property>
+    <property name="Item34" isnull="true" iskey="true">
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="Text">splitterItemPackageSetting</property>
+      <property name="TextToControlDistance">0</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="TextAlignMode">AutoSize</property>
+      <property name="CustomizationFormText">splitterItemPackageSetting</property>
+      <property name="ControlName" isnull="true" />
+      <property name="Visibility">Always</property>
+      <property name="ParentName">Root</property>
+      <property name="ResizeMode">OnlyAdjacentControls</property>
+      <property name="Location">@1,X=0@3,Y=373</property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="Image" isnull="true" />
+      <property name="Size">@3,Width=505@1,Height=6</property>
+      <property name="MaxSize">@1,Width=0@1,Height=6</property>
+      <property name="Name">splitterItemPackageSetting</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="Padding">2, 2, 2, 2</property>
+      <property name="TextLocation">Default</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="MinSize">@1,Width=6@1,Height=6</property>
+      <property name="ImageIndex">-1</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="TextVisible">false</property>
+      <property name="TypeName">SplitterItem</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+    </property>
+    <property name="Item35" isnull="true" iskey="true">
+      <property name="Location">@1,X=0@3,Y=762</property>
+      <property name="Visibility">Always</property>
+      <property name="AppearanceItemCaption" isnull="true" iskey="true">
+        <property name="Font">Tahoma, 9pt</property>
+        <property name="BackColor2" />
+        <property name="BackColor" />
+        <property name="ForeColor" />
+        <property name="BorderColor" />
+        <property name="GradientMode">Horizontal</property>
+      </property>
+      <property name="ShowInCustomizationForm">true</property>
+      <property name="ControlName" isnull="true" />
+      <property name="ImageIndex">-1</property>
+      <property name="ImageToTextDistance">5</property>
+      <property name="Size">@3,Width=505@2,Height=10</property>
+      <property name="Name">emptySpaceItem1</property>
+      <property name="Image" isnull="true" />
+      <property name="Text">emptySpaceItem1</property>
+      <property name="MinSize">@2,Width=10@2,Height=10</property>
+      <property name="SizeConstraintsType">Default</property>
+      <property name="TextLocation">Default</property>
+      <property name="TextToControlDistance">0</property>
+      <property name="OptionsToolTip" isnull="true" iskey="true">
+        <property name="IconToolTipTitle" />
+        <property name="IconToolTipIconType">None</property>
+        <property name="EnableIconToolTip">true</property>
+        <property name="IconToolTip" />
+        <property name="ToolTip" />
+        <property name="ToolTipTitle" />
+        <property name="ToolTipIconType">None</property>
+      </property>
+      <property name="Spacing">0, 0, 0, 0</property>
+      <property name="ImageAlignment">MiddleLeft</property>
+      <property name="ParentName">Root</property>
+      <property name="TextAlignMode">UseParentOptions</property>
+      <property name="OptionsCustomization" isnull="true" iskey="true">
+        <property name="AllowDrop">Default</property>
+        <property name="AllowDrag">Default</property>
+      </property>
+      <property name="CustomizationFormText">emptySpaceItem1</property>
+      <property name="TextVisible">false</property>
+      <property name="TextSize">@1,Width=0@1,Height=0</property>
+      <property name="AllowHtmlStringInCaption">false</property>
+      <property name="TypeName">EmptySpaceItem</property>
+      <property name="MaxSize">@1,Width=0@1,Height=0</property>
+      <property name="Padding">2, 2, 2, 2</property>
+    </property>
+  </property>
+</XtraSerializer>

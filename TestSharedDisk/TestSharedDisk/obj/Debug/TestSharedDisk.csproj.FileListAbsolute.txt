@@ -1,0 +1,5 @@
+E:\MyProjects\TestSharedDisk\TestSharedDisk\bin\Debug\TestSharedDisk.exe
+E:\MyProjects\TestSharedDisk\TestSharedDisk\bin\Debug\TestSharedDisk.pdb
+E:\MyProjects\TestSharedDisk\TestSharedDisk\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestSharedDisk\TestSharedDisk\obj\Debug\TestSharedDisk.exe
+E:\MyProjects\TestSharedDisk\TestSharedDisk\obj\Debug\TestSharedDisk.pdb

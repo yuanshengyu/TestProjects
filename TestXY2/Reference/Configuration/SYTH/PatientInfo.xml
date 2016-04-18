@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+		SELECT inpatient_no  AS PatientCode
+		,inpatient_no AS MedicalRecordCode
+		,ward_name AS WardArea
+		,bed_no AS BedNumber
+		,name AS PatientName
+		,sex AS PatientSex
+		,birth_date AS PatientBirthday
+		FROM view_Infecon_zy
+		where 1=1 {0}
+	</Content>
+    <Content Key="GetPatientInfoPopupData" DataBaseType="SqlServer">
+		SELECT DISTINCT Top 50
+		[病案号] AS VALUE,
+		[病案号] AS MEDICALRECORDCODE,
+		[实施手术名称] AS OPERATIONNAME,
+		[病人姓名] AS NAME,
+		[性别] AS PATIENTSEX,
+		[病人姓名] AS DISPLAYNAME,
+		[年龄] AS AGE,
+		[科室] AS OPERATIONDEPARTMENT,
+		[手术间] AS OPERATIONROOM,
+		[手术医生] AS OPERATIONDOCTOR,
+		[手术时间] AS OPERATIONDATE
+		FROM View_ZK
+		WHERE 1 = 1 {0}
+		Order By OperationDate DESC
+	</Content>
+
+  </Contents>
+</SqlConfig>

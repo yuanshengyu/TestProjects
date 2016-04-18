@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+      select
+      zy.blh,  --病人编号
+      zy.zyh,  --住院号
+      zy.cssj,  --出生日期
+      zy.ksbm,  --科室编号
+      zy.cwbh,  --床位
+      zy.xm,    --姓名
+      case when zy.xb='1' then '男' else '女' end as xb,   --病人性别
+      zy.nl,    --年龄
+      zy.sfzbm, --身份证号码
+      zy.dz,    --地址
+      zy.dh,    --电话
+      zy.gfbm,  --医保号
+      zy.jzys,  --医生编码
+      zy.bqbm,  --病区编码
+      zy.brdh,  --病人电话
+      zy.dz_xz, --现住地址
+      ss.brbq,  --病区
+      Operation.brbm, --病人编码
+      Operation.ssdh,  --手术单号
+      Operation.sssbm, --手术室
+      Operation.tzks,  --科室
+      Operation.tzsj,  --手术时间
+      Operation.sstbm, --手术台次
+      Operation.tzys,  --手术医生
+      Operation.ssname,--手术名称
+      Operation.tzzs3, --洗手护士1
+      Operation.tzzs4, --巡回护士1
+      Operation.ssdbz  --手术状态
+      from HHIS_V_BRML zy
+      left join HHIS_V_SSBRML ss on zy.blh=ss.brbm
+      left join HHIS_V_SSSQD Operation on ss.brbm=Operation.brbm
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      zy.zyh as VALUE,--病人编号
+      zy.zyh as INPATIENTCODE,--病人编号
+      zy.xm as NAME,  --病人姓名
+      zy.xm as DISPLAYNAME, --病人姓名
+      case when zy.xb='1' then '男' else '女' end as PATIENTSEX,   --病人性别
+      zy.cssj as PatientBirthday, --出生年月
+      zy.nl as PATIENTAGE,--年龄
+      --住院信息
+      zy.zyh as SocialSecurityCard, --住院号
+      zy.bqbm as WARDAREA,--病区
+      zy.ksbm as INDEPARTMENT, --科室
+      zy.cwbh as BEDNO --床位
+      from HHIS_V_BRML zy
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      select
+      --手术信息
+      ss.brbm as VALUE,--病人编号
+      ss.brxm as NAME,  --病人姓名
+      ss.brxm as DISPLAYNAME, --病人姓名
+      ss.brxb as PATIENTSEX,   --病人性别
+      ss.brnl as PATIENTAGE,--年龄
+
+      Operation.ssdh as MEDICALRECORDCODE,   --病案号
+      Operation.sssbm as OPERATIONROOM,   --手术室
+      Operation.tzks as OPERATIONDEPARTMENT,    --科室
+      Operation.tzsj as OPERATIONDATE,  --手术时间
+      Operation.tzys as OPERATIONDOCTOR,  --手术医生
+      Operation.ssname as OPERATIONNAME  --手术名称
+      from HHIS_V_SSBRML ss
+      left join HHIS_V_SSSQD Operation on ss.brbm=Operation.brbm
+      where 1=1 {0}
+    </Content>
+    
+    <!--挂号病人信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      select
+      gh.blh,  --病人编号
+      gh.Mzh,  --门诊号
+      gh.xm,   --姓名
+      gh.xb,   --性别
+      gh.nl,   --年龄
+      gh.dz,   --地址
+      gh.ksbm, --科室编码
+      gh.Sj    --挂号时间
+      from HHIS_V_BRML_MZ gh
+      where 1=1 {0}
+      order by  gh.Sj Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      gh.blh as VALUE,--病人编号
+      gh.xm as NAME,  --病人姓名
+      gh.xm as DISPLAYNAME, --病人姓名
+      gh.xb as PATIENTSEX,   --病人性别
+      gh.nl as PATIENTAGE,--年龄
+      gh.Mzh as REGISTERCODE,   --挂号系统编号
+      gh.Sj as REGISTERDATETIME, --挂号时间
+      gh.ksbm as REGISTERDEPARTMENT --挂号科室
+      from HHIS_V_BRML_MZ gh
+      where 1=1 {0}
+      order by  gh.Sj Desc
+    </Content>
+  </Contents>
+</SqlConfig>

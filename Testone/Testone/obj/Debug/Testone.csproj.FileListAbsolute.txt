@@ -1,0 +1,6 @@
+E:\MyProjects\Testone\Testone\bin\Debug\Testone.exe
+E:\MyProjects\Testone\Testone\bin\Debug\Testone.pdb
+E:\MyProjects\Testone\Testone\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\Testone\Testone\obj\Debug\Testone.exe
+E:\MyProjects\Testone\Testone\obj\Debug\Testone.pdb
+E:\MyProjects\Testone\Testone\bin\Debug\1.bat

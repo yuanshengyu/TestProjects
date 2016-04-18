@@ -1,0 +1,10 @@
+E:\MyProjects\TestSimensOPC\TestOPC3\bin\Debug\TestOPC3.exe
+E:\MyProjects\TestSimensOPC\TestOPC3\bin\Debug\TestOPC3.pdb
+E:\MyProjects\TestSimensOPC\TestOPC3\bin\Debug\SiemensSMARTOPCdotNETLib.dll
+E:\MyProjects\TestSimensOPC\TestOPC3\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestSimensOPC\TestOPC3\obj\Debug\TestOPC3.Form1.resources
+E:\MyProjects\TestSimensOPC\TestOPC3\obj\Debug\TestOPC3.Properties.Resources.resources
+E:\MyProjects\TestSimensOPC\TestOPC3\obj\Debug\TestOPC3.csproj.GenerateResource.Cache
+E:\MyProjects\TestSimensOPC\TestOPC3\obj\Debug\TestOPC3.exe
+E:\MyProjects\TestSimensOPC\TestOPC3\obj\Debug\TestOPC3.pdb
+E:\MyProjects\TestSimensOPC\TestOPC3\bin\Debug\TestOPC3.exe.config

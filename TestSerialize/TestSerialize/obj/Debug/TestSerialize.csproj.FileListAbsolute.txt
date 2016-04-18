@@ -1,0 +1,6 @@
+E:\MyProjects\TestSerialize\TestSerialize\bin\Debug\TestSerialize.exe.config
+E:\MyProjects\TestSerialize\TestSerialize\bin\Debug\TestSerialize.exe
+E:\MyProjects\TestSerialize\TestSerialize\bin\Debug\TestSerialize.pdb
+E:\MyProjects\TestSerialize\TestSerialize\obj\Debug\TestSerialize.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestSerialize\TestSerialize\obj\Debug\TestSerialize.exe
+E:\MyProjects\TestSerialize\TestSerialize\obj\Debug\TestSerialize.pdb

@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupDatabak" DataBaseType="SqlServer">
+      SELECT
+       [病人号] AS PatientCode
+      ,[病历号]  AS SocialSecurityCard
+      ,[病历号] AS MedicalRecordCode
+      ,[患者姓名] AS PatientName
+      ,[年龄] AS PatientAge
+      ,[性别] AS PatientSex
+      ,[身份证号] AS PatientIDCard
+      ,[出生日期] AS PatientBirthday
+      ,[联系地址] AS MailingAddress
+      ,[联系电话] AS PhoneNumber
+      ,[病区名称] AS WardArea
+      ,[科室名称] AS OperationDepartment
+      ,[手术名称]  AS OperationName
+      ,[主刀医生]  AS OperationDoctor
+      ,[手术室代码] AS OperationRoom
+      ,[手术间] AS OperationRoom
+      ,[手术开始时间] AS OperationBegin
+      ,[手术结束时间] AS OperationEnd
+      ,[记录状态] AS OperationStatus
+      FROM SF_BRSYK_GYS
+      1 = 1 {0}
+      Order By OperationBegin DESC
+    </Content>
+    <Content Key="GetPatientInfoPopupData" DataBaseType="SqlServer">
+      SELECT
+      [病历号] AS VALUE
+      ,[病历号] AS MEDICALRECORDCODE
+      ,[手术名称]  AS OPERATIONNAME
+      ,[患者姓名] AS NAME
+      ,[患者姓名] AS DISPLAYNAME
+      ,[年龄] AS AGE
+      ,[性别] AS PATIENTSEX
+      ,[科室名称] AS OPERATIONDEPARTMENT
+      ,[手术室] AS OPERATIONROOM
+      ,[主刀医生]  AS OPERATIONDOCTOR
+      ,[手术开始时间] AS OPERATIONDATE
+      FROM SS_SSXX_GYS
+      WHERE 1 = 1 {0}
+      Order By OPERATIONDATE DESC
+    </Content>
+    <Content Key="GetPatientInfoData" DataBaseType="SqlServer">
+      SELECT
+      [病人号] AS PatientCode
+      ,[病历号]  AS SocialSecurityCard
+      ,[病历号] AS MedicalRecordCode
+      ,[患者姓名] AS PatientName
+      ,[年龄] AS PatientAge
+      ,[性别] AS PatientSex
+      ,[身份证号] AS PatientIDCard
+      ,[出生日期] AS PatientBirthday
+      ,[联系地址] AS MailingAddress 
+      ,[联系电话] AS PhoneNumber
+      ,[病区名称] AS WardArea
+      ,[科室名称] AS OperationDepartment
+      ,[手术名称]  AS OperationName
+      ,[主刀医生]  AS OperationDoctor
+      ,[手术室代码] AS OperationRoom
+      ,[手术间] AS OperationRoom
+      ,[手术开始时间] AS OperationBegin
+      ,[手术结束时间] AS OperationEnd
+      ,[记录状态] AS OperationStatus
+      FROM SS_SSXX_GYS
+      where 1 = 1 {0}
+      Order By OperationBegin DESC
+    </Content>
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      SELECT
+      [病人号] AS PatientCode
+      ,null AS MedicalRecordCode
+      ,[患者姓名] AS PatientName
+      ,[年龄] AS PatientAge
+      ,[性别] AS PatientSex
+      ,[身份证号] AS PatientIDCard
+      ,[出生日期] AS PatientBirthday
+      ,[联系地址] AS MailingAddress
+
+      ,[挂号卡号] AS RegisterCode
+      ,[挂号序号] as RegisterNumber
+      ,[挂号日期] as RegisterDateTime
+      ,[挂号科室] as RegisterDepartment
+      FROM SF_BRSYK_GYS
+      WHERE 1 = 1 {0}
+      Order By 挂号日期 DESC
+    </Content>
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      SELECT
+       [病人号] AS PatientCode
+      ,[病历号] AS MedicalRecordCode
+      ,[手术名称]  AS OperationName
+      ,[患者姓名] AS PatientName 
+      ,[性别] AS PATIENTSEX
+      ,[年龄] AS PatientAge
+      ,[性别] AS PatientSex
+      ,[身份证号] AS PatientIDCard
+      ,[出生日期] AS PatientBirthday
+      ,[联系地址] AS MailingAddress 
+      ,[科室名称] AS OPERATIONDEPARTMENT
+      ,[手术间] AS OPERATIONROOM
+      ,[主刀医生]  AS OPERATIONDOCTOR
+      ,[手术开始时间] AS OPERATIONDATE
+      ,[手术台次] as OperationOrderCode
+      ,[手术开始时间] AS OperationBegin
+      ,[手术结束时间] AS OperationEnd
+      ,[记录状态] as OperationStatus
+      ,[手术台次] as OperationOrderCode
+      FROM SS_SSXX_GYS
+      WHERE 1 = 1 {0}
+      Order By OperationBegin DESC
+    </Content>
+    <Content Key="GetInHospitalInfo" DataBaseType="SqlServer">
+      SELECT
+       [病人号] AS PatientCode
+      ,[病历号] AS MedicalRecordCode
+      ,[患者姓名] AS PatientName
+      ,[年龄] AS PatientAge
+      ,[性别] AS PatientSex
+      ,[身份证号] AS PatientIDCard
+      ,[出生日期] AS PatientBirthday
+      ,[联系地址] AS MailingAddress 
+      ,[联系电话] AS PhoneNumber
+      ,[病区名称] AS WardArea
+      ,[床位] AS BedNumber
+      ,[科室名称] as InDepartment
+      FROM ZY_BRXX_GYS 
+      where 1 = 1 {0}
+    </Content>
+  </Contents>
+</SqlConfig>

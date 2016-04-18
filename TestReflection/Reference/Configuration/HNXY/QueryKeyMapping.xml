@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+	  <MappingKey Key="PatientCode" Content="pmi.patient_id">
+	  </MappingKey>
+	  <MappingKey Key="MedicalRecordCode" Content="pmi.Inp_no">
+	  </MappingKey> 
+	  <MappingKey Key="InPatientCode" Content="pmi.Inp_no">
+	  </MappingKey>
+	  <MappingKey Key="RegisterCode" Content="pib.IC_CARD_NO">
+	  </MappingKey>
+	  <MappingKey Key="PatientNamePINYINInPatient" Content="pih.bed_no">
+	  </MappingKey>
+	  <MappingKey Key="InPatientDeptCode" Content="pih.WARD_CODE">
+	  </MappingKey>
+	  <MappingKey Key="InPatientDeptCode1" Content="pih.DEPT_CODE">
+	  </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

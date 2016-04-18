@@ -1,0 +1,5 @@
+E:\MyProjects\TestReflection\WhatsNewAttributes\bin\Debug\WhatsNewAttributes.dll
+E:\MyProjects\TestReflection\WhatsNewAttributes\bin\Debug\WhatsNewAttributes.pdb
+E:\MyProjects\TestReflection\WhatsNewAttributes\obj\Debug\WhatsNewAttributes.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestReflection\WhatsNewAttributes\obj\Debug\WhatsNewAttributes.dll
+E:\MyProjects\TestReflection\WhatsNewAttributes\obj\Debug\WhatsNewAttributes.pdb

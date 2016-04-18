@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <!--清洗-->
+  <DisinfectMonitorSeries>
+    <MonitorSeries>
+      <FName>温度</FName>
+      <FMax>150</FMax>
+      <FMin>0</FMin>
+      <FColor>Blue</FColor>
+      <FGridSpacing>15</FGridSpacing>
+      <FUnit>℃</FUnit>
+      <FYName>Temperature</FYName>
+    </MonitorSeries>
+    <MonitorSeries>
+      <FName>湿度</FName>
+      <FMax>100</FMax>
+      <FMin>0</FMin>
+      <FColor>Green</FColor>
+      <FGridSpacing>15</FGridSpacing>
+      <FUnit>%</FUnit>
+      <FYName></FYName>
+    </MonitorSeries>
+  </DisinfectMonitorSeries>
+  <!--灭菌-->
+  <SterilizeMonitorSeries>
+    <MonitorSeries>
+      <FName>内温</FName>
+      <FMax>150</FMax>
+      <FMin>0</FMin>
+      <FColor>Red</FColor>
+      <FGridSpacing>15</FGridSpacing>
+      <FUnit>℃</FUnit>
+      <FYName>Temperature</FYName>
+    </MonitorSeries>
+    
+    <MonitorSeries>
+      <FName>湿度</FName>
+      <FMax>100</FMax>
+      <FMin>0</FMin>
+      <FColor>Blue</FColor>
+      <FGridSpacing>15</FGridSpacing>
+      <FUnit>℃</FUnit>
+      <FYName>Temperature</FYName>
+    </MonitorSeries>
+    <MonitorSeries>
+      <FName>压力</FName>
+      <FMax>3</FMax>
+      <FMin>-3</FMin>
+      <FColor>Green</FColor>
+      <FGridSpacing>1</FGridSpacing>
+      <FUnit>Mp</FUnit>
+      <FYName>Pressure</FYName>
+    </MonitorSeries>
+  </SterilizeMonitorSeries>
+
+  <!--实时数据预估时长(分钟)-->
+  <Estimate value="60"></Estimate>
+  <!--取数延时时间(秒)-->
+  <GetDataInterval value="20"></GetDataInterval>
+  
+  <Devices>
+    <MonitorDevice>
+      <DeviceName>2号清洗机</DeviceName>
+      <DeviceCode>11102</DeviceCode>
+      <DeviceType>0</DeviceType>
+    </MonitorDevice>
+    <MonitorDevice>
+      <DeviceName>2号压力蒸汽灭菌器</DeviceName>
+      <DeviceCode>11508</DeviceCode>
+      <DeviceType>4</DeviceType>
+    </MonitorDevice>
+    <MonitorDevice>
+      <DeviceName>3号压力蒸汽灭菌器</DeviceName>
+      <DeviceCode>11509</DeviceCode>
+      <DeviceType>4</DeviceType>
+    </MonitorDevice>
+  </Devices>
+</config>

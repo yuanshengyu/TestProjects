@@ -1,0 +1,5 @@
+E:\MyProjects\TestCSV\TestCSV\bin\Debug\TestCSV.exe
+E:\MyProjects\TestCSV\TestCSV\bin\Debug\TestCSV.pdb
+E:\MyProjects\TestCSV\TestCSV\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestCSV\TestCSV\obj\Debug\TestCSV.exe
+E:\MyProjects\TestCSV\TestCSV\obj\Debug\TestCSV.pdb

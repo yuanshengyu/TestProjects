@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      select
+      br.病人编号 as PatientID,
+      br.病人姓名 as PatientName,
+      br.性别 as PatientSex,
+      br.出生年月 as PatientBirthday,
+      br.年龄 as PatientAge,
+      br.身份证号 as PatientIDCard,
+      br.社保卡号 as PatientMcard,
+      br.地址 as PatientAddress,
+      br.联系电话 as PatientTel,
+      br.高危 as IsHighRiskInfectivity,
+      zy.住院号 as InPatientCode,
+      zy.病区 as DeptName,
+      zy.床位 as BedNumber,
+      zy.床位护士 as BedNurse
+      from NEUHIS.SHGX_住院病人基本信息 br
+      left join NEUHIS.SHGX_住院信息 zy on br.病人编号=zy.住院号
+      where 1=1 {0}
+    </Content>
+    <Content Key="GetOperationPopupDataSS" DataBaseType="SqlServer">
+      select
+      ss.PAT_VID,
+      ss.OPERATING_ROOM,
+      ks.DEPT_NAME,
+      ss.OPERATION_DATE,  --手术时间
+      ss.SURGEON, --医生
+      ss.DIAG_BEFORE_OPERATION, --手术名称
+      ss.START_DATE_TIME,  --手术开始时间
+      ss.END_DATE_TIME    --手术结束时间
+      from infecon_operation ss
+      left join infecon_deptinfo ks on ss.DEPT_NAME=ks.DEPT_CODE
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.病人编号 as VALUE,--病人编号
+      br.病人编号 as INPATIENTCODE,--病人编号
+      br.病人姓名 as NAME,  --病人姓名
+      br.病人姓名 as DISPLAYNAME, --病人姓名
+      br.性别 as PATIENTSEX,   --病人性别
+      br.出生年月 as PatientBirthday, --出生年月
+      br.年龄 as PATIENTAGE,--年龄
+      --住院信息
+      zy.病区 as WARDAREA,--病区
+      zy.床位 as BEDNO --床位
+      from NEUHIS.SHGX_住院病人基本信息 br
+      left join NEUHIS.SHGX_住院信息 zy on br.病人编号=zy.住院号
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      select
+      --手术信息
+      br.patient_id as VALUE,--病人编号
+      br.name as NAME,  --病人姓名
+      br.name as DISPLAYNAME, --病人姓名
+      br.sex as PATIENTSEX,   --病人性别
+      br.birth_date as PatientBirthday, --出生年月
+      br.age as PATIENTAGE,--年龄
+      ss.op_record_ID as MEDICALRECORDCODE,   --病案号
+      ss.group_name as OPERATIONROOM,   --手术室
+      ss.name as OPERATIONDEPARTMENT,    --科室
+      ss.op_datetime as OPERATIONDATE,  --手术时间
+      ss.op_doctor as OPERATIONDOCTOR,  --手术医生
+      ss.order_name as OPERATIONNAME  --手术名称
+      from dbo.view_supply_patient_info br
+      left join dbo.view_supply_op_info ss on br.patient_id=ss.patient_id
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      /*--病人挂号信息--*/
+      select 
+      br.病人编号 as PatientID,
+      br.病人姓名 as PatientName,
+      br.性别 as PatientSex,
+      br.出生年月 as PatientBirthday,
+      br.年龄 as PatientAge,
+      br.身份证号 as PatientIDCard,
+      br.社保卡号 as PatientMcard,
+      br.地址 as PatientAddress,
+      br.联系电话 as PatientTel,
+      br.高危 as IsHighRiskInfectivity,
+      gh.挂号系统编号 as xh,
+      gh.急诊还是门诊 as ghlb,
+      gh.挂号时间 as ghsj,
+      gh.挂号科室 as ghks,
+      gh.挂号号 as ghh
+      from NEUHIS.SHGX_门诊病人基本信息 br
+      left join NEUHIS.SHGX_挂号信息 gh on br.病人编号=gh.挂号系统编号
+      where 1=1 {0}
+      order by gh.挂号时间 Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.病人编号 as VALUE,--病人编号
+      br.病人姓名 as NAME,  --病人姓名
+      br.病人姓名 as DISPLAYNAME, --病人姓名
+      br.性别 as PATIENTSEX,   --病人性别
+      br.出生年月 as PatientBirthday, --出生年月
+      br.年龄 as PATIENTAGE,--年龄
+      gh.挂号系统编号 as REGISTERCODE,   --挂号系统编号
+      gh.急诊还是门诊 as OUTPATIENTEMERGENCY,--挂号类型
+      gh.挂号时间 as REGISTERDATETIME, --挂号时间
+      gh.挂号号 as REGISTERNUMBER --挂号序号
+      from NEUHIS.SHGX_门诊病人基本信息 br
+      left join  NEUHIS.SHGX_挂号信息 gh on br.病人编号=gh.挂号系统编号
+      where 1=1 {0}
+      order by gh.挂号时间 Desc
+    </Content>
+    
+    <!--根据工号查询登录人员信息-->
+    <Content Key="GetUserByID" DataBaseType="SqlServer">
+      /*--根据工号查询登录人员信息--*/
+      select name from view_supply_employee where emp_sn=@emp_sn
+    </Content>
+  </Contents>
+</SqlConfig>

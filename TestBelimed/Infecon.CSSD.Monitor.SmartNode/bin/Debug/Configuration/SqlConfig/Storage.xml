@@ -1,0 +1,3363 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="Query_GetStorageCheckDatas" DataBaseType="SqlServer">
+      SELECT CASE WHEN S.STORAGECHECKPOINTID = @STORAGECHECKPOINTID THEN 1 ELSE 0 END AS CHECKED,  S.STORAGECHECKID,CHECKDATE,U.FNames AS OPNAME,COUNT(1) AS QUANTITY
+      FROM STORAGECHECK S WITH (NOLOCK)
+      INNER JOIN STORAGECHECKLIST SL WITH (NOLOCK) ON S.STORAGECHECKID = SL.STORAGECHECKID
+      INNER JOIN AC_WorkGroup U WITH (NOLOCK) ON S.OPID = U.FID
+      WHERE WAREHOUSEID = @WAREHOUSEID AND STATUS = 0 AND (STORAGECHECKPOINTID = @STORAGECHECKPOINTID OR STORAGECHECKPOINTID IS NULL OR STORAGECHECKPOINTID = '00000000-0000-0000-0000-000000000000')
+      GROUP BY CASE WHEN S.STORAGECHECKPOINTID = @STORAGECHECKPOINTID THEN 1 ELSE 0 END ,  S.STORAGECHECKID,CHECKDATE,U.FNames
+    </Content>
+    <Content Key="Query_GetStorageCheckDatas" DataBaseType="Oracle">
+      SELECT CASE WHEN S.STORAGECHECKPOINTID = :STORAGECHECKPOINTID THEN 1 ELSE 0 END AS CHECKED,  S.STORAGECHECKID,CHECKDATE,U.FNames AS OPNAME,COUNT(1) AS QUANTITY
+      FROM STORAGECHECK S
+      INNER JOIN STORAGECHECKLIST SL   ON S.STORAGECHECKID = SL.STORAGECHECKID
+      INNER JOIN AC_WorkGroup U   ON S.OPID = U.FID
+      WHERE WAREHOUSEID = :WAREHOUSEID AND STATUS = 0 AND (STORAGECHECKPOINTID = :STORAGECHECKPOINTID OR STORAGECHECKPOINTID IS NULL OR STORAGECHECKPOINTID = '00000000-0000-0000-0000-000000000000')
+      GROUP BY CASE WHEN S.STORAGECHECKPOINTID = :STORAGECHECKPOINTID THEN 1 ELSE 0 END ,  S.STORAGECHECKID,CHECKDATE,U.FNames
+    </Content>
+
+    <Content Key="Select_BarcodeStorageCheckListBystorageCheckPointID" DataBaseType="SqlServer">
+      SELECT SCPL.STORAGEID,C.CARGOTYPENAME,SCPL.BARCODE,SCPL.QUANTITY,CASE WHEN T.BARCODE IS NULL THEN 0 ELSE SL.QUANTITY END AS CHECKQUANTITY,L.LOCATIONNAME,W.WAREHOUSENAME
+      FROM STORAGECHECKPOINT SCP WITH (NOLOCK)
+      INNER JOIN STORAGECHECKPOINTLIST SCPL WITH (NOLOCK) ON SCP.STORAGECHECKPOINTID = SCPL.STORAGECHECKPOINTID
+      INNER JOIN STORAGELIST SL WITH (NOLOCK) ON SCPL.STORAGEID = SL.STORAGEID
+      INNER JOIN CARGOTYPE C WITH (NOLOCK) ON SL.CARGOTYPEID = C.CARGOTYPEID
+      LEFT JOIN LOCATION L WITH (NOLOCK) ON SL.LOCATIONID = L.LOCATIONID
+      LEFT JOIN WAREHOUSE W WITH (NOLOCK) ON SL.WAREHOUSEID = W.WAREHOUSEID
+      LEFT JOIN (SELECT DISTINCT BARCODE FROM STORAGECHECKLIST WITH (NOLOCK)
+      WHERE STORAGECHECKID IN ({0})
+      ) T  ON SCPL.BARCODE = T.BARCODE
+      WHERE SCP.STORAGECHECKPOINTID = @STORAGECHECKPOINTID
+      UNION
+      SELECT SL.STORAGEID,C.CARGOTYPENAME,SL.BARCODE,0,SL.QUANTITY AS CHECKQUANTITY,L.LOCATIONNAME,W.WAREHOUSENAME
+      FROM STORAGELIST SL WITH (NOLOCK) INNER JOIN CARGOTYPE C WITH (NOLOCK) ON SL.CARGOTYPEID = C.CARGOTYPEID
+      LEFT JOIN LOCATION L WITH (NOLOCK) ON SL.LOCATIONID = L.LOCATIONID
+      LEFT JOIN WAREHOUSE W WITH (NOLOCK) ON SL.WAREHOUSEID = W.WAREHOUSEID
+      INNER JOIN (SELECT DISTINCT BARCODE FROM STORAGECHECKLIST WITH (NOLOCK)
+      WHERE STORAGECHECKID IN ({0}) AND BARCODE NOT IN (SELECT BARCODE FROM STORAGECHECKPOINTLIST WITH (NOLOCK) WHERE STORAGECHECKPOINTID = @STORAGECHECKPOINTID)
+      ) T ON SL.BARCODE = T.BARCODE
+    </Content>
+    <Content Key="Select_BarcodeStorageCheckListBystorageCheckPointID" DataBaseType="Oracle">
+      SELECT SCPL.STORAGEID,C.CARGOTYPENAME,SCPL.BARCODE,SCPL.QUANTITY,CASE WHEN T.BARCODE IS NULL THEN 0 ELSE SL.QUANTITY END AS CHECKQUANTITY,L.LOCATIONNAME,W.WAREHOUSENAME
+      FROM STORAGECHECKPOINT SCP
+      INNER JOIN STORAGECHECKPOINTLIST SCPL  ON SCP.STORAGECHECKPOINTID = SCPL.STORAGECHECKPOINTID
+      INNER JOIN STORAGELIST SL  ON SCPL.STORAGEID = SL.STORAGEID
+      INNER JOIN CARGOTYPE C  ON SL.CARGOTYPEID = C.CARGOTYPEID
+      LEFT JOIN LOCATION L  ON SL.LOCATIONID = L.LOCATIONID
+      LEFT JOIN WAREHOUSE W  ON SL.WAREHOUSEID = W.WAREHOUSEID
+      LEFT JOIN (SELECT DISTINCT BARCODE FROM STORAGECHECKLIST
+      WHERE STORAGECHECKID IN ({0})
+      ) T  ON SCPL.BARCODE = T.BARCODE
+      WHERE SCP.STORAGECHECKPOINTID = :STORAGECHECKPOINTID
+      UNION
+      SELECT SL.STORAGEID,C.CARGOTYPENAME,SL.BARCODE,0,SL.QUANTITY AS CHECKQUANTITY,L.LOCATIONNAME,W.WAREHOUSENAME
+      FROM STORAGELIST SL  INNER JOIN CARGOTYPE C  ON SL.CARGOTYPEID = C.CARGOTYPEID
+      LEFT JOIN LOCATION L  ON SL.LOCATIONID = L.LOCATIONID
+      LEFT JOIN WAREHOUSE W  ON SL.WAREHOUSEID = W.WAREHOUSEID
+      INNER JOIN (SELECT DISTINCT BARCODE FROM STORAGECHECKLIST
+      WHERE STORAGECHECKID IN ({0}) AND BARCODE NOT IN (SELECT BARCODE FROM STORAGECHECKPOINTLIST  WHERE STORAGECHECKPOINTID = :STORAGECHECKPOINTID)
+      ) T ON SL.BARCODE = T.BARCODE
+    </Content>
+
+    <Content Key="Query_StorageCheckPointDocs" DataBaseType="SqlServer">
+      SELECT STORAGECHECKPOINTID,CHECKDATE,UOP.FNames AS OPNAME,W.WAREHOUSENAME,UF.FNames AS FINISHERNAME,FINISHDATE,STATUS,CHECKMODE,STS.TYPENAME AS STATUSNAME,STM.TYPENAME AS CHECKMODENAME,SC.WAREHOUSEID
+      FROM STORAGECHECKPOINT SC
+      INNER JOIN AC_WorkGroup UOP  ON SC.OPID = UOP.FID
+      INNER JOIN WAREHOUSE W  ON SC.WAREHOUSEID = W.WAREHOUSEID
+      LEFT JOIN AC_WorkGroup UF  ON SC.FINISHER = UF.FID
+      INNER JOIN SYSTEMTYPEPARAMETER STS  ON SC.STATUS = STS.TYPEVALUE AND STS.TYPEKEY = 'StorageCheckStatus'
+      INNER JOIN SYSTEMTYPEPARAMETER STM  ON SC.CHECKMODE = STM.TYPEVALUE AND STM.TYPEKEY = 'StorageCheckMode'
+      Where 1=1
+    </Content>
+    <Content Key="Query_StorageCheckPointDocs" DataBaseType="Oracle">
+      SELECT STORAGECHECKPOINTID,CHECKDATE,UOP.FNames AS OPNAME,W.WAREHOUSENAME,UF.FNames AS FINISHERNAME,FINISHDATE,STATUS,CHECKMODE,STS.TYPENAME AS STATUSNAME,STM.TYPENAME AS CHECKMODENAME,SC.WAREHOUSEID
+      FROM STORAGECHECKPOINT SC
+      INNER JOIN AC_WorkGroup UOP  ON SC.OPID = UOP.FID
+      INNER JOIN WAREHOUSE W  ON SC.WAREHOUSEID = W.WAREHOUSEID
+      LEFT JOIN AC_WorkGroup UF  ON SC.FINISHER = UF.FID
+      INNER JOIN SYSTEMTYPEPARAMETER STS  ON SC.STATUS = STS.TYPEVALUE AND STS.TYPEKEY = 'StorageCheckStatus'
+      INNER JOIN SYSTEMTYPEPARAMETER STM  ON SC.CHECKMODE = STM.TYPEVALUE AND STM.TYPEKEY = 'StorageCheckMode'
+      Where 1=1
+    </Content>
+
+    <Content Key="Query_StoragePointDocs" DataBaseType="SqlServer">
+      SELECT SC.STORAGECHECKID,CHECKDATE,UOP.FNames AS OPNAME,W.WAREHOUSENAME,SC.STATUS,STS.TYPENAME AS STATUSNAME,COUNT(1) AS QUANTITY
+      FROM STORAGECHECK SC
+      INNER JOIN AC_WorkGroup UOP  ON SC.OPID = UOP.FID
+      INNER JOIN WAREHOUSE W  ON SC.WAREHOUSEID = W.WAREHOUSEID
+      INNER JOIN SYSTEMTYPEPARAMETER STS  ON SC.STATUS = STS.TYPEVALUE AND STS.TYPEKEY = 'YesOrNo'
+      INNER JOIN  StorageCheckList SL  ON SC.StorageCheckID = SL.StorageCheckID
+      Where 1=1 {0}
+      GROUP BY SC.STORAGECHECKID,CHECKDATE,UOP.FNames,W.WAREHOUSENAME,SC.STATUS,STS.TYPENAME
+    </Content>
+    <Content Key="Query_StoragePointDocs" DataBaseType="Oracle">
+      SELECT SC.STORAGECHECKID,CHECKDATE,UOP.FNames AS OPNAME,W.WAREHOUSENAME,SC.STATUS,STS.TYPENAME AS STATUSNAME,COUNT(1) AS QUANTITY
+      FROM STORAGECHECK SC
+      INNER JOIN AC_WorkGroup UOP  ON SC.OPID = UOP.FID
+      INNER JOIN WAREHOUSE W  ON SC.WAREHOUSEID = W.WAREHOUSEID
+      INNER JOIN SYSTEMTYPEPARAMETER STS  ON SC.STATUS = STS.TYPEVALUE AND STS.TYPEKEY = 'YesOrNo'
+      INNER JOIN  StorageCheckList SL  ON SC.StorageCheckID = SL.StorageCheckID
+      Where 1=1 {0}
+      GROUP BY SC.STORAGECHECKID,CHECKDATE,UOP.FNames,W.WAREHOUSENAME,SC.STATUS,STS.TYPENAME
+    </Content>
+
+    <Content Key="Insert_StorageInList" DataBaseType="SqlServer">
+      insert into StorageList(StorageID, InID,InListID,CargoTopType, CargoTypeID, WarehouseID, Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,Status,LocationID,Model,Specification,MinNumberPerPackage)
+      select InListID as StorageID, InID,InListID,CargoTopType, CargoTypeID, WarehouseID, Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,case CargoTopType when 16 then 30 else 10 end,LocationID,Model,Specification,MinNumberPerPackage
+      from StorageInList  where InID=@InID
+    </Content>
+    <Content Key="Insert_StorageInList" DataBaseType="Oracle">
+      insert into StorageList(StorageID, InID,InListID,CargoTopType, CargoTypeID, WarehouseID, Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,Status,LocationID,Model,Specification,MinNumberPerPackage)
+      select InListID as StorageID, InID,InListID,CargoTopType, CargoTypeID, WarehouseID, Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,case CargoTopType when 16 then 30 else 10 end,LocationID,Model,Specification,MinNumberPerPackage
+      from StorageInList  where InID=:InID
+    </Content>
+
+    <Content Key="Update_StorageIn" DataBaseType="SqlServer">
+      Update StorageIn Set InType=@InType,SupplierID=@SupplierID,WarehouseID=@WarehouseID,Memo=@Memo where InID=@InID
+    </Content>
+    <Content Key="Update_StorageIn" DataBaseType="Oracle">
+      Update StorageIn Set InType=:InType,SupplierID=:SupplierID,WarehouseID=:WarehouseID,Memo=:Memo where InID=:InID
+    </Content>
+
+    <Content Key="Delete_StorageIn" DataBaseType="SqlServer">
+      delete  from StorageIn where InID=@InID
+    </Content>
+    <Content Key="Delete_StorageIn" DataBaseType="Oracle">
+      delete  from StorageIn where InID=:InID
+    </Content>
+
+    <Content Key="Delete_StorageInList" DataBaseType="SqlServer">
+      delete from StorageInList where InID=@InID
+    </Content>
+    <Content Key="Delete_StorageInList" DataBaseType="Oracle">
+      delete from StorageInList where InID=:InID
+    </Content>
+
+    <Content Key="Delete_StorageList" DataBaseType="SqlServer">
+      delete from StorageList where InID=@InID
+    </Content>
+    <Content Key="Delete_StorageList" DataBaseType="Oracle">
+      delete from StorageList where InID=:InID
+    </Content>
+
+    <Content Key="Delete_StorageOutLists" DataBaseType="SqlServer">
+      delete from StorageOutList where OutListID=@OutListID
+    </Content>
+    <Content Key="Delete_StorageOutLists" DataBaseType="Oracle">
+      delete from StorageOutList where OutListID=:OutListID
+    </Content>
+
+    <Content Key="Query_GetStorageList" DataBaseType="SqlServer">
+      select * from StorageList  where StorageID=@StorageID
+    </Content>
+    <Content Key="Query_GetStorageList" DataBaseType="Oracle">
+      select * from StorageList  where StorageID=:StorageID
+    </Content>
+
+    <Content Key="Query_StorageIn" DataBaseType="SqlServer">
+      Select s.TypeName as INTYPENAME, b.name as SUPPLIERNAME ,a.INID
+      , a.INDATE
+      , a.OPID
+      , a.INTYPE
+      , a.SUPPLIERID
+      , a.BARCODE
+      , a.ISSUBMIT
+      , a.WAREHOUSEID
+      , a.MEMO
+      , w.WAREHOUSENAME
+      , w.ORGID
+      , u.FNames NAME
+      , u.FID
+      from StorageIn  a  left join Supplier  b   on a.supplierid=b.supplierid
+      inner join SystemTypeParameter s  on a.Intype = s.TypeValue and s.TypeKey = 'StorageInType'
+      inner join warehouse w  on a.warehouseid = w.warehouseid
+      inner join AC_WorkGroup u  on a.opid = u.FID
+      Where 1=1 and w.isdisabled=0
+    </Content>
+    <Content Key="Query_StorageIn" DataBaseType="Oracle">
+      Select s.TypeName as INTYPENAME, b.name as SUPPLIERNAME ,a.INID
+      , a.INDATE
+      , a.OPID
+      , a.INTYPE
+      , a.SUPPLIERID
+      , a.BARCODE
+      , a.ISSUBMIT
+      , a.WAREHOUSEID
+      , a.MEMO
+      , w.WAREHOUSENAME
+      , w.ORGID
+      , u.FNames NAME
+      , u.FID
+      from StorageIn  a  left join Supplier  b   on a.supplierid=b.supplierid
+      inner join SystemTypeParameter s  on a.Intype = s.TypeValue and s.TypeKey = 'StorageInType'
+      inner join warehouse w  on a.warehouseid = w.warehouseid
+      inner join AC_WorkGroup u  on a.opid = u.FID
+      Where 1=1 and w.isdisabled=0
+    </Content>
+
+    <Content Key="Query_GetStorageInList" DataBaseType="SqlServer">
+      Select ISNULL(b.Name,'') as MANUFACTURERNAME,ISNULL (c.cargotypename,'') as CARGOTYPENAME ,ISNULL(d.warehousename,'') as WAREHOUSENAME,a.INLISTID
+      , a.INID
+      , a.CARGOTOPTYPE
+      , s.TypeName AS CARGOTOPTYPENAME
+      , a.CARGOTYPEID
+      , a.LOCATIONID
+      , a.QUANTITY
+      , a.MANUFACTURERID
+      , a.MAEDATE
+      , a.EXPDATE
+      , a.LOTNUMBER
+      , a.PRICE
+      , a.BARCODE
+      , a.STERILIZEDATE
+      , a.WAREHOUSEID
+      , l.LOCATIONNAME
+
+      , a.InvoiceNum
+      , a.InvoiceDate
+      , a.Specification
+      , a.Quantity * a.Price AS [MONEY]
+      , c.Unit
+      ,b.Name
+      from StorageInList a with (nolock)
+      left join Manufacturer  b with (nolock)  on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c  with (nolock) on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s with (nolock) on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      left join warehouse  d with (nolock)  on a.warehouseid=d.warehouseid
+      left join location l with (nolock) on a.locationid = l.locationid
+
+      LEFT OUTER JOIN StorageIn si WITH(NOLOCK) ON si.InID = a.InID
+      Where 1=1
+    </Content>
+    <Content Key="Query_GetStorageInList" DataBaseType="Oracle">
+      Select nvl(b.Name,'') as MANUFACTURERNAME,nvl (c.cargotypename,'') as CARGOTYPENAME ,nvl(d.warehousename,'') as WAREHOUSENAME,a.INLISTID
+      , a.INID
+      , a.CARGOTOPTYPE
+      , s.TypeName AS CARGOTOPTYPENAME
+      , a.CARGOTYPEID
+      , a.LOCATIONID
+      , a.QUANTITY
+      , a.MANUFACTURERID
+      , a.MAEDATE
+      , a.EXPDATE
+      , a.LOTNUMBER
+      , a.PRICE
+      , a.BARCODE
+      , a.STERILIZEDATE
+      , a.WAREHOUSEID
+      , l.LOCATIONNAME
+
+      , a.InvoiceNum
+      , a.InvoiceDate
+      , a.Specification
+      , (a.Quantity * a.Price) AS MONEY
+      , c.Unit
+      ,b.Name
+      from StorageInList a
+      left join Manufacturer  b   on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c   on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s  on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      left join warehouse  d   on a.warehouseid=d.warehouseid
+      left join location l  on a.locationid = l.locationid
+
+      LEFT OUTER JOIN StorageIn si ON si.InID = a.InID
+      Where 1=1
+    </Content>
+
+    <Content Key="Query_GetStorageInLists" DataBaseType="SqlServer">
+      Select ISNULL(b.Name,'') as ManufacturerName,ISNULL (c.cargotypename,'') as CargoTypeName ,ISNULL(d.warehousename,'') as WarehouseName,a.InListID
+      , a.InID
+      , a.CargoTopType
+      , s.TypeName AS CargoTopTypeName
+      , a.CargoTypeID
+      , a.LocationID
+      , a.Quantity
+      , a.ManufacturerID
+      , a.MAEDate
+      , a.EXPDate
+      , a.LotNumber
+      , a.Price
+      , a.Barcode
+      , a.SterilizeDate
+      , a.WarehouseID
+      , a.MinNumberPerPackage
+      , l.LocationName
+      ,l.LocationID
+
+      , a.InvoiceNum
+      , a.InvoiceDate
+      , a.Specification
+      , a.Quantity * a.Price AS [MONEY]
+      , c.Unit
+      ,b.Name
+      from StorageInList a with (nolock)
+      left join Manufacturer  b with (nolock)  on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c  with (nolock) on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s with (nolock) on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      left join warehouse  d with (nolock)  on a.warehouseid=d.warehouseid
+      left join location l with (nolock) on a.locationid = l.locationid
+
+      LEFT OUTER JOIN StorageIn si WITH(NOLOCK) ON si.InID = a.InID
+      Where 1=1
+    </Content>
+
+    <Content Key="Query_GetStorageInLists" DataBaseType="Oracle">
+      Select ISNULL(b.Name,'') as ManufacturerName,ISNULL (c.cargotypename,'') as CargoTypeName ,ISNULL(d.warehousename,'') as WarehouseName,a.InListID
+      , a.InID
+      , a.CargoTopType
+      , s.TypeName AS CargoTopTypeName
+      , a.CargoTypeID
+      , a.LocationID
+      , a.Quantity
+      , a.ManufacturerID
+      , a.MAEDate
+      , a.EXPDate
+      , a.LotNumber
+      , a.Price
+      , a.Barcode
+      , a.SterilizeDate
+      , a.WarehouseID
+      , a.MinNumberPerPackage
+      , l.LocationName
+      ,l.LocationID
+
+      , a.InvoiceNum
+      , a.InvoiceDate
+      , a.Specification
+      , a.Quantity * a.Price AS MONEY
+      , c.Unit
+      ,b.Name
+      from StorageInList a
+      left join Manufacturer  b   on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c   on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s  on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      left join warehouse  d   on a.warehouseid=d.warehouseid
+      left join location l  on a.locationid = l.locationid
+
+      LEFT OUTER JOIN StorageIn si ON si.InID = a.InID
+      Where 1=1
+    </Content>
+
+    <Content Key="Query_StorageStock" DataBaseType="SqlServer">
+      <![CDATA[
+      select CargoTypeID as CARGOTYPEID,CARGOTYPENAME,STATUSNAME,SUM(STORAGEQUANTITY) as STORAGEQUANTITY,CARGOTYPENAMEPY as PINYIN,SUM(STORAGEQUANTITY) as QUANTITY from
+      (
+      SELECT	SL.STORAGEID,
+      SL.LOCATIONID,
+      SL.WAREHOUSEID,
+      SL.CARGOTOPTYPE,
+      SL.CARGOTYPEID,
+      SCARGOTOPTYPE.TYPENAME AS CARGOTOPTYPENAME,
+      c.CargoTypeName  as CARGOTYPENAME,
+      dbo.fun_getPY(c.CargoTypeName) as CARGOTYPENAMEPY,
+      L.LOCATIONNAME,
+      SL.QUANTITY AS STORAGEQUANTITY,
+      SL.STATUS,
+      SSTATUS.TYPENAME AS STATUSNAME,
+      SL.BARCODE,
+      SL.MAEDATE,
+      SL.EXPDATE,
+      SL.STERILIZEDATE,
+      SL.LOTNUMBER,
+      SL.MANUFACTURERID,
+      SL.PRICE,
+      M.NAME AS MANUFACTURERNAME,
+      IL.SUPPLIERID,
+      S.NAME AS SUPPLIERNAME
+      FROM STORAGELIST SL
+      INNER JOIN SYSTEMTYPEPARAMETER SCARGOTOPTYPE  ON SL.CARGOTOPTYPE = SCARGOTOPTYPE.TYPEVALUE AND SCARGOTOPTYPE.TYPEKEY='CargoTopType'
+      INNER JOIN CARGOTYPE C  ON SL.CARGOTYPEID = C.CARGOTYPEID
+      LEFT JOIN LOCATION L  ON SL.LOCATIONID = L.LOCATIONID
+      INNER JOIN SYSTEMTYPEPARAMETER SSTATUS  ON SL.STATUS = SSTATUS.TYPEVALUE AND SSTATUS.TYPEKEY='StorageStatus'
+      LEFT JOIN MANUFACTURER M  ON SL.MANUFACTURERID = M.MANUFACTURERID
+      LEFT JOIN STORAGEIN IL  ON SL.INID = IL.INID
+      LEFT JOIN SUPPLIER S  ON IL.SUPPLIERID = S.SUPPLIERID
+      WHERE SL.QUANTITY > 0 AND SL.CARGOTOPTYPE <> 16
+      ) A where 1=1 {0}
+      group by CargoTypeID,CARGOTYPENAME,STATUSNAME,CARGOTYPENAMEPY
+      ]]>
+    </Content>
+    <Content Key="Query_StorageStock" DataBaseType="Oracle">
+      <![CDATA[
+      select * from
+      (
+      SELECT	SL.STORAGEID,
+      SL.LOCATIONID,
+      SL.WAREHOUSEID,
+      SL.CARGOTOPTYPE,
+      SL.CARGOTYPEID,
+      SCARGOTOPTYPE.TYPENAME AS CARGOTOPTYPENAME,
+      c.CargoTypeName  as CARGOTYPENAME,
+      fun_getPY(c.CargoTypeName) as CARGOTYPENAMEPY,
+      L.LOCATIONNAME,
+      SL.QUANTITY AS STORAGEQUANTITY,
+      SL.STATUS,
+      SSTATUS.TYPENAME AS STATUSNAME,
+      SL.BARCODE,
+      SL.MAEDATE,
+      SL.EXPDATE,
+      SL.STERILIZEDATE,
+      SL.LOTNUMBER,
+      SL.MANUFACTURERID,
+      SL.PRICE,
+      M.NAME AS MANUFACTURERNAME,
+      IL.SUPPLIERID,
+      S.NAME AS SUPPLIERNAME
+      FROM STORAGELIST SL
+      INNER JOIN SYSTEMTYPEPARAMETER SCARGOTOPTYPE  ON SL.CARGOTOPTYPE = SCARGOTOPTYPE.TYPEVALUE AND SCARGOTOPTYPE.TYPEKEY='CargoTopType'
+      INNER JOIN CARGOTYPE C  ON SL.CARGOTYPEID = C.CARGOTYPEID
+      LEFT JOIN LOCATION L  ON SL.LOCATIONID = L.LOCATIONID
+      INNER JOIN SYSTEMTYPEPARAMETER SSTATUS  ON SL.STATUS = SSTATUS.TYPEVALUE AND SSTATUS.TYPEKEY='StorageStatus'
+      LEFT JOIN MANUFACTURER M  ON SL.MANUFACTURERID = M.MANUFACTURERID
+      LEFT JOIN STORAGEIN IL  ON SL.INID = IL.INID
+      LEFT JOIN SUPPLIER S  ON IL.SUPPLIERID = S.SUPPLIERID
+      WHERE SL.QUANTITY > 0 AND SL.CARGOTOPTYPE <> 16
+      ) where 1=1 {0}
+      ]]>
+    </Content>
+
+    <Content Key="Query_GetStorageByCargoTypeID1" DataBaseType="SqlServer">
+      <![CDATA[
+      Select top 5 s.STORAGEID,s.QUANTITY from StorageList s   inner join warehouse l on s.warehouseid = l.warehouseid where s.CargoTypeID=@CargoTypeID AND s.Status=30 and l.OrgID= @OrgID and l.StorageType & @CargoTopType = @CargoTopType  and l.NoBacteria = @NoBacteria order by quantity desc
+      ]]>
+    </Content>
+    <Content Key="Query_GetStorageByCargoTypeID1" DataBaseType="Oracle">
+      <![CDATA[
+      Select s.StorageID,s.Quantity from StorageList s  inner join warehouse l on s.warehouseid = l.warehouseid where s.CargoTypeID=:CargoTypeID AND s.Status=30 and l.OrgID=:OrgID and bitand(l.StorageType,:CargoTopType)=:CargoTopType  and l.NoBacteria = :NoBacteria and ROWNUM<=5 order by quantity desc
+      ]]>
+    </Content>
+
+    <Content Key="Query_GetStorageByCargoTypeID2" DataBaseType="SqlServer">
+      <![CDATA[
+      Select top 5 s.STORAGEID,s.QUANTITY from StorageList s   inner join warehouse l on s.warehouseid = l.warehouseid where s.CargoTypeID=@CargoTypeID AND s.Status=10 AND EXPDate is not null AND EXPDate>GetDate()  and l.OrgID= @OrgID  and l.StorageType & @CargoTopType = @CargoTopType and l.NoBacteria = @NoBacteria  order by expdate asc
+      ]]>
+    </Content>
+    <Content Key="Query_GetStorageByCargoTypeID2" DataBaseType="Oracle">
+      <![CDATA[
+      Select  s.StorageID,s.Quantity from StorageList s   inner join warehouse l on s.warehouseid = l.warehouseid where s.CargoTypeID=:CargoTypeID AND s.Status=10 AND EXPDate is not null AND EXPDate>sysdate and l.OrgID= :OrgID  and bitand(l.StorageType,:CargoTopType)=:CargoTopType and l.NoBacteria = :NoBacteria and ROWNUM<=5 order by expdate asc
+      ]]>
+    </Content>
+
+    <Content Key="Query_StockQuantityByLocationID" DataBaseType="SqlServer">
+      select sl.cargotypeid as ID,c.cargotypename as CARGOTYPENAME,count(1) as QUANTITY
+      from storagelist sl with (nolock）inner join
+      cargotype c with (nolock)  on sl.cargotypeid = c.cargotypeid
+      where locationid = @locationid   and status = 60  group by sl.cargotypeid,c.cargotypename
+    </Content>
+    <Content Key="Query_StockQuantityByLocationID" DataBaseType="Oracle">
+      select sl.cargotypeid as ID,c.cargotypename as CARGOTYPENAME,count(1) as QUANTITY
+      from storagelist sl  inner join
+      cargotype c    on sl.cargotypeid = c.cargotypeid
+      where locationid = :locationid   and status = 60  group by sl.cargotypeid,c.cargotypename
+    </Content>
+
+    <Content Key="Query_CountStockQuantityByLocationIDAndCargotype" DataBaseType="SqlServer">
+      select count(1) from storagelist where locationid = @locationid   and cargotypeid = @cargotypeid   and status = 60
+    </Content>
+    <Content Key="Query_CountStockQuantityByLocationIDAndCargotype" DataBaseType="Oracle">
+      select count(1) from storagelist where locationid = :locationid   and cargotypeid = :cargotypeid   and status = 60
+    </Content>
+
+    <Content Key="Query_StorageListByBarcode" DataBaseType="SqlServer">
+      select * from storagelist where barcode = @barcode
+    </Content>
+    <Content Key="Query_StorageListByBarcode" DataBaseType="Oracle">
+      select * from storagelist where barcode = :barcode
+    </Content>
+
+    <Content Key="ValidDatedayDetection" DataBaseType="Oracle">
+      <![CDATA[
+        SELECT   1
+        FROM STORAGELIST A   INNER JOIN
+        CARGOTYPE B   ON A.CARGOTYPEID = B.CARGOTYPEID where B.IsValidDate = 1 and EXPDate <= sysdate and rownum=1
+        ]]>
+    </Content>
+    <Content Key="ValidDatedayDetection" DataBaseType="SqlServer">
+      <![CDATA[
+        SELECT  top 1 1
+        FROM STORAGELIST A WITH (NOLOCK) INNER JOIN
+        CARGOTYPE B WITH (NOLOCK) ON A.CARGOTYPEID = B.CARGOTYPEID where B.IsValidDate = 1 and EXPDate <= GetDate()
+        ]]>
+    </Content>
+
+    <Content Key="SafeStorageDetection" DataBaseType="Oracle">
+      <![CDATA[
+      select 1 from 
+      (SELECT  1 FROM CARGOTYPE A   Left JOIN
+                        STORAGELIST B   ON A.CARGOTYPEID = B.CARGOTYPEID
+                        where A.SafeQuantity <> 0
+                        group by a.CargoTypeID,a.SafeQuantity having nvl(SUM(b.Quantity),0) <= a.SafeQuantity 
+      ) where rownum=1
+        ]]>
+    </Content>
+    <Content Key="SafeStorageDetection" DataBaseType="SqlServer">
+      <![CDATA[
+        SELECT top 1 1 FROM CARGOTYPE A WITH (NOLOCK) Left JOIN
+                        STORAGELIST B WITH (NOLOCK) ON A.CARGOTYPEID = B.CARGOTYPEID
+                        where A.SafeQuantity <> 0
+                        group by a.CargoTypeID,a.SafeQuantity having isnull(SUM(b.Quantity),0) <= a.SafeQuantity
+        ]]>
+    </Content>
+
+    <Content Key="AlertExpDetection" DataBaseType="Oracle">
+      <![CDATA[
+        SELECT   1
+        FROM STORAGELIST A   INNER JOIN
+        CARGOTYPE B   ON A.CARGOTYPEID = B.CARGOTYPEID where B.IsValidDate = 1 and EXPDate <= to_date(sysdate) - :alertdays and rownum<2
+        ]]>
+    </Content>
+    <Content Key="AlertExpDetection" DataBaseType="SqlServer">
+      <![CDATA[
+        SELECT  top 1 1
+        FROM STORAGELIST A WITH (NOLOCK) INNER JOIN
+        CARGOTYPE B WITH (NOLOCK) ON A.CARGOTYPEID = B.CARGOTYPEID where B.IsValidDate = 1 and EXPDate <= DATEADD(day,@alertdays ,GETDATE())
+        ]]>
+    </Content>
+
+    <Content Key="Insert_StorageListByValues" DataBaseType="SqlServer">
+      insert into StorageList
+      (StorageID ,InID ,InListID ,CargoTopType ,CargoTypeID,Quantity,Barcode,Status,Price,WarehouseID)
+      values
+      (@StorageID ,@InID ,@InListID ,@CargoTopType ,@CargoTypeID,@Quantity,@Barcode,@Status,@Price,@WarehouseID)
+    </Content>
+    <Content Key="Insert_StorageListByValues" DataBaseType="Oracle">
+      insert into StorageList
+      (StorageID ,InID ,InListID ,CargoTopType ,CargoTypeID,Quantity,Barcode,Status,Price,WarehouseID)
+      values
+      (:StorageID ,:InID ,:InListID ,:CargoTopType ,:CargoTypeID,:Quantity,:Barcode,:Status,:Price,:WarehouseID)
+    </Content>
+
+    <Content Key="Query_SumStorageByWarehouseID" DataBaseType="SqlServer">
+      SELECT   VIEW_STORAGELIST.QUANTITY as Qty,
+      VIEW_STORAGELIST.CARGOTYPEID as CargoTypeid, VIEW_STORAGELIST.CARGOTYPENAME as CargoTypeText,
+      VIEW_STORAGELIST.WarehouseID,VIEW_STORAGELIST.CARGOTOPTYPE as CargoTopTypeid,SystemTypeParameter.TypeName as CargoTopTypeid_Name,CargoTypeKind.KindName as
+      CargoTypeKindid_Name, CargoTypeKind.id as CargoTypeKindid
+      FROM      VIEW_STORAGELIST  left outer join cargotypekind on VIEW_STORAGELIST.cargotypekind=cargotypekind.id
+      left outer join SystemTypeParameter on (SystemTypeParameter.TypeKey='CargoTopType' and VIEW_STORAGELIST.CARGOTOPTYPE=SystemTypeParameter.TypeValue)
+      Where  WarehouseID=@warehouseId
+    </Content>
+    <Content Key="Query_SumStorageByWarehouseID" DataBaseType="Oracle">
+      SELECT   VIEW_STORAGELIST.QUANTITY as Qty,
+      VIEW_STORAGELIST.CARGOTYPEID as CargoTypeid, VIEW_STORAGELIST.CARGOTYPENAME as CargoTypeText,
+      VIEW_STORAGELIST.WarehouseID,VIEW_STORAGELIST.CARGOTOPTYPE as CargoTopTypeid,SystemTypeParameter.TypeName as CargoTopTypeid_Name,CargoTypeKind.KindName as
+      CargoTypeKindid_Name, CargoTypeKind.id as CargoTypeKindid
+      FROM      VIEW_STORAGELIST  left outer join cargotypekind on VIEW_STORAGELIST.cargotypekind=cargotypekind.id
+      left outer join SystemTypeParameter on (SystemTypeParameter.TypeKey='CargoTopType' and VIEW_STORAGELIST.CARGOTOPTYPE=SystemTypeParameter.TypeValue)
+      Where  WarehouseID=:warehouseId
+    </Content>
+
+    <Content Key="Query_StorageListByWarehouseID" DataBaseType="SqlServer">
+      SELECT   VIEW_STORAGELIST.QUANTITY as Qty,
+      VIEW_STORAGELIST.CARGOTYPEID as CargoTypeid, VIEW_STORAGELIST.CARGOTYPENAME as CargoTypeText,
+      VIEW_STORAGELIST.WarehouseID,VIEW_STORAGELIST.CARGOTOPTYPE as CargoTopTypeid,SystemTypeParameter.TypeName as CargoTopTypeid_Name,CargoTypeKind.KindName as
+      CargoTypeKindid_Name, CargoTypeKind.id as CargoTypeKindid
+      FROM      VIEW_STORAGELIST  left outer join cargotypekind on VIEW_STORAGELIST.cargotypekind=cargotypekind.id
+      left outer join SystemTypeParameter on (SystemTypeParameter.TypeKey='CargoTopType' and VIEW_STORAGELIST.CARGOTOPTYPE=SystemTypeParameter.TypeValue)
+      Where  WarehouseID=@warehouseId
+    </Content>
+    <Content Key="Query_StorageListByWarehouseID" DataBaseType="Oracle">
+      SELECT   VIEW_STORAGELIST.QUANTITY as Qty,
+      VIEW_STORAGELIST.CARGOTYPEID as CargoTypeid, VIEW_STORAGELIST.CARGOTYPENAME as CargoTypeText,
+      VIEW_STORAGELIST.WarehouseID,VIEW_STORAGELIST.CARGOTOPTYPE as CargoTopTypeid,SystemTypeParameter.TypeName as CargoTopTypeid_Name,CargoTypeKind.KindName as
+      CargoTypeKindid_Name, CargoTypeKind.id as CargoTypeKindid
+      FROM      VIEW_STORAGELIST  left outer join cargotypekind on VIEW_STORAGELIST.cargotypekind=cargotypekind.id
+      left outer join SystemTypeParameter on (SystemTypeParameter.TypeKey='CargoTopType' and VIEW_STORAGELIST.CARGOTOPTYPE=SystemTypeParameter.TypeValue)
+      Where  WarehouseID=:warehouseId
+    </Content>
+
+    <Content Key="Query_StorageListQuantityMoreThanZero" DataBaseType="SqlServer">
+      SELECT
+      STORAGEID
+      , INID
+      , INLISTID
+      , CARGOTOPTYPE
+      , CARGOTOPTYPENAME
+      , CARGOTYPEID
+      , LOCATIONID
+      , QUANTITY
+      , a.MODIFIER
+      , a.MODIFYTIME
+      , STATUS
+      , BARCODE
+      , MANUFACTURERID
+      , MAEDATE
+      , EXPDATE
+      , LOTNUMBER
+      , PRICE
+      , AFTERMAINTAINUSETIMES
+      , STERILIZEDATE
+      , a.WAREHOUSEID
+      , USETIMES
+      , LASTMAINTAINDATE
+      , CARGOTYPENAME
+      , WAREHOUSENAME
+      , LOCATIONNAME
+      , STATUSNAME
+      ,NAME
+      ,MODEL
+      ,SPECIFICATION
+      ,MINNUMBERPERPACKAGE
+      from view_StorageList a
+      Where a.Quantity>=1  {0}  Order by a.EXPDate
+    </Content>
+    <Content Key="Query_StorageListQuantityMoreThanZero" DataBaseType="Oracle">
+      SELECT
+      STORAGEID
+      , INID
+      , INLISTID
+      , CARGOTOPTYPE
+      , CARGOTOPTYPENAME
+      , CARGOTYPEID
+      , LOCATIONID
+      , QUANTITY
+      , a.MODIFIER
+      , a.MODIFYTIME
+      , STATUS
+      , BARCODE
+      , MANUFACTURERID
+      , MAEDATE
+      , EXPDATE
+      , LOTNUMBER
+      , PRICE
+      , AFTERMAINTAINUSETIMES
+      , STERILIZEDATE
+      , a.WAREHOUSEID
+      , USETIMES
+      , LASTMAINTAINDATE
+      , CARGOTYPENAME
+      , WAREHOUSENAME
+      , LOCATIONNAME
+      , STATUSNAME
+      ,NAME
+      ,MODEL
+      ,SPECIFICATION
+      ,MINNUMBERPERPACKAGE
+      from view_StorageList a
+      Where a.Quantity>0  {0}  Order by a.EXPDate
+    </Content>
+
+
+    <Content Key="Query_StorageListWarhouseLocationInfoByStorageListBarcode" DataBaseType="SqlServer">
+      select StorageList.BARCODE  as STORAGELISTBARCODE --编码
+      ,StorageList.AFTERMAINTAINUSETIMES  --使用次数
+      ,StorageList.WAREHOUSEID  --仓库
+      ,Warehouse.WAREHOUSENAME  --仓库
+      ,Location.LOCATIONNAME --库位
+      ,StorageList.LOCATIONID   --库位
+      ,StorageList.STATUS		  --状态
+      ,SystemTypeParameter.TYPENAME--状态名称
+      ,CargoType.CARGOTYPENAME   --产品
+      ,CargoType.CARGOIMAGE
+      ,CargoType.CargoTypeID
+      ,CargoType.AMOUNT
+      ,CargoType.NEEDMAINTAINTIMES
+      ,Manufacturer.Name as MANUFACTURERNAME
+      from	StorageList   left join CargoType   on StorageList.CargoTypeID =CargoType.CargoTypeID
+      left join Warehouse   on Warehouse.WarehouseID =StorageList.WarehouseID
+      left join Location   on Location.LocationID =StorageList.LocationID
+      left join SystemTypeParameter   on SystemTypeParameter.TypeValue=StorageList.Status
+      left join Manufacturer on CargoType.ManufacturerID = Manufacturer.ManufacturerID
+      where StorageList.Barcode =@storageListBarcode
+    </Content>
+    <Content Key="Query_StorageListWarhouseLocationInfoByStorageListBarcode" DataBaseType="Oracle">
+      select StorageList.BARCODE  as STORAGELISTBARCODE --编码
+      ,StorageList.AFTERMAINTAINUSETIMES  --使用次数
+      ,StorageList.WAREHOUSEID  --仓库
+      ,Warehouse.WAREHOUSENAME  --仓库
+      ,Location.LOCATIONNAME --库位
+      ,StorageList.LOCATIONID   --库位
+      ,StorageList.STATUS		  --状态
+      ,SystemTypeParameter.TYPENAME--状态名称
+      ,CargoType.CARGOTYPENAME   --产品
+      ,CargoType.CARGOIMAGE
+      ,CargoType.CargoTypeID
+      ,CargoType.AMOUNT
+      ,CargoType.NEEDMAINTAINTIMES
+      ,Manufacturer.Name as MANUFACTURERNAME
+      from	StorageList   left join CargoType   on StorageList.CargoTypeID =CargoType.CargoTypeID
+      left join Warehouse   on Warehouse.WarehouseID =StorageList.WarehouseID
+      left join Location   on Location.LocationID =StorageList.LocationID
+      left join SystemTypeParameter   on SystemTypeParameter.TypeValue=StorageList.Status
+      left join Manufacturer on CargoType.ManufacturerID = Manufacturer.ManufacturerID
+      where StorageList.Barcode =:storageListBarcode
+    </Content>
+
+    <Content Key="Query_StorageListPackageDetailProvideDeviceInfoByStorageListBarcode" DataBaseType="SqlServer">
+      select FlowPackageList.CheckID as CHECKEID  --审核人
+      ,AC_WorkGroup.FNames AS FLOWPACKAGELISTCHECKNAME
+      ,FlowPackageList.CheckDate AS CHECKDATE --审核日期
+      ,FlowPackageList.UserID AS FLOWPACKAGELISTUSERID --使用人
+      ,AWUSER.FNames AS FLOWPACKAGELISTUSERNAME
+      ,FlowPackage.OPID AS FLOWPACKAGELISTOPID  --配包人
+      ,AWPACKAGER.FNames AS FLOWPACKAGELISTOPIDNAME
+      ,FlowPackage.PackageDate AS PACKAGEDATE --配包日期
+      ,FlowPackageList.ValidDate AS VALIDDATE --可用效期
+      ,AC_Org.Name as FLOWPROVIDEPORGNAME --领用科室
+      ,DevicesUseLog.BeginDate as BEGINDATE --灭菌日期
+      ,psl.Barcode as STORAGEBARCODE
+      ,CargoType.CargoTypeName as CARGOTYPENAME
+      ,FlowPackageList.UseDate as USEDATE --使用日期
+      ,psl.EXPDate as EXPDATE -- 失效日期
+      ,PatientList.PATIENTNAME
+      ,isnull(PatientList.Isaffected,0) as ISAFFECTED
+      from FlowPackageDetailList with (nolock) inner join FlowPackageList with (nolock) on FlowPackageDetailList.PackageID = FlowPackageList.PackageID
+      inner join StorageList on FlowPackageDetailList.StorageID = StorageList.StorageID
+      inner join StorageList psl with (nolock) on FlowPackageList.StorageID = psl.StorageID
+      LEFT join AC_WorkGroup with (nolock) ON FlowPackageList.CheckID = AC_WorkGroup.FID
+      LEFT join AC_WorkGroup AWUSER with (nolock) ON FlowPackageList.UserID = AWUSER.FID
+      inner join FlowPackage with (nolock) on FlowPackageList.FPackageID = FlowPackage.FPackageID
+      left join AC_WorkGroup AWPACKAGER with (nolock) ON FlowPackage.OPID = AWPACKAGER.FID
+      left join FlowProvideList with (nolock) on FlowPackageList.PackageID = FlowProvideList.PackageID
+      left join FlowProvide with (nolock) on FlowProvideList.ProvideID = FlowProvide.ProvideID
+      left join AC_Org with (nolock) on FlowProvide.OrgID = AC_Org.ID
+      left join FlowSterilizationList with (nolock) on FlowPackageList.PackageID = FlowSterilizationList.PackageID
+      left join DevicesUseLog with (nolock) on FlowSterilizationList.SterilizationLogID = DevicesUseLog.LogID
+      left join PatientList with (nolock) on FlowPackageList.PatientID = PatientList.PatientID
+      inner join CargoType with (nolock) on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+      where StorageList.Barcode  = @storageListBarcode
+      order by UseDate desc
+    </Content>
+    <Content Key="Query_StorageListPackageDetailProvideDeviceInfoByStorageListBarcode" DataBaseType="Oracle">
+      select FlowPackageList.CheckID as CHECKEID  --审核人
+      ,AC_WorkGroup.FNames AS FLOWPACKAGELISTCHECKNAME
+      ,FlowPackageList.CheckDate AS CHECKDATE --审核日期
+      ,FlowPackageList.UserID AS FLOWPACKAGELISTUSERID --使用人
+      ,AWUSER.FNames AS FLOWPACKAGELISTUSERNAME
+      ,FlowPackage.OPID AS FLOWPACKAGELISTOPID  --配包人
+      ,AWPACKAGER.FNames AS FLOWPACKAGELISTOPIDNAME
+      ,FlowPackage.PackageDate AS PACKAGEDATE --配包日期
+      ,FlowPackageList.ValidDate AS VALIDDATE --可用效期
+      ,AC_Org.Name as FLOWPROVIDEPORGNAME --领用科室
+      ,DevicesUseLog.BeginDate as BEGINDATE --灭菌日期
+      ,psl.Barcode as STORAGEBARCODE
+      ,CargoType.CargoTypeName as CARGOTYPENAME
+      ,FlowPackageList.UseDate as USEDATE --使用日期
+      ,psl.EXPDate as EXPDATE -- 失效日期
+      ,PatientList.PATIENTNAME
+      ,nvl(PatientList.Isaffected,0) as ISAFFECTED
+      from FlowPackageDetailList	inner join FlowPackageList on FlowPackageDetailList.PackageID = FlowPackageList.PackageID
+      inner join StorageList on FlowPackageDetailList.StorageID = StorageList.StorageID
+      inner join StorageList psl on FlowPackageList.StorageID = psl.StorageID
+      LEFT join AC_WorkGroup ON FlowPackageList.CheckID = AC_WorkGroup.FID
+      LEFT join AC_WorkGroup AWUSER ON FlowPackageList.UserID = AWUSER.FID
+      inner join FlowPackage on FlowPackageList.FPackageID = FlowPackage.FPackageID
+      left join AC_WorkGroup AWPACKAGER ON FlowPackage.OPID = AWPACKAGER.FID
+      left join FlowProvideList on FlowPackageList.PackageID = FlowProvideList.PackageID
+      left join FlowProvide on FlowProvideList.ProvideID = FlowProvide.ProvideID
+      left join AC_Org on FlowProvide.OrgID = AC_Org.ID
+      left join FlowSterilizationList on FlowPackageList.PackageID = FlowSterilizationList.PackageID
+      left join DevicesUseLog on FlowSterilizationList.SterilizationLogID = DevicesUseLog.LogID
+      inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+      left join PatientList on FlowPackageList.PatientID = PatientList.PatientID
+      where StorageList.Barcode  = :storageListBarcode
+      order by UseDate desc
+    </Content>
+
+
+    <Content Key="Query_SingleOneMaterialByCargoTypeIDAndWarehouseID" DataBaseType="SqlServer">
+      SELECT ISNULL(SUM(Quantity),0) as QUANTITY FROM StorageList WHERE CargoTopType=2 AND CargoTypeID=@cargotypeid AND WarehouseID=@warehouseid
+    </Content>
+    <Content Key="Query_SingleOneMaterialByCargoTypeIDAndWarehouseID" DataBaseType="Oracle">
+      SELECT nvl(SUM(Quantity),0) as QUANTITY FROM StorageList WHERE CargoTopType=2 AND CargoTypeID=:cargotypeid AND WarehouseID=:warehouseid
+    </Content>
+
+    <Content Key="Query_GetStorageIDByCargoTypeIDAndWarehouseID" DataBaseType="SqlServer">
+      SELECT StorageID FROM StorageList WHERE CargoTopType=2 AND CargoTypeID=@cargotypeid AND WarehouseID=@warehouseid
+    </Content>
+    <Content Key="Query_GetStorageIDByCargoTypeIDAndWarehouseID" DataBaseType="Oracle">
+      SELECT StorageID FROM StorageList WHERE CargoTopType=2 AND CargoTypeID=:cargotypeid AND WarehouseID=:warehouseid
+    </Content>
+
+    <Content Key="Query_GetYiFaNum" DataBaseType="SqlServer">
+      SELECT ISNULL(SUM(SL.Quantity),0) QUANTITY FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SL.OutID=SO.OutID
+      WHERE SO.OutType=6 AND SL.CargoTopType=2 AND SL.CargoTypeID= @CargoTypeID  AND SO.OutDate>=@OutDate
+    </Content>
+    <Content Key="Query_GetYiFaNum" DataBaseType="Oracle">
+      SELECT nvl(SUM(SL.Quantity),0) QUANTITY FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SL.OutID=SO.OutID
+      WHERE SO.OutType=6 AND SL.CargoTopType=2 AND SL.CargoTypeID= :CargoTypeID  AND SO.OutDate>=:OutDate
+    </Content>
+
+    <Content Key="Query_GetStorageOutListStorageListByOutListID" DataBaseType="SqlServer">
+      <![CDATA[
+       select * from StorageOutListStorageList  where OutListID=@OutListID
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutListStorageListByOutListID" DataBaseType="Oracle">
+      <![CDATA[
+    select * from StorageOutListStorageList  where OutListID=:OutListID
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutListPreOrderDetailByPreorderDetailID" DataBaseType="SqlServer">
+      <![CDATA[
+       select * from StorageOutListPreOrderDetail  where preorderdetailid=@preorderdetailid
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutListPreOrderDetailByPreorderDetailID" DataBaseType="Oracle">
+      <![CDATA[
+	 select * from StorageOutListPreOrderDetail  where preorderdetailid=@preorderdetailid
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutListPreOrderDetailByOutListID" DataBaseType="SqlServer">
+      <![CDATA[
+       select * from StorageOutListPreOrderDetail  where OutListID=@OutListID
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutListPreOrderDetailByOutListID" DataBaseType="Oracle">
+      <![CDATA[
+	 select * from StorageOutListPreOrderDetail  where OutListID=@OutListID
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutByOrgID" DataBaseType="SqlServer">
+      <![CDATA[
+      SELECT CT.CargoTypeID,CT.CargoTypeKindText,CT.CargoTypeText,SUM(FD.PreOrderQty) AS PreOrderQty
+      ,(SELECT ISNULL(SUM(SL.Quantity),0) FROM StorageList SL WHERE CT.CargoTypeID = SL.CargoTypeID) AS StockQty,CT.MinUnit
+      FROM FlowPreOrder FP 
+      INNER JOIN FlowPreOrderDetail FD ON FP.PreOrderID=FD.PreOrderID
+      INNER JOIN view_CargoType CT ON FD.CargoTypeID=CT.CargoTypeID
+      
+      WHERE CT.CargoTopType=2 AND FP.CheckStatus in (1,4) AND FP.OrgID=@OrgID
+      AND FP.RequiredDate >=@RequiredDateStart AND FP.RequiredDate <@RequiredDateEnd 
+      GROUP BY CT.CargoTypeID,CT.CargoTypeKindText,CT.CargoTypeText,CT.MinUnit
+
+         ]]>
+    </Content>
+    <Content Key="Query_GetStorageOutByOrgID" DataBaseType="Oracle">
+      <![CDATA[
+     SELECT CT.CargoTypeID,CT.CargoTypeKindText,CT.CargoTypeText,SUM(FD.PreOrderQty) AS PreOrderQty
+      ,(SELECT nvl(SUM(SL.Quantity),0) FROM StorageList SL WHERE CT.CargoTypeID = SL.CargoTypeID) AS StockQty,CT.MinUnit
+      FROM FlowPreOrder FP 
+      INNER JOIN FlowPreOrderDetail FD ON FP.PreOrderID=FD.PreOrderID
+      INNER JOIN view_CargoType CT ON FD.CargoTypeID=CT.CargoTypeID
+      
+      WHERE CT.CargoTopType=2 AND FP.CheckStatus in (1,4) AND FP.OrgID=:OrgID
+      AND FP.RequiredDate >= :RequiredDateStart AND FP.RequiredDate < :RequiredDateEnd 
+      GROUP BY CT.CargoTypeID,CT.CargoTypeKindText,CT.CargoTypeText,CT.MinUnit
+         ]]>
+    </Content>
+
+
+    <Content Key="Query_StorageOutOutTypeSixInfoByOutID" DataBaseType="SqlServer">
+      SELECT SO.OutID,SO.OutDate OUTDATE,SL.Quantity QUANTITY,CT.CargoTypeText CARGOTYPETEXT,CT.MinUnit
+      FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SL.OutID=SO.OutID
+      INNER JOIN view_CargoType CT ON CT.CargoTypeID=SL.CargoTypeID
+      WHERE SO.OutType=6  AND SO.OutID=@OutID
+    </Content>
+    <Content Key="Query_StorageOutOutTypeSixInfoByOutID" DataBaseType="Oracle">
+      SELECT SO.OutID,SO.OutDate OUTDATE,SL.Quantity QUANTITY,CT.CargoTypeText CARGOTYPETEXT,CT.MinUnit
+      FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SL.OutID=SO.OutID
+      INNER JOIN view_CargoType CT ON CT.CargoTypeID=SL.CargoTypeID
+      WHERE SO.OutType=6  AND SO.OutID=:OutID
+    </Content>
+
+    <Content Key="Query_GetStorageOutDocs" DataBaseType="SqlServer">
+      Select s.TypeName as OUTTYPENAME, ISNULL(b.name,ORG.NAME) as SUPPLIERNAME ,a.OUTID
+      , a.OUTDATE
+      , a.OPID
+      , a.OUTTYPE
+      , a.ORGID
+      , a.BARCODE
+      , a.ISSUBMIT
+      , a.WAREHOUSEID
+      , a.MEMO
+      , w.WAREHOUSENAME
+      , u.FNames NAME
+      , u.FID
+      /*--添加--*/
+      , au.ID
+      from StorageOut  a  with (nolock) left join Supplier  b  with (nolock) on a.OrgID=b.supplierid
+      inner join SystemTypeParameter s with (nolock) on a.Outtype = s.TypeValue and s.TypeKey = 'StorageOutType'
+      inner join warehouse w with (nolock) on a.warehouseid = w.warehouseid
+      inner join AC_WorkGroup u with (nolock) on a.opid = u.FID
+      LEFT JOIN Ac_org ORG WITH (NOLOCK) ON A.ORGID = ORG.ID
+      /*--添加----*/
+      left join ac_user au on u.Fid=au.ID
+      /*----------*/
+      Where 1=1 and w.isdisabled=0
+    </Content>
+    <Content Key="Query_GetStorageOutDocs" DataBaseType="Oracle">
+      Select s.TypeName as OUTTYPENAME, nvl(b.name,ORG.NAME) as SUPPLIERNAME ,a.OUTID
+      , a.OUTDATE
+      , a.OPID
+      , a.OUTTYPE
+      , a.ORGID
+      , a.BARCODE
+      , a.ISSUBMIT
+      , a.WAREHOUSEID
+      , a.MEMO
+      , w.WAREHOUSENAME
+      , u.FNames NAME
+      , u.FID
+      , au.ID
+      from StorageOut  a  left join Supplier  b    on a.OrgID=b.supplierid
+      inner join SystemTypeParameter s  on a.Outtype = s.TypeValue and s.TypeKey = 'StorageOutType'
+      inner join warehouse w  on a.warehouseid = w.warehouseid
+      inner join AC_WorkGroup u  on a.opid = u.FID
+      LEFT JOIN Ac_org ORG   ON A.ORGID = ORG.ID
+      /*----添加----*/
+      left join ac_user au on u.Fid=au.ID
+      /*------------*/
+      Where 1=1 and w.isdisabled=0
+    </Content>
+
+    <Content Key="Query_SubmitStorageOutList" DataBaseType="SqlServer">
+      DECLARE @StorageID varchar(50)
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      SELECT StorageID,Quantity FROM dbo.StorageOutList where OutID=@OutID
+
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      BEGIN
+      update StorageList set Quantity = Quantity-@Quantity where StorageID=@StorageID
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+    </Content>
+
+    <Content Key="Query_SubmitStorageOutList" DataBaseType="Oracle">
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageOutList where OutID=:OutID;
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+    </Content>
+
+    <Content Key="Query_SubmitStorageOutLists" DataBaseType="SqlServer">
+      DECLARE @StorageID varchar(50)
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      SELECT StorageID,Quantity FROM dbo.StorageOutList where OutID=@OutID AND StorageID=@StorageIDs
+
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      BEGIN
+      update StorageList set Quantity = @Quantitys-@Quantity where StorageID=@StorageID
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+    </Content>
+
+    <Content Key="Query_SubmitStorageOutLists" DataBaseType="Oracle">
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageOutList where OutID=:OutID AND StorageID=:StorageIDs;
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+      update StorageList set Quantity = :Quantitys-vQuantity where StorageID=vStorageID;
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+    </Content>
+
+    <Content Key="Query_SubmitStorageOutListWithNewWarhouse" DataBaseType="SqlServer">
+      DECLARE @StorageID varchar(50)
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      SELECT StorageID,Quantity FROM dbo.StorageOutList where OutID=@OutID
+
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      BEGIN
+      insert into dbo.StorageList(StorageID, InID,InListID,CargoTopType, CargoTypeID, WarehouseID, Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,Status,LocationID)
+      select newid(), InID,InListID,CargoTopType, CargoTypeID, @WarehouseID, @Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,Status,null
+      from dbo.StorageList with (nolock)
+      where StorageID=@StorageID
+
+      update StorageList set Quantity = Quantity-@Quantity where StorageID=@StorageID
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+    </Content>
+    <Content Key="Query_SubmitStorageOutListWithNewWarhouse" DataBaseType="Oracle">
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageOutList where OutID=:OutID;
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+      insert into StorageList(StorageID, InID,InListID,CargoTopType, CargoTypeID, WarehouseID, Quantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,Status,LocationID)
+      select fun_newguid, InID,InListID,CargoTopType, CargoTypeID, :WarehouseID, vQuantity,ManufacturerID, MAEDate, EXPDate,SterilizeDate,LotNumber, Price, Barcode,Status,null
+      from  StorageList
+      where StorageID=vStorageID;
+
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+    </Content>
+
+    <Content Key="Query_StorageOut" DataBaseType="SqlServer">
+      SELECT SO.OutID,SO.OutDate OUTDATE,AU.FNames AUNAME,case when RECIPIENT = '' then ac.FNames else  RECIPIENT end as RECIPIENT,RECIPIENTID,AO.Name AONAME,SO.CARDNO
+      FROM StorageOut SO
+      INNER JOIN AC_Org AO ON AO.ID=SO.OrgID
+      INNER JOIN AC_WorkGroup AU ON AU.FID=SO.OPID
+      /*----*/
+      left join AC_OrgUser aou on AU.FID=aou.UserID
+      /*----*/
+      left join AC_WorkGroup ac on ac.FID = SO.RecipientID
+      WHERE SO.OutType=6
+    </Content>
+
+    <Content Key="Query_StorageOut" DataBaseType="Oracle">
+      SELECT SO.OutID,SO.OutDate OUTDATE,AU.FNames AUNAME,case when RECIPIENT = '' then ac.FNames else  RECIPIENT end as RECIPIENT,RECIPIENTID,AO.Name AONAME,SO.CARDNO
+      FROM StorageOut SO
+      INNER JOIN AC_Org AO ON AO.ID=SO.OrgID
+      INNER JOIN AC_WorkGroup AU ON AU.FID=SO.OPID
+      /*----*/
+      left join AC_OrgUser aou on AU.FID=aou.UserID
+      /*----*/
+      left join AC_WorkGroup ac on ac.FID = SO.RecipientID
+      WHERE SO.OutType=6
+    </Content>
+
+    <Content Key="Query_StoragePrintInfo" DataBaseType="Oracle">
+      SELECT nvl(fun_get_Date(SO.OutDate,'Daily'),'') StrProvideDate,
+      CT.CargoTypeText CargoTypeName,AO.Name,SL.Quantity ,SO.BarCode
+      ,CT.AMOUNT,(CT.AMOUNT*SL.Quantity) GroupPrice,CT.Specification,
+      W.WarehouseName,A.Name as OPIDName,A.NAME OPNAME,fun_get_Date(S.EXPDate,'Daily') EXPDate
+      ,S.LOTNUMBER
+      ,SO.Recipient as RECIPIENT
+      ,to_char(S.SterilizeDate,'YYYY-MM-DD') as STERILIZEDATE
+      ,m.Name as MANUFACTURERNAME
+      ,CT.Unit
+      FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SO.OutID=SL.OutID
+      INNER JOIN StorageList S ON S.StorageID=SL.StorageID
+      INNER JOIN Warehouse W ON W.WarehouseID=SO.WarehouseID
+      INNER JOIN AC_User A ON A.ID=SO.OPID
+      INNER JOIN view_CargoType CT ON CT.CargoTypeID=SL.CargoTypeID
+      INNER JOIN AC_Org AO ON AO.ID=SO.OrgID
+      left join Manufacturer m on S.ManufacturerID=m.ManufacturerID
+      WHERE SO.OutID IN ({0})
+    </Content>
+
+    <Content Key="Query_StoragePrintInfo" DataBaseType="SqlServer">
+      SELECT ISNULL(CONVERT(varchar(10),SO.OutDate,120),'') StrProvideDate,
+      CT.CargoTypeText CargoTypeName,AO.Name,SL.Quantity ,SO.BarCode
+      ,CT.AMOUNT,(CT.AMOUNT*SL.Quantity) GroupPrice,CT.Specification,
+      W.WarehouseName,A.Name as OPIDName,A.NAME OPNAME,CONVERT(varchar(10),S.EXPDate,120) EXPDate
+      ,S.LOTNUMBER
+      ,SO.Recipient as RECIPIENT
+      ,Convert(varchar(10),s.SterilizeDate,120) as STERILIZEDATE
+      ,m.Name as MANUFACTURERNAME
+      ,CT.Unit
+      FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SO.OutID=SL.OutID
+      INNER JOIN StorageList S ON S.StorageID=SL.StorageID
+      INNER JOIN Warehouse W ON W.WarehouseID=SO.WarehouseID
+      INNER JOIN AC_User A ON A.ID=SO.OPID
+      INNER JOIN view_CargoType CT ON CT.CargoTypeID=SL.CargoTypeID
+      INNER JOIN AC_Org AO ON AO.ID=SO.OrgID
+      left join Manufacturer m on S.ManufacturerID=m.ManufacturerID
+      WHERE SO.OutID IN ({0})
+    </Content>
+
+    <Content Key="Query_ProvideMaterialPrintInfoWithLOTNUMBER" DataBaseType="Oracle">
+      SELECT nvl(fun_get_Date(SO.OutDate,'Daily'),'') StrProvideDate,
+      CT.CargoTypeText CargoTypeName,CT.Specification,AO.Name,SOLSL.Quantity ,SO.BarCode
+      ,CT.AMOUNT,(CT.AMOUNT*SOLSL.Quantity) GroupPrice,CT.Specification,
+      W.WarehouseName,A.Name as OPIDName,A.NAME OPNAME,to_char(S.EXPDate,'yyyy-mm-dd') EXPDate,to_char(S.SterilizeDate,'yyyy-mm-dd') SterilizeDate
+      ,S.LOTNUMBER,ct.Unit,si.BarCode StorageInBarCode
+      FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SO.OutID=SL.OutID
+      Left join  StorageOutListStorageList SOLSL ON SOLSL.OutListID=SL.OutListID
+      INNER JOIN StorageList S ON S.StorageID=SOLSL.StorageID
+      INNER JOIN Warehouse W ON W.WarehouseID=SO.WarehouseID
+      INNER JOIN AC_User A ON A.ID=SO.OPID
+      INNER JOIN view_CargoType CT ON CT.CargoTypeID=SL.CargoTypeID
+      INNER JOIN AC_Org AO ON AO.ID=SO.OrgID
+      LEFT OUTER JOIN StorageIn si ON si.InID = s.InID
+      WHERE SO.OutID IN ({0})
+    </Content>
+    <Content Key="Query_ProvideMaterialPrintInfoWithLOTNUMBER" DataBaseType="SqlServer">
+      SELECT ISNULL(CONVERT(varchar(10),SO.OutDate,120),'') StrProvideDate,
+      CT.CargoTypeText CargoTypeName,CT.Specification,AO.Name,SOLSL.Quantity ,SO.BarCode
+      ,CT.AMOUNT,(CT.AMOUNT*SOLSL.Quantity) GroupPrice,CT.Specification,
+      W.WarehouseName,A.Name as OPIDName,A.NAME OPNAME,CONVERT(varchar(10),S.EXPDate,120) EXPDate,CONVERT(varchar(10),S.SterilizeDate,120) SterilizeDate
+      ,S.LOTNUMBER,ct.Unit,si.BarCode StorageInBarCode
+      FROM StorageOut SO
+      INNER JOIN StorageOutList SL ON SO.OutID=SL.OutID
+      Left join  StorageOutListStorageList SOLSL ON SOLSL.OutListID=SL.OutListID
+      INNER JOIN StorageList S ON S.StorageID=SOLSL.StorageID
+      INNER JOIN Warehouse W ON W.WarehouseID=SO.WarehouseID
+      INNER JOIN AC_User A ON A.ID=SO.OPID
+      INNER JOIN view_CargoType CT ON CT.CargoTypeID=SL.CargoTypeID
+      INNER JOIN AC_Org AO ON AO.ID=SO.OrgID
+      LEFT OUTER JOIN StorageIn si ON si.InID = s.InID
+      WHERE SO.OutID IN ({0})
+    </Content>
+
+    <Content Key="Query_GetStorageOutList" DataBaseType="SqlServer">
+      Select ISNULL(b.Name,'') as MANUFACTURERNAME,ISNULL (c.cargotypename,'') as CARGOTYPENAME ,ISNULL(d.warehousename,'') as WAREHOUSENAME,a.INLISTID
+      , a.INID
+      , a.CARGOTOPTYPE
+      , s.TypeName AS CARGOTOPTYPENAME
+      , a.CARGOTYPEID
+      , a.LOCATIONID
+      , so.QUANTITY
+      , a.MANUFACTURERID
+      , a.MAEDATE
+      , a.EXPDATE
+      , a.LOTNUMBER
+      , a.PRICE
+      , a.BARCODE
+      , a.STERILIZEDATE
+      , a.WAREHOUSEID
+      , l.LOCATIONNAME
+
+      , a.Specification
+      , so.Quantity * a.Price AS [MONEY]
+      , c.Unit
+      from StorageOutList so with (nolock)
+      inner join StorageList a with (nolock) on so.StorageID = a.StorageID
+      left join Manufacturer  b with (nolock)  on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c  with (nolock) on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s with (nolock) on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      inner join warehouse  d with (nolock)  on a.warehouseid=d.warehouseid
+      left join location l with (nolock) on a.locationid = l.locationid Where 1=1
+    </Content>
+
+    <Content Key="Query_GetStorageOutList" DataBaseType="Oracle">
+      Select nvl(b.Name,'') as MANUFACTURERNAME,nvl (c.cargotypename,'') as CARGOTYPENAME ,nvl(d.warehousename,'') as WAREHOUSENAME,a.INLISTID
+      , a.INID
+      , a.CARGOTOPTYPE
+      , s.TypeName AS CARGOTOPTYPENAME
+      , a.CARGOTYPEID
+      , a.LOCATIONID
+      , so.QUANTITY
+      , a.MANUFACTURERID
+      , a.MAEDATE
+      , a.EXPDATE
+      , a.LOTNUMBER
+      , a.PRICE
+      , a.BARCODE
+      , a.STERILIZEDATE
+      , a.WAREHOUSEID
+      , l.LOCATIONNAME
+
+      , a.Specification
+      , (so.Quantity * a.Price) AS MONEY
+      , c.Unit
+      from StorageOutList so
+      inner join StorageList a on so.StorageID = a.StorageID
+      left join Manufacturer  b  on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c  on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      inner join warehouse  d  on a.warehouseid=d.warehouseid
+      left join location l on a.locationid = l.locationid Where 1=1
+    </Content>
+
+    <Content Key="Query_GetStorageOutLists" DataBaseType="SqlServer">
+      Select ISNULL(b.Name,'') as ManufacturerName,ISNULL (c.cargotypename,'') as CargoTypeName ,ISNULL(d.warehousename,'') as WarehouseName,a.InListID
+      , a.InID
+      , a.CargoTopType
+      , s.TypeName AS CargoTopTypeName
+      , a.CargoTypeID
+      , a.LocationID
+      , a.Quantity AS StorageQuantity
+      , so.OutListID
+      , so.Quantity
+      , so.StorageID
+      , a.ManufacturerID
+      , a.MAEDate
+      , a.EXPDate
+      , a.LotNumber
+      , a.Price
+      , a.Barcode
+      , a.SterilizeDate
+      , a.WarehouseID
+      , l.LocationName
+
+      , a.Specification
+      , so.Quantity * a.Price AS [MONEY]
+      , c.Unit
+      from StorageOutList so with (nolock)
+      inner join StorageList a with (nolock) on so.StorageID = a.StorageID
+      left join Manufacturer  b with (nolock)  on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c  with (nolock) on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s with (nolock) on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      inner join warehouse  d with (nolock)  on a.warehouseid=d.warehouseid
+      left join location l with (nolock) on a.locationid = l.locationid Where 1=1
+    </Content>
+
+    <Content Key="Query_GetStorageOutLists" DataBaseType="Oracle">
+      Select ISNULL(b.Name,'') as ManufacturerName,ISNULL (c.cargotypename,'') as CargoTypeName ,ISNULL(d.warehousename,'') as WarehouseName,a.InListID
+      , a.InID
+      , a.CargoTopType
+      , s.TypeName AS CargoTopTypeName
+      , a.CargoTypeID
+      , a.LocationID
+      , a.Quantity AS StorageQuantity
+      , so.OutListID
+      , so.Quantity
+      , so.StorageID
+      , a.ManufacturerID
+      , a.MAEDate
+      , a.EXPDate
+      , a.LotNumber
+      , a.Price
+      , a.Barcode
+      , a.SterilizeDate
+      , a.WarehouseID
+      , l.LocationName
+
+      , a.Specification
+      , (so.Quantity * a.Price) AS MONEY
+      , c.Unit
+      from StorageOutList so
+      inner join StorageList a on so.StorageID = a.StorageID
+      left join Manufacturer  b  on a.ManufacturerID=b.ManufacturerID
+      inner join cargotype  c  on a.cargotypeid=c.cargotypeid
+      inner join SystemTypeParameter s on a.CargoTopType = s.TypeValue and s.TypeKey = 'CargoTopType'
+      inner join warehouse  d  on a.warehouseid=d.warehouseid
+      left join location l on a.locationid = l.locationid Where 1=1
+    </Content>
+
+    <Content Key="Query_GetStorageOutListPrint" DataBaseType="SqlServer">
+      SELECT ISNULL(c.cargotypename, '')  AS CARGOTYPENAME,
+      ISNULL(a.Specification,'') AS Specification,
+      ISNULL(c.Unit,'') AS Unit,
+      CASE
+      WHEN GROUPING(a.PRICE) = 0 THEN CONVERT(NVARCHAR,Isnull(a.PRICE,0))
+      ELSE ''
+      END AS Price,
+      CASE
+      WHEN GROUPING(so.Quantity) = 0 THEN CONVERT(NVARCHAR,Isnull(so.QUANTITY,0))
+      ELSE '金额合计：'
+      END AS Quantity,
+      SUM(Isnull(a.PRICE,0) * Isnull(so.QUANTITY,0))        AS [MONEY]
+      FROM   StorageOutList so WITH (NOLOCK)
+      INNER JOIN StorageList a WITH (NOLOCK) ON  so.StorageID = a.StorageID
+      INNER JOIN cargotype c WITH (NOLOCK) ON  a.cargotypeid = c.cargotypeid
+      INNER JOIN SystemTypeParameter s WITH (NOLOCK) ON  a.CargoTopType = s.TypeValue AND s.TypeKey = 'CargoTopType'
+      INNER JOIN warehouse d WITH (NOLOCK) ON  a.warehouseid = d.warehouseid
+      WHERE  so.OutID = @OutID
+      GROUP BY
+      c.cargotypename,
+      a.Specification,
+      c.Unit,
+      a.PRICE,
+      so.QUANTITY
+      WITH ROLLUP
+      HAVING (
+      GROUPING(c.CARGOTYPENAME) = 0
+      AND GROUPING(a.Specification) = 0
+      AND GROUPING(c.Unit) = 0
+      AND GROUPING(a.PRICE) = 0
+      AND GROUPING(so.QUANTITY) = 0
+      )
+      OR
+      (
+      GROUPING(c.CARGOTYPENAME) = 1
+      AND GROUPING(a.Specification) = 1
+      AND GROUPING(c.Unit) = 1
+      AND GROUPING(a.PRICE) = 1
+      AND GROUPING(so.QUANTITY) = 1
+      )
+    </Content>
+    <Content Key="Query_GetStorageOutListPrint" DataBaseType="Oracle">
+      SELECT NVL(c.cargotypename, ' ')  AS CARGOTYPENAME,
+      NVL(a.Specification,' ') AS Specification,
+      NVL(c.Unit,' ') AS Unit,
+      CASE
+      WHEN GROUPING(a.PRICE) = 0 THEN to_char(NVL(a.PRICE,0))
+      ELSE ' '
+      END AS Price,
+      CASE
+      WHEN GROUPING(so.Quantity) = 0 THEN to_char(NVL(so.QUANTITY,0))
+      ELSE '金额合计：'
+      END AS Quantity,
+      SUM(NVL(a.PRICE,0) * NVL(so.QUANTITY,0))        AS MONEY
+      FROM   StorageOutList so
+      INNER JOIN StorageList a ON  so.StorageID = a.StorageID
+      INNER JOIN cargotype c ON  a.cargotypeid = c.cargotypeid
+      INNER JOIN SystemTypeParameter s ON  a.CargoTopType = s.TypeValue AND s.TypeKey = 'CargoTopType'
+      INNER JOIN warehouse d ON  a.warehouseid = d.warehouseid
+      WHERE  so.OutID =:OutID
+      GROUP BY ROLLUP(
+      c.cargotypename,
+      a.Specification,
+      c.Unit,
+      a.PRICE,
+      so.QUANTITY)
+      HAVING (
+      GROUPING(c.CARGOTYPENAME) = 0
+      AND GROUPING(a.Specification) = 0
+      AND GROUPING(c.Unit) = 0
+      AND GROUPING(a.PRICE) = 0
+      AND GROUPING(so.QUANTITY) = 0
+      )
+      OR
+      (
+      GROUPING(c.CARGOTYPENAME) = 1
+      AND GROUPING(a.Specification) = 1
+      AND GROUPING(c.Unit) = 1
+      AND GROUPING(a.PRICE) = 1
+      AND GROUPING(so.QUANTITY) = 1
+      )
+    </Content>
+    <Content Key="Query_GetPreOrderDetailID" DataBaseType="SqlServer">
+      <![CDATA[
+      SELECT PreOrderDetailID FROM StorageList SL
+		  LEFT JOIN FlowPreOrderDetail FD ON SL.CargoTypeID=FD.CargoTypeID
+		  LEFT JOIN FlowPreOrder FP ON FD.PreOrderID=FP.PreOrderID
+		  WHERE SL.CargoTopType=2 AND SL.Quantity>0 AND SL.WarehouseID=@WarehouseID 
+		  AND SL.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+		  AND FD.CargoTopType=2 AND FP.CheckStatus in (1,4) AND FP.OrgID=@OrgID
+		  AND FD.PreOrderQty - FD.ProvidedQty>0
+		  AND FD.CargoTypeID=@CargoTypeID
+		  ORDER BY FP.OrderDate DESC
+      ]]>
+    </Content>
+
+    <Content Key="Query_GetPreOrderDetailID" DataBaseType="Oracle">
+      <![CDATA[
+	   SELECT PreOrderDetailID FROM StorageList SL
+		  LEFT JOIN FlowPreOrderDetail FD ON SL.CargoTypeID=FD.CargoTypeID
+		  LEFT JOIN FlowPreOrder FP ON FD.PreOrderID=FP.PreOrderID
+		  WHERE SL.CargoTopType=2 AND SL.Quantity>0 AND SL.WarehouseID=:WarehouseID 
+      AND to_char(SL.EXPDate,'yyyy-mm-dd')>to_char(sysdate,'yyyy-mm-dd')
+		  AND FD.CargoTopType=2 AND FP.CheckStatus in (1,4) AND FP.OrgID=:OrgID
+		  AND FD.PreOrderQty - FD.ProvidedQty>0
+		  AND FD.CargoTypeID=:CargoTypeID
+		  ORDER BY FP.OrderDate DESC
+      ]]>
+    </Content>
+    <Content Key="Update_PreOrderQtyNew" DataBaseType="SqlServer">
+      <![CDATA[  
+      DECLARE @preOrderDetailID uniqueidentifier
+      DECLARE @Quantity int 
+      DECLARE Temp_Cursor CURSOR FOR
+      
+      SELECT PreOrderDetailID,Fd.PreOrderQty-Fd.ProvidedQty as needprovidequantity FROM 
+		FlowPreOrderDetail FD  inner JOIN FlowPreOrder FP ON FD.PreOrderID=FP.PreOrderID
+		WHERE   FD.CargoTopType=2 AND FP.CheckStatus in (1,4) AND FP.OrgID=@OrgID AND FD.CargoTypeID=@CargoTypeID
+		AND FD.PreOrderQty - FD.ProvidedQty>0		 
+		ORDER BY FP.OrderDate DESC 
+      
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @preOrderDetailID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      
+      BEGIN
+      IF(@B>@Quantity)
+      BEGIN
+      update FlowPreOrderDetail set ProvidedQty = ProvidedQty+@Quantity where preOrderDetailID=@preOrderDetailID;
+	  IF NOT EXISTS(SELECT * FROM StorageOutListPreOrderDetail WHERE preOrderDetailID=@preOrderDetailID and outlistid=@outlistid)
+		insert into StorageOutListPreOrderDetail(outlistid,cargotypeid,preOrderDetailID,quantity) Values(@outlistid,@CargoTypeID,@preOrderDetailID,@Quantity);
+      ELSE
+		UPDATE StorageOutListPreOrderDetail SET quantity=quantity+@Quantity WHERE  outlistid=@outlistid and preOrderDetailID=@preOrderDetailID;	  
+		SET @B=@B-@Quantity;
+      END
+      ELSE
+      BEGIN 
+	  update FlowPreOrderDetail set ProvidedQty = ProvidedQty+@B where preOrderDetailID=@preOrderDetailID;
+	  IF NOT EXISTS(SELECT * FROM StorageOutListPreOrderDetail WHERE preOrderDetailID=@preOrderDetailID and outlistid=@outlistid)
+		insert into StorageOutListPreOrderDetail(outlistid,cargotypeid,preOrderDetailID,quantity) Values(@outlistid,@CargoTypeID,@preOrderDetailID,@B);
+      ELSE
+		UPDATE StorageOutListPreOrderDetail SET quantity=quantity+@B WHERE  outlistid=@outlistid and preOrderDetailID=@preOrderDetailID;
+		break;
+      END
+
+      FETCH NEXT FROM Temp_Cursor INTO @preOrderDetailID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+      ]]>
+    </Content>
+
+    <Content Key="Update_PreOrderQtyNew" DataBaseType="Oracle">
+      <![CDATA[
+      DECLARE
+      vpreOrderDetailID varchar2(36);
+      vQuantity number;
+	  vRowsCount number;
+      begin 
+      DECLARE  CURSOR Temp_Cursor is 
+		SELECT PreOrderDetailID,Fd.PreOrderQty-Fd.ProvidedQty as needprovidequantity FROM 
+		FlowPreOrderDetail FD  inner JOIN FlowPreOrder FP ON FD.PreOrderID=FP.PreOrderID
+		WHERE   FD.CargoTopType=2 AND FP.CheckStatus in (1,4) AND FP.OrgID=:OrgID AND FD.CargoTypeID=:CargoTypeID
+		AND FD.PreOrderQty - FD.ProvidedQty>0		 
+		ORDER BY FP.OrderDate DESC;
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vpreOrderDetailID,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+
+      IF :B>vQuantity then 
+	      update FlowPreOrderDetail set ProvidedQty = ProvidedQty+vQuantity where preOrderDetailID=vpreOrderDetailID;
+		  begin
+			  SELECT COUNT(*) INTO vRowsCount FROM StorageOutListPreOrderDetail WHERE preOrderDetailID=vpreOrderDetailID and outlistid=:outlistid;
+			  IF (vRowsCount = 0 )THEN
+				insert into StorageOutListPreOrderDetail(outlistid,cargotypeid,preOrderDetailID,quantity) Values(:outlistid,:CargoTypeID,vpreOrderDetailID,vQuantity); 
+			  ELSE
+			  UPDATE StorageOutListPreOrderDetail SET quantity=quantity+vQuantity WHERE preOrderDetailID=vpreOrderDetailID and outlistid=:outlistid;
+			  END IF;
+		  end ; 
+		  :B:=:B-vQuantity; 
+      ELSE 
+	      update FlowPreOrderDetail set ProvidedQty = ProvidedQty+:B where preOrderDetailID=vpreOrderDetailID;
+		  begin
+			  SELECT COUNT(*) INTO vRowsCount FROM StorageOutListPreOrderDetail WHERE  preOrderDetailID=vpreOrderDetailID and outlistid=:outlistid;
+			  IF (vRowsCount = 0 )THEN
+				insert into StorageOutListPreOrderDetail(outlistid,cargotypeid,preOrderDetailID,quantity) Values(:outlistid,:CargoTypeID,vpreOrderDetailID,:B); 
+			  ELSE
+				UPDATE StorageOutListPreOrderDetail SET quantity=quantity+:B WHERE  preOrderDetailID=vpreOrderDetailID and outlistid=:outlistid;
+			  END IF;
+		  end ;  
+		  exit;
+      end if;
+       
+
+      FETCH  Temp_Cursor INTO vpreOrderDetailID,vQuantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+      ]]>
+    </Content>
+
+    <Content Key="GetProvideMaterials" DataBaseType="SqlServer">
+      <![CDATA[
+    
+    WITH ProvideMaterials(CargoTypeID,StockQty,PreOrderQty,ProvideQty)
+      AS
+      ( --1
+
+      SELECT 
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      ,PreOrder.PreOrderQty
+      ,PreOrder.ProvidedQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,ISNULL(SUM(StorageList.Quantity),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>0
+      AND StorageList.WarehouseID = @WarehouseID
+      AND StorageList.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+      GROUP BY 
+      StorageList.CargoTypeID
+      ) Stock
+
+      LEFT JOIN
+      (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,ISNULL(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,ISNULL(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2)
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrder.OrgID = @DeptmentID
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      ) --1 END
+
+      SELECT CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText
+      ,ISNULL(StockQty,0) AS StockQty
+      ,ISNULL(PreOrderQty,0) AS PreOrderQty
+      ,ISNULL(ProvideQty,0) AS ProvideQty
+      ,(ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0)) AS RequiredQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      ,Cargotype.amount as Amount
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 {0}
+
+      ]]>
+    </Content>
+    <Content Key="GetProvideMaterials" DataBaseType="Oracle">
+      <![CDATA[
+      WITH ProvideMaterials
+      AS
+      (
+      SELECT 
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      ,PreOrder.PreOrderQty
+      ,PreOrder.ProvidedQty as ProvideQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,nvl(SUM(StorageList.Quantity),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>0
+      AND StorageList.WarehouseID = :WarehouseID
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>to_char(sysdate,'yyyy-mm-dd')
+      GROUP BY 
+      StorageList.CargoTypeID
+      ) Stock
+
+      LEFT JOIN
+      (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,nvl(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,nvl(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2)
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrder.OrgID = :DeptmentID
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      ) --1 END
+
+      SELECT CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText
+      ,nvl(StockQty,0) AS StockQty
+      ,nvl(PreOrderQty,0) AS PreOrderQty
+      ,nvl(ProvideQty,0) AS ProvideQty
+      ,(nvl(PreOrderQty,0)-nvl(ProvideQty,0)) AS RequiredQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      ,Cargotype.amount as Amount
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 {0}
+      ]]>
+    </Content>
+    <Content Key="Query_StorageSummary" DataBaseType="SqlServer">
+      <![CDATA[
+         WITH ProvideMaterials(CargoTypeID,StockQty,WarehouseName,PreOrderQty,ProvideQty)
+      AS
+      ( --1
+      SELECT 
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      ,Stock.WarehouseName
+      ,PreOrder.PreOrderQty
+      ,PreOrder.ProvidedQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,ISNULL(SUM(StorageList.Quantity),0) AS StockQty
+      ,w.WarehouseName
+      FROM  StorageList
+      left join Warehouse w on StorageList.WarehouseID=w.WarehouseID
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>0
+      AND StorageList.WarehouseID = @WarehouseID
+      AND StorageList.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+      GROUP BY 
+      StorageList.CargoTypeID
+      ,w.WarehouseName
+      ) Stock
+      LEFT JOIN
+      (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,ISNULL(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,ISNULL(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2) 
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrder.OrgID = @DeptmentID
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      ) --1 END
+      SELECT CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText,WarehouseName,CargoType.Specification,Model,
+      m.Name as ManufacturerName
+      ,ISNULL(StockQty,0) AS StockQty
+      ,ISNULL(PreOrderQty,0) AS PreOrderQty
+      ,ISNULL(ProvideQty,0) AS ProvideQty
+      ,(ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0)) AS RequiredQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      left join Manufacturer m on CargoType.ManufacturerID=m.ManufacturerID
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1  {0}
+      ]]>
+    </Content>
+    <Content Key="Query_StorageSummary" DataBaseType="Oracle">
+      <![CDATA[
+         WITH ProvideMaterials(CargoTypeID,StockQty,WarehouseName,PreOrderQty,ProvideQty)
+      AS
+      ( --1
+      SELECT 
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      ,Stock.WarehouseName
+      ,PreOrder.PreOrderQty
+      ,PreOrder.ProvidedQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,ISNULL(SUM(StorageList.Quantity),0) AS StockQty
+      ,w.WarehouseName
+      FROM  StorageList
+      left join Warehouse w on StorageList.WarehouseID=w.WarehouseID
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>0
+      AND StorageList.WarehouseID = :WarehouseID
+      AND StorageList.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+      GROUP BY 
+      StorageList.CargoTypeID
+      ,w.WarehouseName
+      ) Stock
+      LEFT JOIN
+      (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,ISNULL(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,ISNULL(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2)
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrder.OrgID = :DeptmentID
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      ) --1 END
+      SELECT CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText,WarehouseName,CargoType.Specification,Model,
+      m.Name as ManufacturerName
+      ,ISNULL(StockQty,0) AS StockQty
+      ,ISNULL(PreOrderQty,0) AS PreOrderQty
+      ,ISNULL(ProvideQty,0) AS ProvideQty
+      ,(ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0)) AS RequiredQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      left join Manufacturer m on CargoType.ManufacturerID=m.ManufacturerID
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1  {0}
+      ]]>
+    </Content>
+    <Content Key="GetProvideMaterialsByOrgID" DataBaseType="SqlServer">
+      <![CDATA[
+		
+       WITH ProvideMaterials(CargoTypeID,StockQty,PreOrderQty,ProvideQty)
+      AS
+      ( --1
+
+       SELECT 
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      ,PreOrder.PreOrderQty
+      ,PreOrder.ProvidedQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,ISNULL(SUM(cast(StorageList.Quantity as bigint)),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>=0
+      AND StorageList.WarehouseID = @WarehouseID
+      AND StorageList.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+      GROUP BY 
+      StorageList.CargoTypeID
+      ) Stock
+      LEFT JOIN
+	   (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,ISNULL(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,ISNULL(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2)
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrder.OrgID = @OrgID
+	  AND FlowPreOrder.RequiredDate >= @RequiredDate
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+	   
+       
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      ) --1 END
+
+      SELECT CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText
+      ,ISNULL(StockQty,0) AS StockQty
+      ,ISNULL(PreOrderQty,0) AS PreOrderQty
+      ,ISNULL(ProvideQty,0) AS ProvideQty
+      ,(ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0)) AS RequiredQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 
+      AND (ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0))>0 
+   
+      ]]>
+    </Content>
+
+    <Content Key="GetProvideMaterialsByOrgID" DataBaseType="Oracle">
+      <![CDATA[
+		
+      WITH ProvideMaterials
+      AS
+      (
+      SELECT 
+      Preorder.CargoTypeID 
+      ,PreOrder.PreOrderQty
+      ,PreOrder.ProvidedQty as ProvideQty
+	  ,(SELECT 
+      nvl(SUM(StorageList.Quantity),0) AS StockQty
+      FROM  StorageList
+      WHERE  
+        to_char(StorageList.EXPDate,'yyyy-mm-dd')>to_char(sysdate,'yyyy-mm-dd')
+       and  StorageList.Quantity>=0 
+       AND StorageList.CargoTopType in (1,2)
+	    AND StorageList.WarehouseID = :WarehouseID
+       and StorageList.CargoTypeID =preorder.CargoTypeID
+      ) as StockQty
+      FROM  
+	   (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,nvl(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,nvl(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2)
+      AND FlowPreOrderDetail.CheckStatus in (1,4) 
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+	  AND FlowPreOrder.OrgID = :OrgID
+	  AND FlowPreOrder.RequiredDate >= :RequiredDate
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder  
+      ) --1 END
+
+      SELECT CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText
+      ,nvl(StockQty,0) AS StockQty
+      ,nvl(PreOrderQty,0) AS PreOrderQty
+      ,nvl(ProvideQty,0) AS ProvideQty
+      ,(nvl(PreOrderQty,0)-nvl(ProvideQty,0)) AS RequiredQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE (nvl(PreOrderQty,0)-nvl(ProvideQty,0))>0 
+   
+      ]]>
+    </Content>
+
+
+    <Content Key="GetStorageOutByOutID" DataBaseType="SqlServer">
+      <![CDATA[		
+    WITH ProvideMaterials(OutListID,OutID,WarehouseID,StorageID,CargoTypeID,Quantity,StockQty,PreOrderQty,ProvideQty)
+      AS
+      ( 
+       SELECT 
+       storage.OutListID
+       ,storage.OutID
+       ,storage.WarehouseID
+       ,storage.StorageID
+       ,storage.CargoTypeID
+       ,storage.Quantity
+       ,Stock.StockQty
+       ,PreOrder.PreOrderQty
+       ,PreOrder.ProvidedQty
+      FROM
+      (
+	    select sl.OutListID,sl.OutID,sl.WarehouseID,sl.StorageID,ct.CargoTypeID,sl.Quantity from StorageOutList sl
+		  left join StorageOut so on sl.OutID=so.OutID
+		  left join view_CargoType ct on sl.CargoTypeID=ct.CargoTypeID
+		  where so.OutID=@OutID
+	    ) storage
+	  
+      left join 
+      (SELECT
+      StorageList.CargoTypeID
+	  ,StorageList.WarehouseID
+      ,ISNULL(SUM(StorageList.Quantity),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>0
+      AND StorageList.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+      GROUP BY 
+      StorageList.CargoTypeID,StorageList.WarehouseID
+      ) Stock on storage.CargoTypeID=Stock.CargoTypeID and storage.WarehouseID=Stock.WarehouseID
+      LEFT JOIN
+      (SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,ISNULL(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,ISNULL(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2) 
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      and OrgID=@OrgID
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON storage.CargoTypeID = PreOrder.CargoTypeID
+      )
+
+      SELECT OutListID,OutID,WarehouseID,StorageID,
+      CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText
+      ,ISNULL(StockQty,0) AS StockQty
+      ,ISNULL(PreOrderQty,0) AS PreOrderQty
+      ,ISNULL(ProvideQty,0) AS ProvideQty
+      ,(ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0)) AS RequiredQty
+      ,Quantity
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 
+	  --AND (ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0))>0 
+      ]]>
+    </Content>
+
+    <Content Key="GetStorageOutByOutID" DataBaseType="Oracle">
+      <![CDATA[
+		
+      WITH ProvideMaterials
+      AS
+      (
+      SELECT 
+       storage.OutListID
+       ,storage.OutID
+       ,storage.WarehouseID
+       ,storage.StorageID
+       ,storage.CargoTypeID
+       ,storage.Quantity
+       ,Stock.StockQty
+       ,PreOrder.PreOrderQty
+       ,PreOrder.ProvidedQty
+      FROM
+      (
+	    select sl.OutListID,sl.OutID,sl.WarehouseID,sl.StorageID,ct.CargoTypeID,sl.Quantity from StorageOutList sl
+		  left join StorageOut so on sl.OutID=so.OutID
+		  left join view_CargoType ct on sl.CargoTypeID=ct.CargoTypeID
+		  where so.OutID= :OutID
+	    ) storage
+	  
+      left join 
+      (SELECT
+      StorageList.CargoTypeID
+	  ,StorageList.WarehouseID
+      ,nvl(SUM(StorageList.Quantity),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType in (1,2)
+      AND StorageList.Quantity>0      
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>to_char(sysdate,'yyyy-mm-dd')
+      GROUP BY 
+      StorageList.CargoTypeID,StorageList.WarehouseID
+      ) Stock on storage.CargoTypeID=Stock.CargoTypeID and storage.WarehouseID=Stock.WarehouseID
+
+      LEFT JOIN
+      (SELECT
+      FlowPreOrderDetail.CargoTypeID
+      ,nvl(SUM(FlowPreOrderDetail.PreOrderQty),0) AS PreOrderQty
+      ,nvl(SUM(FlowPreOrderDetail.ProvidedQty),0) AS ProvidedQty
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType in (1,2) 
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      and OrgID=:OrgID
+      GROUP BY 
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON storage.CargoTypeID = PreOrder.CargoTypeID
+      )
+
+      SELECT OutListID,OutID,WarehouseID,StorageID,
+      CargoType.CargoTopType,CargoType.CargoTopTypeText,CargoType.CargoTypeKind,CargoType.CargoTypeKindText
+      ,CargoType.CargoTypeID,CargoType.CargoTypeText
+      ,nvl(StockQty,0) AS StockQty
+      ,nvl(PreOrderQty,0) AS PreOrderQty
+      ,nvl(ProvidedQty,0) AS ProvideQty
+      ,(nvl(PreOrderQty,0)-ISNULL(ProvidedQty,0)) AS RequiredQty
+      ,Quantity
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID
+      FROM ProvideMaterials
+      LEFT JOIN view_CargoType CargoType
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 
+	  --AND (ISNULL(PreOrderQty,0)-ISNULL(ProvideQty,0))>0 
+   
+      ]]>
+    </Content>
+
+
+
+
+
+    <Content Key="Query_StorageOutByOutID" DataBaseType="SqlServer">
+      select so.OutDate,so.OrgID,so.OPID,so.RecipientID,so.WarehouseID,au.Name OpName,au1.Name FReName,ao.Name OrgName,w.WarehouseName,so.BarCode,so.cardno from StorageOut so
+      left join AC_WorkGroup wg on so.OPID=wg.FID
+      left join AC_UserWorkGroup uw on wg.FID=uw.FGroupID
+      left join AC_User au on uw.FUserID=au.ID
+      left join AC_WorkGroup wg1 on so.RecipientID=wg1.FID
+      left join AC_UserWorkGroup uw1 on wg1.FID=uw1.FGroupID
+      left join AC_User au1 on uw1.FUserID=au1.ID
+      left join AC_Org ao on so.OrgID=ao.ID
+      left join Warehouse w on so.WarehouseID=w.WarehouseID
+      where so.OutID=@OutID
+    </Content>
+    <Content Key="Query_StorageOutByOutID" DataBaseType="Oracle">
+      select so.OutDate,so.OrgID,so.OPID,so.RecipientID,so.WarehouseID,au.Name OpName,au1.Name FReName ,ao.Name OrgName,w.WarehouseName,so.BarCode,so.cardno from StorageOut so
+      left join AC_WorkGroup wg on so.OPID=wg.FID
+      left join AC_UserWorkGroup uw on wg.FID=uw.FGroupID
+      left join AC_User au on uw.FUserID=au.ID
+      left join AC_WorkGroup wg1 on so.RecipientID=wg1.FID
+      left join AC_UserWorkGroup uw1 on wg1.FID=uw1.FGroupID
+      left join AC_User au1 on uw1.FUserID=au1.ID
+      left join AC_Org ao on so.OrgID=ao.ID
+      left join Warehouse w on so.WarehouseID=w.WarehouseID
+      where so.OutID= :OutID
+    </Content>
+
+    <Content Key="SP_Create_StoragePackageCheckPoint" DataBaseType="SqlServer">
+      <![CDATA[
+      Insert into StorageCheckPointList
+                            (StorageCheckPointID,StorageID,BarCode,Quantity)
+                            select @StorageCheckPointID,StorageID,Barcode,Quantity
+                            from StorageList
+                            where CargoTopType = 16 and Status <> 20 and status <1000 and barcode is not null and WarehouseID = @WarehouseID
+      ]]>
+    </Content>
+    <Content Key="SP_Create_StoragePackageCheckPoint" DataBaseType="Oracle">
+      <![CDATA[
+      Insert into StorageCheckPointList
+                            (StorageCheckPointID,StorageID,BarCode,Quantity)
+                            select :StorageCheckPointID,StorageID,Barcode,Quantity
+                            from StorageList
+                            where CargoTopType = 16 and Status <> 20 and status <1000 and barcode is not null and WarehouseID = :WarehouseID
+      ]]>
+    </Content>
+    <Content Key="SP_Create_StorageCheck" DataBaseType="SqlServer">
+      <![CDATA[
+     INSERT INTO StorageCheckPointListFix
+                            (StorageCheckPointID,StorageID,BarCode,OldStatus,OldWarehouseID,OldLocationID,OldQuantity,NewStatus,NewWarehouseID,NewLocationID,NewQuantity)
+                            SELECT @STORAGECHECKPOINTID,SCPL.STORAGEID,SCPL.BARCODE,SL.STATUS,SL.WAREHOUSEID,SL.LOCATIONID,SCPL.QUANTITY,1000+SL.STATUS,SL.WAREHOUSEID,SL.LOCATIONID,SCPL.QUANTITY
+                            FROM STORAGECHECKPOINT SCP WITH (NOLOCK)
+		                            INNER JOIN STORAGECHECKPOINTLIST SCPL WITH (NOLOCK) ON SCP.STORAGECHECKPOINTID = SCPL.STORAGECHECKPOINTID
+		                            INNER JOIN STORAGELIST SL WITH (NOLOCK) ON SCPL.STORAGEID = SL.STORAGEID
+                            WHERE SCP.STORAGECHECKPOINTID = @STORAGECHECKPOINTID AND
+                                  SCPL.BARCODE NOT IN (SELECT BARCODE FROM STORAGECHECKLIST WITH (NOLOCK)
+			                                     WHERE STORAGECHECKID IN ({0}))
+                            
+                            UPDATE STORAGELIST
+                            SET STATUS = 1000+STATUS
+                            WHERE STORAGEID IN 
+                                   (SELECT SCPL.STORAGEID
+                                    FROM STORAGECHECKPOINT SCP WITH (NOLOCK)
+		                                    INNER JOIN STORAGECHECKPOINTLIST SCPL WITH (NOLOCK) ON SCP.STORAGECHECKPOINTID = SCPL.STORAGECHECKPOINTID
+		                                    INNER JOIN STORAGELIST SL WITH (NOLOCK) ON SCPL.STORAGEID = SL.STORAGEID
+                                    WHERE SCP.STORAGECHECKPOINTID = @STORAGECHECKPOINTID AND
+                                          SCPL.BARCODE NOT IN (SELECT BARCODE FROM STORAGECHECKLIST WITH (NOLOCK)
+			                                             WHERE STORAGECHECKID IN ({0})))
+      ]]>
+    </Content>
+    <Content Key="SP_Create_StorageCheck" DataBaseType="Oracle">
+      <![CDATA[
+      begin
+      INSERT INTO StorageCheckPointListFix
+                            (StorageCheckPointID,StorageID,BarCode,OldStatus,OldWarehouseID,OldLocationID,OldQuantity,NewStatus,NewWarehouseID,NewLocationID,NewQuantity)
+                            SELECT :STORAGECHECKPOINTID,SCPL.STORAGEID,SCPL.BARCODE,SL.STATUS,SL.WAREHOUSEID,SL.LOCATIONID,SCPL.QUANTITY,1000+SL.STATUS,SL.WAREHOUSEID,SL.LOCATIONID,SCPL.QUANTITY
+                            FROM STORAGECHECKPOINT SCP  
+		                            INNER JOIN STORAGECHECKPOINTLIST SCPL ON SCP.STORAGECHECKPOINTID = SCPL.STORAGECHECKPOINTID
+		                            INNER JOIN STORAGELIST SL  ON SCPL.STORAGEID = SL.STORAGEID
+                            WHERE SCP.STORAGECHECKPOINTID = :STORAGECHECKPOINTID AND
+                                  SCPL.BARCODE NOT IN (SELECT BARCODE FROM STORAGECHECKLIST  
+			                                     WHERE STORAGECHECKID IN ({0}));
+                            
+                            UPDATE STORAGELIST
+                            SET STATUS = 1000+STATUS
+                            WHERE STORAGEID IN 
+                                   (SELECT SCPL.STORAGEID
+                                    FROM STORAGECHECKPOINT SCP  
+		                                    INNER JOIN STORAGECHECKPOINTLIST SCPL   ON SCP.STORAGECHECKPOINTID = SCPL.STORAGECHECKPOINTID
+		                                    INNER JOIN STORAGELIST SL   ON SCPL.STORAGEID = SL.STORAGEID
+                                    WHERE SCP.STORAGECHECKPOINTID = :STORAGECHECKPOINTID AND
+                                          SCPL.BARCODE NOT IN (SELECT BARCODE FROM STORAGECHECKLIST  
+			                                             WHERE STORAGECHECKID IN ({0})));
+                            
+      end;                            
+      ]]>
+    </Content>
+
+    <Content Key="Query_StorageOutByOutDate"  DataBaseType="SqlServer">
+      <![CDATA[
+          SELECT COUNT(*) CountSto FROM FlowPreOrder FO
+          INNER JOIN FlowPreOrderDetail FD ON FO.PreOrderID=FD.PreOrderID
+          INNER JOIN StorageOut SO ON FO.OrgID=SO.OrgID
+          INNER JOIN StorageOutList SL ON SO.OutID=SL.OutID AND FD.CargoTypeID=SL.CargoTypeID
+          WHERE FO.PreOrderType=1 AND FO.PreOrderStatus=0 AND FO.CheckStatus in (1,4)
+          AND FD.CargoTopType=2 AND SO.OutType=6 
+          AND FO.OrderDate>=@OutDate AND SO.OutDate>=@OutDate AND SO.OrgID=@OrgID
+       ]]>
+    </Content>
+    <Content Key="Query_StorageOutByOutDate"  DataBaseType="Oracle">
+      <![CDATA[
+          SELECT COUNT(*) CountSto FROM FlowPreOrder FO
+          INNER JOIN FlowPreOrderDetail FD ON FO.PreOrderID=FD.PreOrderID
+          INNER JOIN StorageOut SO ON FO.OrgID=SO.OrgID
+          INNER JOIN StorageOutList SL ON SO.OutID=SL.OutID AND FD.CargoTypeID=SL.CargoTypeID
+          WHERE FO.PreOrderType=1 AND FO.PreOrderStatus=0 AND FO.CheckStatus in (1,4)
+          AND FD.CargoTopType=2 AND SO.OutType=6 
+          AND FO.OrderDate>=:OutDate AND SO.OutDate>=:OutDate AND SO.OrgID=:OrgID
+       ]]>
+    </Content>
+    <Content Key="Query_PackageBaseNumCheck"  DataBaseType="SqlServer">
+      <![CDATA[
+         SELECT C.CARGOTYPENAME,O.NAME as ORGNAME,isnull(SS.BASEQTY,0) as BASEQTY,S.BARCODE,S.EXPDATE,W.WAREHOUSENAME,L.LOCATIONNAME,U.FNames NAME,P.LASTDATE,s.QUANTITY,t.TypeName as STATUSNAME,t1.TypeName as BADFLAGNAME
+          from StorageList s with (nolock) 
+		          inner join FlowPackageList p with (nolock) on s.StorageID = p.StorageID
+		          inner join CargoType c with (nolock) on p.CargoTypeID = c.CargoTypeID
+		          left join Warehouse w with (nolock) on p.LastWarehouseID = w.WarehouseID
+		          left join Location l with (nolock) on p.LastLocationID = l.LocationID
+		          left join AC_Org o with (nolock) on w.OrgID = o.ID
+		          left join SafeStock ss with (nolock) on (ss.CargoTypeID = p.CargoTypeID and ss.OrgID = w.OrgID)
+		          left join AC_WorkGroup u with (nolock) on p.LastOPID = u.FID
+		          inner join SystemTypeParameter t with (nolock)  on s.Status = t.TypeValue and t.TypeKey = 'StorageStatus'
+		          inner join SystemTypeParameter t1 with (nolock) on p.BadFlag = t1.TypeValue and t1.TypeKey = 'QualifiedNO'
+          where s.Status <> 20 and s.Status < 1000 and c.CargoTypeID in (select cargoTypeid from safestock) {0}
+       ]]>
+    </Content>
+    <Content Key="Query_PackageBaseNumCheck"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT C.CARGOTYPENAME,O.NAME as ORGNAME,nvl(SS.BASEQTY,0) as BASEQTY,S.BARCODE,S.EXPDATE,W.WAREHOUSENAME,L.LOCATIONNAME,U.FNames NAME,P.LASTDATE,s.QUANTITY,t.TypeName as STATUSNAME,t1.TypeName as BADFLAGNAME
+          from StorageList s  
+		          inner join FlowPackageList p   on s.StorageID = p.StorageID
+		          inner join CargoType c   on p.CargoTypeID = c.CargoTypeID
+		          left join Warehouse w  on p.LastWarehouseID = w.WarehouseID
+		          left join Location l   on p.LastLocationID = l.LocationID
+		          left join AC_Org o   on w.OrgID = o.ID
+		          left join SafeStock ss   on (ss.CargoTypeID = p.CargoTypeID and ss.OrgID = w.OrgID)
+		          left join AC_WorkGroup u   on p.LastOPID = u.FID
+		          inner join SystemTypeParameter t   on s.Status = t.TypeValue and t.TypeKey = 'StorageStatus'
+		          inner join SystemTypeParameter t1   on p.BadFlag = t1.TypeValue and t1.TypeKey = 'QualifiedNO'
+          where s.Status <> 20 and s.Status < 1000 and c.CargoTypeID in (select cargoTypeid from safestock) {0}
+       ]]>
+    </Content>
+    <Content Key="Query_PackageStockList"  DataBaseType="SqlServer">
+      <![CDATA[
+         SELECT 0 as CHECKED,case when p.ContainerID is null then S.BARCODE else ct.ContainerName + '('+S.BARCODE +')' end as BARCODESHOW,S.EXPDATE,W.WAREHOUSENAME,L.LOCATIONNAME,U.FNames NAME,P.LASTDATE,s.QUANTITY,t.TypeName as STATUSNAME,t1.TypeName as BADFLAGNAME,p.PACKAGEID,S.BARCODE
+          from StorageList s with (nolock) 
+		          inner join FlowPackageList p with (nolock) on s.StorageID = p.StorageID
+		          inner join CargoType c with (nolock) on p.CargoTypeID = c.CargoTypeID
+		          left join Warehouse w with (nolock) on p.LastWarehouseID = w.WarehouseID
+		          left join Location l with (nolock) on p.LastLocationID = l.LocationID
+		          left join AC_WorkGroup u with (nolock) on p.LastOPID = u.FID
+              left join Container ct with (nolock) on p.ContainerID = ct.ContainerID
+		          inner join SystemTypeParameter t with (nolock)  on s.Status = t.TypeValue and t.TypeKey = 'StorageStatus'
+		          inner join SystemTypeParameter t1 with (nolock) on p.BadFlag = t1.TypeValue and t1.TypeKey = 'QualifiedNO'
+          where s.Status <> 20   {0}
+       ]]>
+    </Content>
+    <Content Key="Query_PackageStockList"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT 0 as CHECKED,case when p.ContainerID is null then S.BARCODE else ct.ContainerName || '('||S.BARCODE ||')' end as BARCODESHOW,S.EXPDATE,W.WAREHOUSENAME,L.LOCATIONNAME,U.FNames NAME,P.LASTDATE,s.QUANTITY,t.TypeName as STATUSNAME,t1.TypeName as BADFLAGNAME,p.PACKAGEID,S.BARCODE
+          from StorageList s 
+		          inner join FlowPackageList p   on s.StorageID = p.StorageID
+		          inner join CargoType c  on p.CargoTypeID = c.CargoTypeID
+		          left join Warehouse w  on p.LastWarehouseID = w.WarehouseID
+		          left join Location l   on p.LastLocationID = l.LocationID
+		          left join AC_WorkGroup u   on p.LastOPID = u.FID
+              left join Container ct   on p.ContainerID = ct.ContainerID
+		          inner join SystemTypeParameter t    on s.Status = t.TypeValue and t.TypeKey = 'StorageStatus'
+		          inner join SystemTypeParameter t1  on p.BadFlag = t1.TypeValue and t1.TypeKey = 'QualifiedNO'
+          where s.Status <> 20   {0}
+       ]]>
+    </Content>
+
+    <Content Key="Query_PackageCSSDWaitPackageList"  DataBaseType="SqlServer">
+      <![CDATA[
+         SELECT SUM(TaskNum - FinishNum) FROM FLOWTASK WHERE FinishFlag = 0 AND CargoTypeID =  @CARGOTYPEID AND FlowOrgID = @FlowOrgID 
+       ]]>
+    </Content>
+    <Content Key="Query_PackageCSSDWaitPackageList"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT SUM(TaskNum - FinishNum) FROM FLOWTASK WHERE FinishFlag = 0 AND CargoTypeID =  :CARGOTYPEID AND FlowOrgID = :FlowOrgID
+       ]]>
+    </Content>
+
+    <Content Key="Query_PackageBaseNumCheckViewList"  DataBaseType="SqlServer">
+      <![CDATA[
+         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+         SELECT CK.KINDNAME,O.Name as ORGNAME,C.CARGOTYPENAME,T.BASEQTY,T.STOCKQTY,T.RECYCLEQTY,T.LENDQTY,T.LOSTQTY,
+          CASE C.ISFORORGS 
+            WHEN 1 THEN 0 
+            ELSE (SELECT COUNT(1) + isnull((SELECT SUM(TaskNum - FinishNum) FROM FLOWTASK WHERE FinishFlag = 0 AND CargoTypeID =  T.CARGOTYPEID),0)
+                  from StorageList s inner join Warehouse w on s.WarehouseID = w.WarehouseID
+                                     inner join FlowPackageList p on s.StorageID = p.StorageID
+	                where s.CargoTopType = 16 and  (s.Status = 40 or s.Status = 50 ) and
+                        s.CargoTypeID = T.CARGOTYPEID and
+                        p.FlowOrgID = T.FLOWORGID and
+                        w.OrgID <> T.ORGID )
+            END AS CSSDQTY,
+          T.ORGID,T.CARGOTYPEID,T.FLOWORGID
+          FROM 
+          ( SELECT TT.ORGID,TT.CARGOTYPEID,TT.FLOWORGID,SUM(BASEQTY) AS BASEQTY,SUM(STOCKQTY) AS STOCKQTY,
+			      SUM(RECYCLEQTY) AS RECYCLEQTY,SUM(LENDQTY) AS LENDQTY,SUM(LOSTQTY) AS LOSTQTY
+			      FROM
+			      (
+              select distinct fp.OrgID,pl.CargoTypeID,pl.FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,0 AS LENDQTY,0 AS LOSTQTY
+              from FlowProvide fp inner join FlowProvideList fpl on fp.ProvideID = fpl.ProvideID
+					    inner join FlowPackageList pl on fpl.PackageID = pl.PackageID
+              union ALL
+              select OrgID,CargoTypeID,FlowOrgID,isnull(BASEQTY,0) as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,0 AS LENDQTY,0 AS LOSTQTY
+              from SafeStock
+              UNION ALL
+          	  select w.OrgID,s.CargoTypeID,p.FlowOrgID,0 as BASEQTY,COUNT(1) as STOCKQTY,SUM(case status when 70 then 1 else 0 end) as RECYCLEQTY ,0 AS LENDQTY,0 AS LOSTQTY
+	            from StorageList s inner join Warehouse w on s.WarehouseID = w.WarehouseID
+                                 inner join FlowPackageList p on s.StorageID = p.StorageID
+	            where s.CargoTopType = 16 and  s.Status <> 20 and s.Status < 1000 
+	            group by w.OrgID,s.CargoTypeID,p.FlowOrgID
+		          UNION ALL
+              select fp.OrgID,fpl.CargoTypeID,fp.FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,SUM(Quantity - ReturnQuantity) AS LENDQTY,0 AS LOSTQTY
+              from FlowProvide fp inner join FlowProvideLend fpl on fp.ProvideID = fpl.ProvideID
+              where fpl.Quantity > fpl.ReturnQuantity
+              GROUP BY fp.OrgID,fpl.CargoTypeID,fp.FlowOrgID
+			        UNION ALL 
+              select w.OrgID,pl.CargoTypeID,pl.FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,0 AS LENDQTY,COUNT(1) AS LOSTQTY 
+	            from StorageList sl inner join FlowPackageList pl on sl.StorageID = pl.StorageID
+						              inner join Warehouse w on pl.LastWarehouseID = w.WarehouseID 
+	            where pl.IsTemp = 1 AND Status < 1000
+	            group by w.OrgID,pl.CargoTypeID,pl.FlowOrgID
+            ) AS TT
+            GROUP BY TT.ORGID,TT.CARGOTYPEID,TT.FLOWORGID
+          ) AS T
+          LEFT JOIN CargoType C ON T.CargoTypeID = C.CargoTypeID
+          LEFT JOIN CargoTypeKind CK ON C.CARGOTYPEKIND = CK.ID
+          LEFT JOIN AC_Org  O ON T.OrgID = O.ID 
+          where 1 = 1 {0}
+       ]]>
+    </Content>
+    <Content Key="Query_PackageBaseNumCheckViewList"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT CK.KINDNAME,O.Name as ORGNAME,C.CARGOTYPENAME,T.BASEQTY,T.STOCKQTY,T.RECYCLEQTY,T.LENDQTY,T.LOSTQTY,
+         CASE C.ISFORORGS 
+            WHEN 1 THEN 0 
+            ELSE (SELECT COUNT(1) + nvl((SELECT SUM(TaskNum - FinishNum) FROM FLOWTASK WHERE FinishFlag = 0 AND CargoTypeID =  T.CARGOTYPEID),0)
+                  from StorageList s inner join Warehouse w on s.WarehouseID = w.WarehouseID
+                                     inner join FlowPackageList p on s.StorageID = p.StorageID
+	                where s.CargoTopType = 16 and  (s.Status = 40 or s.Status = 50 ) and
+                        s.CargoTypeID = T.CARGOTYPEID and
+                        p.FlowOrgID = T.FLOWORGID and
+                        w.OrgID <> T.ORGID 
+                        group by   T.CARGOTYPEID
+                        )
+            END AS CSSDQTY,
+            T.ORGID,T.CARGOTYPEID,T.FLOWORGID
+          FROM 
+          ( SELECT TT.ORGID,TT.CARGOTYPEID,TT.FLOWORGID,SUM(BASEQTY) AS BASEQTY,SUM(STOCKQTY) AS STOCKQTY,
+			      SUM(RECYCLEQTY) AS RECYCLEQTY,SUM(LENDQTY) AS LENDQTY,SUM(LOSTQTY) AS LOSTQTY
+			      FROM
+			      (
+              select distinct fp.OrgID,pl.CargoTypeID,pl.FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,0 AS LENDQTY,0 AS LOSTQTY
+              from FlowProvide fp inner join FlowProvideList fpl on fp.ProvideID = fpl.ProvideID
+					    inner join FlowPackageList pl on fpl.PackageID = pl.PackageID
+              union ALL
+              select OrgID,CargoTypeID,FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,0 AS LENDQTY,0 AS LOSTQTY
+              from SafeStock
+              UNION ALL
+          	  select w.OrgID,s.CargoTypeID,p.FlowOrgID,0 as BASEQTY,COUNT(1) as STOCKQTY,SUM(case status when 70 then 1 else 0 end) as RECYCLEQTY ,0 AS LENDQTY,0 AS LOSTQTY
+	            from StorageList s inner join Warehouse w on s.WarehouseID = w.WarehouseID
+                                 inner join FlowPackageList p on s.StorageID = p.StorageID
+	            where s.CargoTopType = 16 and  s.Status <> 20 and s.Status < 1000 
+	            group by w.OrgID,s.CargoTypeID,p.FlowOrgID
+		          UNION ALL
+              select fp.OrgID,fpl.CargoTypeID,fp.FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,SUM(Quantity - ReturnQuantity) AS LENDQTY,0 AS LOSTQTY
+              from FlowProvide fp inner join FlowProvideLend fpl on fp.ProvideID = fpl.ProvideID
+              where fpl.Quantity > fpl.ReturnQuantity
+              GROUP BY fp.OrgID,fpl.CargoTypeID,fp.FlowOrgID
+			        UNION ALL 
+              select w.OrgID,pl.CargoTypeID,pl.FlowOrgID,0 as BASEQTY,0 AS STOCKQTY,0 AS RECYCLEQTY,0 AS LENDQTY,COUNT(1) AS LOSTQTY 
+	            from StorageList sl inner join FlowPackageList pl on sl.StorageID = pl.StorageID
+						              inner join Warehouse w on pl.LastWarehouseID = w.WarehouseID 
+	            where pl.IsTemp = 1 AND Status < 1000
+	            group by w.OrgID,pl.CargoTypeID,pl.FlowOrgID
+            )  TT
+            GROUP BY TT.ORGID,TT.CARGOTYPEID,TT.FLOWORGID
+          )  T
+          LEFT JOIN CargoType C ON T.CargoTypeID = C.CargoTypeID
+          LEFT JOIN CargoTypeKind CK ON C.CARGOTYPEKIND = CK.ID
+          LEFT JOIN AC_Org  O ON T.OrgID = O.ID 
+          where 1 = 1 {0}
+       ]]>
+    </Content>
+
+
+    <Content Key="Query_PackageLostBarcodeList"  DataBaseType="SqlServer">
+      <![CDATA[
+         SELECT 0 as CHECKED,S.BARCODE,S.MAEDATE,s.QUANTITY,p.PACKAGEID
+          from StorageList s with (nolock) 
+		          inner join FlowPackageList p with (nolock) on s.StorageID = p.StorageID
+              inner join warehouse w on s.warehouseid = w.warehouseid
+		      where p.IsTemp = 1  and s.Status < 1000  {0}
+       ]]>
+    </Content>
+    <Content Key="Query_PackageLostBarcodeList"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT 0 as CHECKED,S.BARCODE,S.MAEDATE,s.QUANTITY,p.PACKAGEID
+          from StorageList s 
+		          inner join FlowPackageList p   on s.StorageID = p.StorageID
+              inner join warehouse w on s.warehouseid = w.warehouseid
+		      where p.IsTemp = 1   and s.Status < 1000  {0}
+       ]]>
+    </Content>
+
+    <Content Key="Update_PackageStockHide" DataBaseType="SqlServer">
+      <![CDATA[
+      Update StorageList 
+      set status = status + 1000
+      where StorageID  = (select storageid from flowpackagelist where packageid = @PackageID) and status < 1000
+      ]]>
+    </Content>
+    <Content Key="Update_PackageStockHide" DataBaseType="Oracle">
+      <![CDATA[
+      Update StorageList 
+      set status = status + 1000
+      where StorageID  = (select storageid from flowpackagelist where packageid = :PackageID) and status < 1000
+      ]]>
+    </Content>
+
+    <Content Key="Update_PackageStockShow" DataBaseType="SqlServer">
+      <![CDATA[
+      Update StorageList 
+      set status = status - 1000
+      where StorageID  = (select storageid from flowpackagelist where packageid = @PackageID) and status > 1000
+      ]]>
+    </Content>
+    <Content Key="Update_PackageStockShow" DataBaseType="Oracle">
+      <![CDATA[
+      Update StorageList 
+      set status = status - 1000
+      where StorageID  = (select storageid from flowpackagelist where packageid = :PackageID) and status > 1000
+      ]]>
+    </Content>
+
+    <Content Key="Query_PackageStatusInCSSD"  DataBaseType="SqlServer">
+      <![CDATA[
+         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+         SELECT T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPENAME,T.FLOWORGID,
+		            SUM(T.RECYCLEQTY) AS RECYCLEQTY,
+		            SUM(T.DISINFECTINGQTY) AS DISINFECTINGQTY,
+		            SUM(T.PACKAGEQTY) AS PACKAGEQTY,
+		            SUM(T.NOSTERILIZEQTY) AS NOSTERILIZEQTY,
+		            SUM(T.STERILIZINGQTY) AS STERILIZINGQTY,
+		            SUM(T.STORAGEQTY) AS STORAGEQTY
+            FROM
+            (
+            select CargoType.CARGOTYPEID,FlowRecycle.FlowOrgID,COUNT(distinct FlowPackageList.PackageID) as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowRecycle 
+	            inner join FlowRecycleList on FlowRecycle.FRecycleID = FlowRecycleList.FRecycleID
+	            inner join FlowPackageList on FlowRecycleList.PackageID = FlowPackageList.PackageID
+              inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+	            inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+	            inner join FlowRecycleContainer on FlowRecycle.FRecycleID = FlowRecycleContainer.FRecycleID and FlowRecycleContainer.LastFDisinfectID is null
+            where  StorageList.Status = 20
+            group by CargoType.CargoTypeID,FlowRecycle.FlowOrgID
+            UNION ALL
+            select CargoType.CargoTypeID,FlowRecycle.FlowOrgID,0 AS RECYCLEQTY,COUNT(distinct FlowPackageList.PackageID) as DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowRecycle 
+	            inner join FlowRecycleList on FlowRecycle.FRecycleID = FlowRecycleList.FRecycleID
+	            inner join FlowPackageList on FlowRecycleList.PackageID = FlowPackageList.PackageID
+              inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+	            inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+	            inner join FlowRecycleContainer on FlowRecycle.FRecycleID = FlowRecycleContainer.FRecycleID 
+	            inner join FlowDisinfectContainerList on FlowDisinfectContainerList.FDisinfectID = FlowRecycleContainer.LastFDisinfectID and FlowDisinfectContainerList.ContainerID = FlowRecycleContainer.ContainerID
+            where not exists ( select 1 from FlowRecycleContainer fc where fc.FRecycleID = FlowRecycle.FRecycleID and fc.LastFDisinfectID is null) and
+		            FlowDisinfectContainerList.Status = 0 and   StorageList.Status =20 and FlowRecycle.RecycleDate > dateadd(day,-2,GETDATE()) 
+            group by CargoType.CargoTypeID,FlowRecycle.FlowOrgID
+            UNION ALL
+            SELECT FlowTask.CargoTypeID,FlowTask.FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,sum (TaskNum - FinishNum) AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            FROM FLOWTASK 
+            WHERE FinishFlag = 0
+            group by FlowTask.CargoTypeID,FlowTask.FlowOrgID
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,COUNT(1) AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowPackageList inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+            where FlowPackageList.BadFlag = -1 AND StorageList.Status =40
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,COUNT(1) AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowPackageList  inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+            where FlowPackageList.BadFlag = -2 AND StorageList.Status =40
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,COUNT(1) AS STORAGEQTY
+            from FlowPackageList inner join StorageList on FlowPackageList.StorageID = StorageList.StorageID
+            where Status = 50
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            ) T 
+            INNER JOIN CARGOTYPE ON T.CARGOTYPEID = CARGOTYPE.CARGOTYPEID
+            LEFT JOIN CargoTypeKind ON CargoType.CargoTypeKind = CargoTypeKind.ID
+            WHERE 1= 1  {0}
+            GROUP BY T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPE.CARGOTYPENAME,T.FLOWORGID
+       ]]>
+    </Content>
+
+    <Content Key="Query_PackageStatusInCSSD"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPENAME,T.FLOWORGID,
+		            SUM(T.RECYCLEQTY) AS RECYCLEQTY,
+		            SUM(T.DISINFECTINGQTY) AS DISINFECTINGQTY,
+		            SUM(T.PACKAGEQTY) AS PACKAGEQTY,
+		            SUM(T.NOSTERILIZEQTY) AS NOSTERILIZEQTY,
+		            SUM(T.STERILIZINGQTY) AS STERILIZINGQTY,
+		            SUM(T.STORAGEQTY) AS STORAGEQTY
+            FROM
+            (
+            select CargoType.CARGOTYPEID,FlowRecycle.FlowOrgID,COUNT(distinct FlowPackageList.PackageID) as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowRecycle 
+	            inner join FlowRecycleList on FlowRecycle.FRecycleID = FlowRecycleList.FRecycleID
+	            inner join FlowPackageList on FlowRecycleList.PackageID = FlowPackageList.PackageID
+              inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+	            inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+	            inner join FlowRecycleContainer on FlowRecycle.FRecycleID = FlowRecycleContainer.FRecycleID and FlowRecycleContainer.LastFDisinfectID is null
+            where  StorageList.Status = 20
+            group by CargoType.CargoTypeID,FlowRecycle.FlowOrgID
+            UNION ALL
+            select CargoType.CargoTypeID,FlowRecycle.FlowOrgID,0 AS RECYCLEQTY,COUNT(distinct FlowPackageList.PackageID) as DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowRecycle 
+	            inner join FlowRecycleList on FlowRecycle.FRecycleID = FlowRecycleList.FRecycleID
+	            inner join FlowPackageList on FlowRecycleList.PackageID = FlowPackageList.PackageID
+              inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+	            inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+	            inner join FlowRecycleContainer on FlowRecycle.FRecycleID = FlowRecycleContainer.FRecycleID 
+	            inner join FlowDisinfectContainerList on FlowDisinfectContainerList.FDisinfectID = FlowRecycleContainer.LastFDisinfectID and FlowDisinfectContainerList.ContainerID = FlowRecycleContainer.ContainerID
+            where not exists ( select 1 from FlowRecycleContainer fc where fc.FRecycleID = FlowRecycle.FRecycleID and fc.LastFDisinfectID is null) and
+		            FlowDisinfectContainerList.Status = 0 AND StorageList.Status =20 and FlowRecycle.RecycleDate > to_date(sysdate)-2
+            group by CargoType.CargoTypeID,FlowRecycle.FlowOrgID
+            UNION ALL
+            SELECT FlowTask.CargoTypeID,FlowTask.FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,sum (TaskNum - FinishNum) AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            FROM FLOWTASK 
+            WHERE FinishFlag = 0 
+            group by FlowTask.CargoTypeID,FlowTask.FlowOrgID
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,COUNT(1) AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowPackageList  inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+            where FlowPackageList.BadFlag = -1 AND StorageList.Status =40
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,COUNT(1) AS STERILIZINGQTY,0 AS STORAGEQTY
+            from FlowPackageList  inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+            where FlowPackageList.BadFlag = -2 AND StorageList.Status = 40
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID,0 as RECYCLEQTY,0 AS DISINFECTINGQTY,0 AS PACKAGEQTY,0 AS NOSTERILIZEQTY,0 AS STERILIZINGQTY,COUNT(1) AS STORAGEQTY
+            from FlowPackageList inner join StorageList on FlowPackageList.StorageID = StorageList.StorageID
+            where Status = 50
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            ) T 
+            INNER JOIN CARGOTYPE ON T.CARGOTYPEID = CARGOTYPE.CARGOTYPEID
+            LEFT JOIN CargoTypeKind ON CargoType.CargoTypeKind = CargoTypeKind.ID
+            WHERE 1= 1  {0}
+            GROUP BY T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPE.CARGOTYPENAME,T.FLOWORGID
+       ]]>
+    </Content>
+
+    <Content Key="Query_GetPackageCSSDReport"  DataBaseType="SqlServer">
+      <![CDATA[
+         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+         SELECT T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPENAME,T.FLOWORGID,
+		            SUM(T.RECYCLEQTY) AS RECYCLEQTY,--回收总量
+		            SUM(T.GETQTY) AS GETQTY,--领取总量
+		            SUM(T.SAVEQTY) AS SAVEQTY,--存包总量
+		            SUM(T.USEQTY) AS USEQTY,-- 使用总量
+		            SUM(T.STORAGEQTY) AS STORAGEQTY,--库存总量
+		            SUM(T.OPERATIONQTY) AS OPERATIONQTY--运转包量
+            FROM
+            (
+            select CargoType.CARGOTYPEID,FlowRecycle.FlowOrgID,COUNT(distinct FlowPackageList.PackageID) as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowRecycle 
+	            inner join FlowRecycleList on FlowRecycle.FRecycleID = FlowRecycleList.FRecycleID
+	            inner join FlowPackageList on FlowRecycleList.PackageID = FlowPackageList.PackageID
+              inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+	            inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+	            inner join FlowRecycleContainer on FlowRecycle.FRecycleID = FlowRecycleContainer.FRecycleID and FlowRecycleContainer.LastFDisinfectID is null
+            where  StorageList.Status < 1000 and FlowRecycle.RecycleDate  between @RecycleDate1 and @RecycleDate2
+            group by CargoType.CargoTypeID,FlowRecycle.FlowOrgID
+            
+            UNION ALL
+            select CargoType.CargoTypeID,FlowProvide.FlowOrgID,0 AS RECYCLEQTY,COUNT(FlowProvideList.ProvideID) as GETQTY,0 AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowProvideList
+            inner join FlowProvide on FlowProvide.ProvideID = FlowProvideList.ProvideID
+	        inner join CargoType on FlowProvideList.CargoTypeID = CargoType.CargoTypeID
+	        inner join AC_WorkGroup on  AC_WorkGroup.FID = FlowProvide.OPID
+	        where FlowProvide.ProvideDate between @ProvideDate1 and @ProvideDate2
+            group by CargoType.CargoTypeID,FlowProvide.FlowOrgID
+            
+            UNION ALL
+            SELECT CargoType.CargoTypeID,FlowProvideLendReturn.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,sum (FlowProvideLendReturnDetail.ReturnQuantity) AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            FROM FlowProvideLendReturnDetail
+            inner join StorageList on StorageList.CargoTypeID = FlowProvideLendReturnDetail.CargoTypeID
+	        inner join CargoType on StorageList.CargoTypeID = CargoType.CargoTypeID
+	        inner join FlowProvideLendReturn on FlowProvideLendReturn.ProvideLendReturnID = FlowProvideLendReturnDetail.ProvideLendReturnID
+	        inner join FlowProvide on FlowProvide.ProvideID = FlowProvideLendReturnDetail.ProvideID
+	        where FlowProvide.ProvideDate between @ProvideDate1 and @ProvideDate2
+            group by CargoType.CargoTypeID,FlowProvideLendReturn.FlowOrgID,FlowProvide.ProvideDate
+            
+            UNION ALL
+            select CargoType.CargoTypeID,AC_User.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,SUM(FlowUseList.Quantity) AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowUseList 
+            inner join StorageList on StorageList.StorageID = FlowUseList.StorageID
+            inner join CargoType on CargoType.CargoTypeID = FlowUseList.CargoTypeID
+            inner join FlowUse on FlowUse.UseID = FlowUseList.UseID
+            inner join AC_WorkGroup on AC_WorkGroup.FID = FlowUse.OPID
+            inner join AC_UserWorkGroup uw on AC_WorkGroup.FID=uw.FGroupID
+            inner join AC_User on uw.FUserID=AC_User.ID 
+            where FlowUse.UseDate between @UseDate1 and @UseDate2
+            group by CargoType.CargoTypeID,AC_User.FlowOrgID,FlowUse.UseDate
+            
+            UNION ALL
+			      select FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,0 AS USEQTY,COUNT(1) AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowPackageList inner join StorageList on FlowPackageList.StorageID = StorageList.StorageID
+            where Status = 50
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,COUNT(1) AS OPERATIONQTY
+            from FlowPackageList inner join StorageList on FlowPackageList.StorageID = StorageList.StorageID
+            where Status = 70
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID  
+                   
+            ) T 
+            INNER JOIN CARGOTYPE ON T.CARGOTYPEID = CARGOTYPE.CARGOTYPEID
+            LEFT JOIN CargoTypeKind ON CargoType.CargoTypeKind = CargoTypeKind.ID
+            WHERE 1= 1  {0}
+            GROUP BY T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPE.CARGOTYPENAME,T.FLOWORGID
+       ]]>
+    </Content>
+
+    <Content Key="Query_GetPackageCSSDReport"  DataBaseType="Oracle">
+      <![CDATA[
+         SELECT T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPENAME,T.FLOWORGID,
+		            SUM(T.RECYCLEQTY) AS RECYCLEQTY,--回收总量
+		            SUM(T.GETQTY) AS GETQTY,--领取总量
+		            SUM(T.SAVEQTY) AS SAVEQTY,--存包总量
+		            SUM(T.USEQTY) AS USEQTY,-- 使用总量
+		            SUM(T.STORAGEQTY) AS STORAGEQTY,--库存总量
+		            SUM(T.OPERATIONQTY) AS OPERATIONQTY--运转包量
+            FROM
+            (
+            select CargoType.CARGOTYPEID,FlowRecycle.FlowOrgID,COUNT(distinct FlowPackageList.PackageID) as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowRecycle 
+	            inner join FlowRecycleList on FlowRecycle.FRecycleID = FlowRecycleList.FRecycleID
+	            inner join FlowPackageList on FlowRecycleList.PackageID = FlowPackageList.PackageID
+              inner join StorageList on StorageList.StorageID = FlowPackageList.StorageID
+	            inner join CargoType on FlowPackageList.CargoTypeID = CargoType.CargoTypeID
+	            inner join FlowRecycleContainer on FlowRecycle.FRecycleID = FlowRecycleContainer.FRecycleID and FlowRecycleContainer.LastFDisinfectID is null
+            where  StorageList.Status < 1000 and FlowRecycle.RecycleDate  between :RecycleDate1 and :RecycleDate2
+            group by CargoType.CargoTypeID,FlowRecycle.FlowOrgID
+            
+            UNION ALL
+            select CargoType.CargoTypeID,FlowProvide.FlowOrgID,0 AS RECYCLEQTY,COUNT(FlowProvideList.ProvideID) as GETQTY,0 AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowProvideList
+            inner join FlowProvide on FlowProvide.ProvideID = FlowProvideList.ProvideID
+	        inner join CargoType on FlowProvideList.CargoTypeID = CargoType.CargoTypeID
+	        inner join AC_WorkGroup on  AC_WorkGroup.FID = FlowProvide.OPID
+	        where FlowProvide.ProvideDate between :ProvideDate1 and :ProvideDate2
+            group by CargoType.CargoTypeID,FlowProvide.FlowOrgID
+            
+            UNION ALL
+            SELECT CargoType.CargoTypeID,FlowProvideLendReturn.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,sum (FlowProvideLendReturnDetail.ReturnQuantity) AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            FROM FlowProvideLendReturnDetail
+            inner join StorageList on StorageList.CargoTypeID = FlowProvideLendReturnDetail.CargoTypeID
+	        inner join CargoType on StorageList.CargoTypeID = CargoType.CargoTypeID
+	        inner join FlowProvideLendReturn on FlowProvideLendReturn.ProvideLendReturnID = FlowProvideLendReturnDetail.ProvideLendReturnID
+	        inner join FlowProvide on FlowProvide.ProvideID = FlowProvideLendReturnDetail.ProvideID
+	        where FlowProvide.ProvideDate between :ProvideDate1 and :ProvideDate2
+            group by CargoType.CargoTypeID,FlowProvideLendReturn.FlowOrgID,FlowProvide.ProvideDate
+            
+            UNION ALL
+            select CargoType.CargoTypeID,AC_User.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,SUM(FlowUseList.Quantity) AS USEQTY,0 AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowUseList 
+            inner join StorageList on StorageList.StorageID = FlowUseList.StorageID
+            inner join CargoType on CargoType.CargoTypeID = FlowUseList.CargoTypeID
+            inner join FlowUse on FlowUse.UseID = FlowUseList.UseID
+            inner join AC_WorkGroup on AC_WorkGroup.FID = FlowUse.OPID
+            inner join AC_UserWorkGroup uw on AC_WorkGroup.FID=uw.FGroupID
+            inner join AC_User on uw.FUserID=AC_User.ID 
+            where FlowUse.UseDate between :UseDate1 and :UseDate2
+            group by CargoType.CargoTypeID,AC_User.FlowOrgID,FlowUse.UseDate
+            
+            UNION ALL
+			      select FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,0 AS USEQTY,COUNT(1) AS STORAGEQTY,0 AS OPERATIONQTY
+            from FlowPackageList inner join StorageList on FlowPackageList.StorageID = StorageList.StorageID
+            where Status = 50
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID
+            
+            UNION ALL
+            select FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID,0 as RECYCLEQTY,0 AS GETQTY,0 AS SAVEQTY,0 AS USEQTY,0 AS STORAGEQTY,COUNT(1) AS OPERATIONQTY
+            from FlowPackageList inner join StorageList on FlowPackageList.StorageID = StorageList.StorageID
+            where Status = 70
+            group by FlowPackageList.CargoTypeID,FlowPackageList.FlowOrgID  
+                   
+            ) T 
+            INNER JOIN CARGOTYPE ON T.CARGOTYPEID = CARGOTYPE.CARGOTYPEID
+            LEFT JOIN CargoTypeKind ON CargoType.CargoTypeKind = CargoTypeKind.ID
+            WHERE 1= 1  {0}
+            GROUP BY T.CARGOTYPEID,CARGOTYPEKIND.KINDNAME,CARGOTYPE.CARGOTYPENAME,T.FLOWORGID
+       ]]>
+    </Content>
+
+
+    <Content Key="Update_StorageList" DataBaseType="SqlServer">
+      <![CDATA[
+      DECLARE @StorageID uniqueidentifier
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      
+      SELECT StorageID,Quantity FROM StorageList WHERE CargoTopType=2 AND CargoTypeID=@CargoTypeID AND WarehouseID=@WarehouseID AND Quantity > 0
+      AND StorageList.EXPDate>=CONVERT(varchar(10),GETDATE(),120)
+      ORDER BY StorageList.EXPDate asc
+      
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      
+      BEGIN
+      IF(@B>@Quantity)
+      BEGIN
+      update StorageList set Quantity = Quantity-@Quantity where StorageID=@StorageID;
+      SET @B=@B-@Quantity;
+      END
+      ELSE
+      BEGIN
+      update StorageList set Quantity = Quantity-@B where StorageID=@StorageID;
+      break;
+      END
+
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageList" DataBaseType="Oracle">
+      <![CDATA[
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageList WHERE CargoTopType=2 AND CargoTypeID=:CargoTypeID AND WarehouseID=:WarehouseID AND Quantity > 0
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>=to_char(sysdate,'yyyy-mm-dd')
+      ORDER BY StorageList.EXPDate asc;
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+
+      IF :B>vQuantity then
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+      :B:=:B-vQuantity;
+
+      ELSE
+      update StorageList set Quantity = Quantity-:B where StorageID=vStorageID;
+      exit;
+      end if;
+      
+
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageListNew" DataBaseType="SqlServer">
+      <![CDATA[
+      DECLARE @StorageID uniqueidentifier
+      DECLARE @Quantity int 
+      DECLARE Temp_Cursor CURSOR FOR
+      SELECT StorageID,sl.Quantity FROM StorageList SL
+	  left join StorageInList SIL on sl.InListID=sil.InListID and sl.InListID=sil.InListID and sl.InID=sil.InID  
+	  left join StorageIn SI on SI.InID=sil.InID 
+      where  SL.CargoTypeID=@CargoTypeID AND SL.WarehouseID=@WarehouseID AND SL.Quantity > 0
+      AND SL.EXPDate>=CONVERT(varchar(10),GETDATE(),120)
+      ORDER BY SL.EXPDate asc 
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      
+      BEGIN
+      IF(@B>@Quantity)
+      BEGIN
+      update StorageList set Quantity = Quantity-@Quantity where StorageID=@StorageID;
+      
+      update StorageOutList set StorageID=@StorageID where OutListID=@outlistid;
+      
+	  IF NOT EXISTS(SELECT * FROM STORAGEOUTLISTSTORAGELIST WHERE StorageID=@StorageID and outlistid=@outlistid)
+		insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(@outlistid,@StorageID,@CargoTypeID,@WarehouseID,@Quantity);
+      ELSE
+      UPDATE STORAGEOUTLISTSTORAGELIST SET quantity=quantity+@Quantity WHERE  outlistid=@outlistid and storageid=@StorageID;
+	  
+      SET @B=@B-@Quantity;
+      END
+      ELSE
+      BEGIN
+      update StorageList set Quantity = Quantity-@B where StorageID=@StorageID;
+      
+      update StorageOutList set StorageID=@StorageID where OutListID=@outlistid;
+      
+	  IF NOT EXISTS(SELECT * FROM STORAGEOUTLISTSTORAGELIST WHERE StorageID=@StorageID and outlistid=@outlistid)
+		insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(@outlistid,@StorageID,@CargoTypeID,@WarehouseID,@B);
+      ELSE
+      UPDATE STORAGEOUTLISTSTORAGELIST SET quantity=quantity+@B WHERE  outlistid=@outlistid and storageid=@StorageID;
+      break;
+      END
+
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageListNew" DataBaseType="Oracle">
+      <![CDATA[
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+	  vRowsCount number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+	  SELECT StorageID,sl.Quantity FROM StorageList SL
+	  left join StorageInList SIL on sl.InListID=sil.InListID and sl.InListID=sil.InListID and sl.InID=sil.InID  
+	  left join StorageIn SI on SI.InID=sil.InID 
+      where  SL.CargoTypeID=:CargoTypeID AND SL.WarehouseID=:WarehouseID AND SL.Quantity > 0
+      AND to_char(SL.EXPDate,'yyyy-mm-dd')>=to_char(sysdate,'yyyy-mm-dd')
+      ORDER BY SL.EXPDate asc ;
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+
+      IF :B>vQuantity then
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+      
+      update StorageOutList set StorageID=vStorageID where OutListID=:outlistid;
+      
+	  begin
+		  SELECT COUNT(*) INTO vRowsCount FROM STORAGEOUTLISTSTORAGELIST WHERE  outlistid=:outlistid and storageid=vStorageID;
+		  IF (vRowsCount = 0 )THEN
+			insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(:outlistid,vStorageID,:CargoTypeID,:WarehouseID,vQuantity); 
+		  ELSE
+		  UPDATE STORAGEOUTLISTSTORAGELIST SET quantity=quantity+vQuantity WHERE  outlistid=:outlistid and storageid=vStorageID;
+		  END IF;
+      end ; 
+      :B:=:B-vQuantity;
+
+      ELSE
+      update StorageList set Quantity = Quantity-:B where StorageID=vStorageID;
+      
+      update StorageOutList set StorageID=vStorageID where OutListID=:outlistid;
+      
+	  begin
+		  SELECT COUNT(*) INTO vRowsCount FROM STORAGEOUTLISTSTORAGELIST WHERE  outlistid=:outlistid and storageid=vStorageID;
+		  IF (vRowsCount = 0 )THEN
+			insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(:outlistid,vStorageID,:CargoTypeID,:WarehouseID,:B); 
+		  ELSE
+			UPDATE STORAGEOUTLISTSTORAGELIST SET quantity=quantity+:B WHERE  outlistid=:outlistid and storageid=vStorageID;
+		  END IF;
+      end ; 
+	  
+      exit;
+      end if;
+      
+
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageListB" DataBaseType="SqlServer">
+      <![CDATA[
+      DECLARE @StorageID uniqueidentifier
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      
+      SELECT StorageID,Quantity FROM StorageList WHERE   CargoTypeID=@CargoTypeID AND WarehouseID=@WarehouseID AND Quantity >= 0
+      AND StorageList.EXPDate>=CONVERT(varchar(10),GETDATE(),120)
+      UNION
+      SELECT StorageID,Quantity FROM StorageList WHERE   CargoTypeID=@CargoTypeID AND Quantity >= 0
+      AND StorageList.EXPDate>=CONVERT(varchar(10),GETDATE(),120)
+      
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      
+      BEGIN
+      IF(@B>@Quantity)
+      BEGIN
+      update StorageList set Quantity = Quantity-@Quantity where StorageID=@StorageID;
+      SET @B=@B-@Quantity;
+      END
+      ELSE
+      BEGIN
+      update StorageList set Quantity = Quantity-@B where StorageID=@StorageID;
+      break;
+      END
+
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageListB" DataBaseType="Oracle">
+      <![CDATA[
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageList WHERE   CargoTypeID=:CargoTypeID AND WarehouseID=:WarehouseID AND Quantity >= 0
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>=to_char(sysdate,'yyyy-mm-dd')
+      UNION
+      SELECT StorageID,Quantity FROM StorageList WHERE  CargoTypeID=:CargoTypeID  AND Quantity >= 0
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>=to_char(sysdate,'yyyy-mm-dd');
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+
+      IF :B>vQuantity then
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+      :B:=:B-vQuantity;
+      ELSE
+      update StorageList set Quantity = Quantity-:B where StorageID=vStorageID;
+      exit;
+      end if;
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+      ]]>
+    </Content>
+    <Content Key="Update_StorageListBNew" DataBaseType="SqlServer">
+      <![CDATA[
+      DECLARE @StorageID uniqueidentifier
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      
+      SELECT StorageID,Quantity FROM StorageList WHERE   CargoTypeID=@CargoTypeID AND WarehouseID=@WarehouseID AND Quantity >= 0
+      AND StorageList.EXPDate>=CONVERT(varchar(10),GETDATE(),120)
+      UNION
+      SELECT StorageID,Quantity FROM StorageList WHERE  CargoTypeID=@CargoTypeID AND Quantity >= 0
+      AND StorageList.EXPDate>=CONVERT(varchar(10),GETDATE(),120)
+      
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      
+      BEGIN
+      IF(@B>@Quantity)
+      BEGIN
+      update StorageList set Quantity = Quantity-@Quantity where StorageID=@StorageID;
+	  insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(@outlistid,@StorageID,@CargoTypeID,@WarehouseID,@Quantity);
+      SET @B=@B-@Quantity;
+      END
+      ELSE
+      BEGIN
+      update StorageList set Quantity = Quantity-@B where StorageID=@StorageID;
+	  insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(@outlistid,@StorageID,@CargoTypeID,@WarehouseID,@B);
+      break;
+      END
+
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageListBNew" DataBaseType="Oracle">
+      <![CDATA[
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageList WHERE   CargoTypeID=:CargoTypeID AND WarehouseID=:WarehouseID AND Quantity >= 0
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>=to_char(sysdate,'yyyy-mm-dd')
+      UNION
+      SELECT StorageID,Quantity FROM StorageList WHERE   CargoTypeID=:CargoTypeID  AND Quantity >= 0
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>=to_char(sysdate,'yyyy-mm-dd');
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vstorageid,vquantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+
+      IF :B>vQuantity then
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+	  insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(:outlistid,vStorageID,:CargoTypeID,:WarehouseID,vQuantity);
+      :B:=:B-vQuantity;
+      ELSE
+      update StorageList set Quantity = Quantity-:B where StorageID=vStorageID;
+	  insert into STORAGEOUTLISTSTORAGELIST(outlistid,storageid,cargotypeid,warehouseID,quantity) Values(:outlistid,vStorageID,:CargoTypeID,:WarehouseID,:B);
+      exit;
+      end if;
+      FETCH  Temp_Cursor INTO vstorageid,vquantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+      ]]>
+    </Content>
+
+
+    <Content Key="Query_GetStorageOutListByOutListID" DataBaseType="SqlServer">
+      SELECT * FROM StorageOutList SL WHERE SL.OutListID=@OutListID
+    </Content>
+    <Content Key="Query_GetStorageOutListByOutListID" DataBaseType="Oracle">
+      SELECT * FROM StorageOutList SL WHERE SL.OutListID=:OutListID
+    </Content>
+
+    <Content Key="Query_PackageStatusAll"  DataBaseType="SqlServer">
+      <![CDATA[
+         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+          SELECT  CK.KINDNAME,C.CARGOTYPENAME,SL.BARCODE,1 AS QUANTITY,L.LOCATIONNAME,AW.FNAMES AS LASTOP, PL.LASTDATE,st.TYPENAME
+          ,w.WarehouseName as WAREHOUSENAME,o.Name as ORGNAME
+           FROM  FlowPackageList pl inner join StorageList sl on pl.StorageID = sl.StorageID
+						 inner join CargoType c on pl.CargoTypeID = c.CargoTypeID
+						 inner join CargoTypeKind ck on c.CargoTypeKind = ck.ID
+						 left join Location l on pl.LastLocationID = l.LocationID
+						 inner join SystemTypeParameter st on sl.Status = st.TypeValue and st.TypeKey = 'StorageStatus'
+						 inner join AC_WorkGroup aw on pl.LastOPID = aw.FID
+             
+             /*--所在仓库，科室--*/
+             left join Warehouse w on sl.WarehouseID=w.WarehouseID
+             left join AC_Org o on w.OrgID=o.ID
+          where sl.Status < 1000 and sl.Status <> 20 {0}
+       ]]>
+    </Content>
+
+    <Content Key="Query_PackageStatusAll"  DataBaseType="Oracle">
+      <![CDATA[
+         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+          SELECT  CK.KINDNAME,C.CARGOTYPENAME,SL.BARCODE,1 AS QUANTITY,L.LOCATIONNAME,AW.FNAMES AS LASTOP, PL.LASTDATE,st.TYPENAME
+          ,w.WarehouseName as WAREHOUSENAME,o.Name as ORGNAME
+           FROM  FlowPackageList pl inner join StorageList sl on pl.StorageID = sl.StorageID
+						 inner join CargoType c on pl.CargoTypeID = c.CargoTypeID
+						 inner join CargoTypeKind ck on c.CargoTypeKind = ck.ID
+						 left join Location l on pl.LastLocationID = l.LocationID
+						 inner join SystemTypeParameter st on sl.Status = st.TypeValue and st.TypeKey = 'StorageStatus'
+						 inner join AC_WorkGroup aw on pl.LastOPID = aw.FID
+             
+             /*--所在仓库，科室--*/
+             left join Warehouse w on sl.WarehouseID=w.WarehouseID
+             left join AC_Org o on w.OrgID=o.ID
+          where sl.Status < 1000 and sl.Status <> 20 {0}
+       ]]>
+    </Content>
+
+    <Content Key="Query_StorageListPackageDetailProvideDeviceInfoByStorageList" Desc="器械追溯" DataBaseType="SqlServer">
+      select StorageList.BARCODE  as STORAGELISTBARCODE --编码
+      ,StorageList.AFTERMAINTAINUSETIMES  --使用次数
+      ,StorageList.WAREHOUSEID  --仓库
+      ,Warehouse.WAREHOUSENAME  --仓库
+      ,Location.LOCATIONNAME --库位
+      ,StorageList.LOCATIONID   --库位
+      ,StorageList.STATUS		  --状态
+      ,SystemTypeParameter.TYPENAME--状态名称
+      ,CargoType.CARGOTYPENAME   --产品
+      ,CargoType.CARGOIMAGE
+      ,CargoType.CargoTypeID
+      ,CargoType.AMOUNT
+      ,MAEDATE
+      ,CargoType.NEEDMAINTAINTIMES
+      ,Manufacturer.Name as MANUFACTURERNAME
+      from	StorageList
+      left join CargoType   on StorageList.CargoTypeID =CargoType.CargoTypeID
+      left join Warehouse   on Warehouse.WarehouseID =StorageList.WarehouseID
+      left join Location   on Location.LocationID =StorageList.LocationID
+      left join SystemTypeParameter   on SystemTypeParameter.TypeValue=StorageList.Status
+      left join Manufacturer on CargoType.ManufacturerID = Manufacturer.ManufacturerID
+      where 1=1 {0}
+      order by MAEDATE desc
+    </Content>
+
+    <Content Key="Query_StorageListPackageDetailProvideDeviceInfoByStorageList" Desc="器械追溯" DataBaseType="Oracle">
+      select StorageList.BARCODE  as STORAGELISTBARCODE --编码
+      ,StorageList.AFTERMAINTAINUSETIMES  --使用次数
+      ,StorageList.WAREHOUSEID  --仓库
+      ,Warehouse.WAREHOUSENAME  --仓库
+      ,Location.LOCATIONNAME --库位
+      ,StorageList.LOCATIONID   --库位
+      ,StorageList.STATUS		  --状态
+      ,SystemTypeParameter.TYPENAME--状态名称
+      ,CargoType.CARGOTYPENAME   --产品
+      ,CargoType.CARGOIMAGE
+      ,CargoType.CargoTypeID
+      ,CargoType.AMOUNT
+      ,MAEDATE
+      ,CargoType.NEEDMAINTAINTIMES
+      ,Manufacturer.Name as MANUFACTURERNAME
+      from	StorageList
+      left join CargoType   on StorageList.CargoTypeID =CargoType.CargoTypeID
+      left join Warehouse   on Warehouse.WarehouseID =StorageList.WarehouseID
+      left join Location   on Location.LocationID =StorageList.LocationID
+      left join SystemTypeParameter   on SystemTypeParameter.TypeValue=StorageList.Status
+      left join Manufacturer on CargoType.ManufacturerID = Manufacturer.ManufacturerID
+      where 1=1 {0}
+      order by MAEDATE desc
+    </Content>
+    <Content Key="Query_OneMaterials" Desc="一次性物品查询" DataBaseType="SqlServer">
+      WITH ProvideMaterials(CargoTypeID,StockQty)
+      AS
+      (
+      SELECT
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,ISNULL(SUM(cast(StorageList.Quantity as bigint)),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType = 2
+      AND StorageList.Quantity>0
+      AND StorageList.EXPDate>CONVERT(varchar(10),GETDATE(),120)
+      GROUP BY
+      StorageList.CargoTypeID
+      ) Stock
+      LEFT JOIN
+      (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType = 2
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      )
+      SELECT 0 as QUANTITY,ctk.KindName AS CARGOTYPEKINDTEXT,CargoType.CargoTopType,CargoType.CargoTypeKind
+      ,CargoType.CargoTypeID AS VALUE,CargoType.CargoTypeName AS NAME
+      ,ISNULL(StockQty,0) AS StockQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID,CargoType.PINYIN
+      ,CargoType.amount as AMOUNT
+      FROM ProvideMaterials
+      LEFT JOIN CargoType CargoType
+      left join CargoTypeKind ctk on CargoType.CargoTypeKind=ctk.ID
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 {0}
+    </Content>
+    <Content Key="Query_OneMaterials" Desc="一次性物品查询" DataBaseType="Oracle">
+      WITH ProvideMaterials
+      AS
+      (
+      SELECT
+      Stock.CargoTypeID
+      ,Stock.StockQty
+      FROM
+      (
+      SELECT
+      StorageList.CargoTypeID
+      ,nvl(SUM(StorageList.Quantity),0) AS StockQty
+      FROM  StorageList
+      WHERE StorageList.CargoTopType = 2
+      AND StorageList.Quantity>0
+      AND to_char(StorageList.EXPDate,'yyyy-mm-dd')>to_char(sysdate,'yyyy-mm-dd')
+      GROUP BY
+      StorageList.CargoTypeID
+      ) Stock
+      LEFT JOIN
+      (
+      SELECT
+      FlowPreOrderDetail.CargoTypeID
+      FROM  FlowPreOrderDetail
+      LEFT JOIN FlowPreOrder
+      ON FlowPreOrderDetail.PreOrderID = FlowPreOrder.PreOrderID
+      WHERE FlowPreOrderDetail.CargoTopType = 2
+      AND FlowPreOrderDetail.CheckStatus in (1,4)
+      AND FlowPreOrderDetail.PreOrderQty - FlowPreOrderDetail.ProvidedQty > 0
+      GROUP BY
+      FlowPreOrderDetail.CargoTypeID
+      ) PreOrder
+      ON Stock.CargoTypeID = PreOrder.CargoTypeID
+      )
+      SELECT 0 as QUANTITY,ctk.KindName AS CARGOTYPEKINDTEXT,CargoType.CargoTopType,CargoType.CargoTypeKind
+      ,CargoType.CargoTypeID AS VALUE,CargoType.CargoTypeName AS NAME
+      ,nvl(StockQty,0) AS StockQty
+      ,CargoType.MinUnit
+      ,CargoType.Unit,CargoType.SynDataID,CargoType.PINYIN
+      ,CargoType.amount as AMOUNT
+      FROM ProvideMaterials
+      LEFT JOIN CargoType CargoType
+      left join CargoTypeKind ctk on CargoType.CargoTypeKind=ctk.ID
+      ON CargoType.CargoTypeID = ProvideMaterials.CargoTypeID
+      WHERE 1 = 1 {0}
+    </Content>
+    <Content Key="Query_HighCargotypePrint" Desc="高值耗材打印" DataBaseType="SqlServer">
+      select ct.CargoTypeID as CARGOTYPEID,ct.CargoTypeName as CARGOTYPENAME,si.InDate as MAEDATE
+      ,sl.EXPDate as EXPDATE,sl.Barcode as BARCODE
+      ,ct.MinUnit as MINUNIT,ct.Unit as UNIT,ctk.KindName as KINDNAME
+      ,sl.Status as STATUS,0 as BADFLAG,20 as USESTATUS
+      ,GETDATE() as PACKAGEOPENDATE,sl.StorageID as STORAGEID
+      ,null as PACKAGEOPENMINS,null as PACKAGEOPENDATE
+      ,wg.FNames as LASTOP,sl.StorageID as PACKAGEID
+      ,'' as FHospitalizedNo
+      ,ct.IsHighCargotype as ISHIGHCARGOTYPE
+      from StorageList sl
+      inner join CargoType ct on sl.CargoTypeID=ct.CargoTypeID
+      inner join StorageIn si on sl.InID=si.InID
+      inner join CargoTypeKind ctk on ct.CargoTypeKind=ctk.ID
+      inner join AC_WorkGroup wg on si.OPID=wg.FID
+      where 1=1 {0}
+      order by CARGOTYPENAME desc
+    </Content>
+    <Content Key="Query_HighCargotypePrint" Desc="高值耗材打印" DataBaseType="Oracle">
+      select ct.CargoTypeID as CARGOTYPEID,ct.CargoTypeName as CARGOTYPENAME,si.InDate as MAEDATE
+      ,sl.EXPDate as EXPDATE,sl.Barcode as BARCODE
+      ,ct.MinUnit as MINUNIT,ct.Unit as UNIT,ctk.KindName as KINDNAME
+      ,sl.Status as STATUS,0 as BADFLAG,20 as USESTATUS
+      ,sysdate as PACKAGEOPENDATE,sl.StorageID as STORAGEID
+      ,null as PACKAGEOPENMINS,null as PACKAGEOPENDATE
+      ,wg.FNames as LASTOP,sl.StorageID as PACKAGEID
+      ,'' as FHospitalizedNo
+      ,ct.IsHighCargotype as ISHIGHCARGOTYPE
+      from StorageList sl
+      inner join CargoType ct on sl.CargoTypeID=ct.CargoTypeID
+      inner join StorageIn si on sl.InID=si.InID
+      inner join CargoTypeKind ctk on ct.CargoTypeKind=ctk.ID
+      inner join AC_WorkGroup wg on si.OPID=wg.FID
+      where 1=1 {0}
+      order by CARGOTYPENAME desc
+    </Content>
+    <Content Key="Query_HighCargotypeInfoByBarcode" Desc="查询高值耗材信息" DataBaseType="SqlServer">
+      select  ct.CargoTypeID CARGOTYPEID,ctk.KindName as KINDNAME,ct.CargoTypeName as CARGOTYPENAME
+      ,ct.amount as AMOUNT,ct.Model as MODEL,ct.Specification as SPECIFICATION
+      ,ct.MinUnit as MINUNIT,ct.Unit as UNIT,m.Name as MANUFACTURERNAME
+      ,ct.Remark as REMARK from StorageList sl
+      inner join CargoType ct on sl.CargoTypeID=ct.CargoTypeID
+      inner join CargoTypeKind ctk on ct.CargoTypeKind=ctk.ID
+      left join Manufacturer m on ct.ManufacturerID=m.ManufacturerID
+      where sl.Barcode=@Barcode
+    </Content>
+    <Content Key="Query_HighCargotypeInfoByBarcode" Desc="查询高值耗材信息" DataBaseType="Oracle">
+      select  ct.CargoTypeID CARGOTYPEID,ctk.KindName as KINDNAME,ct.CargoTypeName as CARGOTYPENAME
+      ,ct.amount as AMOUNT,ct.Model as MODEL,ct.Specification as SPECIFICATION
+      ,ct.MinUnit as MINUNIT,ct.Unit as UNIT,m.Name as MANUFACTURERNAME
+      ,ct.Remark as REMARK from StorageList sl
+      inner join CargoType ct on sl.CargoTypeID=ct.CargoTypeID
+      inner join CargoTypeKind ctk on ct.CargoTypeKind=ctk.ID
+      left join Manufacturer m on ct.ManufacturerID=m.ManufacturerID
+      where sl.Barcode=:Barcode
+    </Content>
+    <Content Key="Query_HighTraceByBarcode" Desc="高值耗材追溯" DataBaseType="SqlServer">
+      select LogTime as LOGTIME,LogType as LOGTYPE,wg.FNames as FNAMES,s.Content as CONTENT from SysLog s
+      left join AC_WorkGroup wg on s.Operator=wg.FID
+      inner join StorageList sl on KeyID1=sl.InID
+      where sl.Barcode=@Barcode
+      union all
+      select LogTime as LOGTIME,LogType as LOGTYPE,wg.FNames as FNAMES,s.Content as CONTENT from SysLog s
+      left join AC_WorkGroup wg on s.Operator=wg.FID
+      inner join StorageList sl on KeyID1=sl.StorageID
+      where sl.Barcode=@Barcode
+    </Content>
+    <Content Key="Query_HighTraceByBarcode" Desc="高值耗材追溯" DataBaseType="Oracle">
+      select LogTime as LOGTIME,LogType as LOGTYPE,wg.FNames as FNAMES,s.Content as CONTENT from SysLog s
+      left join AC_WorkGroup wg on s.Operator=wg.FID
+      inner join StorageList sl on KeyID1=sl.InID
+      where sl.Barcode=:Barcode
+      union all
+      select LogTime as LOGTIME,LogType as LOGTYPE,wg.FNames as FNAMES,s.Content as CONTENT from SysLog s
+      left join AC_WorkGroup wg on s.Operator=wg.FID
+      inner join StorageList sl on KeyID1=sl.StorageID
+      where sl.Barcode=:Barcode
+    </Content>
+
+    <Content Key="Update_StorageListStockCheck" Desc="器械，一次性物品盘库" DataBaseType="SqlServer">
+      <![CDATA[
+      DECLARE @StorageID uniqueidentifier
+      DECLARE @Quantity int
+
+      DECLARE Temp_Cursor CURSOR FOR
+      
+      SELECT StorageID,Quantity FROM StorageList WHERE CargoTopType=@CargoTopType AND CargoTypeID=@CargoTypeID AND WarehouseID=@WarehouseID AND Quantity > 0
+      AND StorageList.Status=10
+      ORDER BY StorageList.EXPDate asc
+      
+      OPEN Temp_Cursor
+      FETCH NEXT FROM Temp_Cursor into @StorageID,@Quantity
+      WHILE @@FETCH_STATUS = 0
+      
+      BEGIN
+      IF(@B>@Quantity)
+      BEGIN
+      update StorageList set Quantity = Quantity-(@Quantity) where StorageID=@StorageID;
+      SET @B=@B-(@Quantity);
+      END
+      ELSE
+      BEGIN
+      update StorageList set Quantity = Quantity-(@B) where StorageID=@StorageID;
+      break;
+      END
+
+      FETCH NEXT FROM Temp_Cursor INTO @StorageID,@Quantity
+      END
+      CLOSE Temp_Cursor
+      DEALLOCATE Temp_Cursor
+      ]]>
+    </Content>
+
+    <Content Key="Update_StorageListStockCheck" Desc="器械，一次性物品盘库" DataBaseType="Oracle">
+      <![CDATA[
+      DECLARE
+      vStorageID varchar2(50);
+      vQuantity number;
+      begin
+
+      DECLARE  CURSOR Temp_Cursor is
+      SELECT StorageID,Quantity FROM StorageList WHERE CargoTopType=:CargoTopType AND CargoTypeID=:CargoTypeID AND WarehouseID=:WarehouseID AND Quantity > 0
+      AND StorageList.Status=10
+      ORDER BY StorageList.EXPDate asc;
+
+      begin
+      OPEN Temp_Cursor ;
+
+      FETCH   Temp_Cursor INTO  vStorageID,vQuantity;
+
+      WHILE Temp_Cursor%FOUND
+      loop
+
+      IF :B>vQuantity then
+      update StorageList set Quantity = Quantity-vQuantity where StorageID=vStorageID;
+      :B:=:B-vQuantity;
+
+      ELSE
+      update StorageList set Quantity = Quantity-:B where StorageID=vStorageID;
+      exit;
+      end if;
+      
+
+      FETCH  Temp_Cursor INTO vStorageID,vQuantity;
+      end loop;
+
+      CLOSE Temp_Cursor;
+
+      end;
+      end;
+      ]]>
+    </Content>
+
+    <Content Key="Query_StockCheck" Desc="器械，一次性物品盘库" DataBaseType="SqlServer">
+      select
+      sc.CheckID as CHECKID
+      ,sc.CheckDate as CHECKDATE
+      ,au.Name as OPNAME
+      ,w.WarehouseName as WAREHOUSENAME
+      from StockCheck sc
+      left join Warehouse w on  sc.WarehouseID=w.WarehouseID
+      left join AC_User au on sc.OPID=au.ID
+      where 1=1
+    </Content>
+    <Content Key="Query_StockCheck" Desc="器械，一次性物品盘库" DataBaseType="Oracle">
+      select
+      sc.CheckID as CHECKID
+      ,sc.CheckDate as CHECKDATE
+      ,au.Name as OPNAME
+      ,w.WarehouseName as WAREHOUSENAME
+      from StockCheck sc
+      left join Warehouse w on  sc.WarehouseID=w.WarehouseID
+      left join AC_User au on sc.OPID=au.ID
+      where 1=1
+    </Content>
+    
+    <Content Key="Query_StockCheckList" Desc="器械，一次性物品盘库" DataBaseType="SqlServer">
+      select sc.CheckDate as CHECKDATE
+      ,au.Name as OPNAME
+      ,w.WarehouseName as WAREHOUSENAME
+      ,ct.CargoTypeName as CARGOTYPENAME
+      ,sck.Specification as SPECIFICATION
+      ,sck.Unit as UNIT
+      ,m.Name as MANUFACTURERNAME
+      ,sck.Price as PRICE
+      ,sck.Quantity as QUANTITY
+      ,sck.CheckQuantity as CHECKQUANTITY
+      ,-sck.LossQuantity as LOSSQUANTITY
+      ,ISNULL(sck.CheckQuantity,0)*sck.Price as CHECKPRICE
+      ,ISNULL(sck.LossQuantity,0)*sck.Price as LOSSPRICE
+      ,sck.Remark as REMARK
+      from StockCheck sc
+      inner join StockCheckList sck on sc.CheckID=sck.CheckID
+      inner join CargoType ct on sck.CargoTypeID=ct.CargoTypeID
+      left join Warehouse w on  sc.WarehouseID=w.WarehouseID
+      left join Manufacturer m on sck.Manufacturer=m.ManufacturerID
+      left join AC_User au on sc.OPID=au.ID
+      where 1=1
+    </Content>
+    <Content Key="Query_StockCheckList" Desc="器械，一次性物品盘库" DataBaseType="Oracle">
+      select sc.CheckDate as CHECKDATE
+      ,au.Name as OPNAME
+      ,w.WarehouseName as WAREHOUSENAME
+      ,ct.CargoTypeName as CARGOTYPENAME
+      ,sck.Specification as SPECIFICATION
+      ,sck.Unit as UNIT
+      ,m.Name as MANUFACTURERNAME
+      ,sck.Price as PRICE
+      ,sck.Quantity as QUANTITY
+      ,sck.CheckQuantity as CHECKQUANTITY
+      ,-sck.LossQuantity as LOSSQUANTITY
+      ,nvl(sck.CheckQuantity,0)*sck.Price as CHECKPRICE
+      ,nvl(sck.LossQuantity,0)*sck.Price as LOSSPRICE
+      ,sck.Remark as REMARK
+      from StockCheck sc
+      inner join StockCheckList sck on sc.CheckID=sck.CheckID
+      inner join CargoType ct on sck.CargoTypeID=ct.CargoTypeID
+      left join Warehouse w on  sc.WarehouseID=w.WarehouseID
+      left join Manufacturer m on sck.Manufacturer=m.ManufacturerID
+      left join AC_User au on sc.OPID=au.ID
+      where 1=1
+    </Content>
+  </Contents>
+</SqlConfig>

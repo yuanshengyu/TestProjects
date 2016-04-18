@@ -1,0 +1,5 @@
+E:\MyProjects\TestAssembly\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+E:\MyProjects\TestAssembly\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+E:\MyProjects\TestAssembly\ClassLibrary1\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestAssembly\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+E:\MyProjects\TestAssembly\ClassLibrary1\obj\Debug\ClassLibrary1.pdb

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="PatientCode" Content="infecon_patient_master.patient_id"> <!--病案号-->
+    </MappingKey>
+    <MappingKey Key="MedicalRecordCode" Content="infecon_patient_master.patient_id">      
+    </MappingKey>    
+    <MappingKey Key="InPatientDeptCode" Content="Pats_in_hospital.Dept_code">
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="infecon_patient_master.patient_id">
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="infecon_patient_master.patient_id">
+    </MappingKey>
+    <MappingKey Key="PatientNamePINYINOperationPatient" Content="infecon_operation.Operating_room_no">
+    </MappingKey>
+    <MappingKey Key="PatientNamePINYINInPatient" Content="infecon_pats_in_hospital.bed_no">
+    </MappingKey>
+    <MappingKey Key="PatientNamePINYINRegisterPatient" Content="infecon_pats_in_hospital.bed_no">
+    </MappingKey>
+    <MappingKey Key="OperatingDepartment" Content="infecon_operation.Operating_dept"> <!-- 手术科室 -->
+    </MappingKey>
+    <MappingKey Key="WardArea" Content="infecon_pats_in_hospital.Dept_name"> <!-- 病区 -->
+    </MappingKey>
+    <MappingKey Key="OperationRoom" Content="infecon_operation.Operating_room_no"> <!-- 手术间-->
+    </MappingKey>
+    <MappingKey Key="OperationDate" Content="infecon_operation.Start_date_time"> <!-- 手术时间-->
+    </MappingKey>
+    <MappingKey Key="OperatingStatus" Content="手术状态"> <!-- 手术状态-->
+    </MappingKey>
+    <MappingKey Key="VisitDepartment" Content="Clinic_master.Visit_dept">
+      <!-- 挂号科室-->
+    </MappingKey>
+    <MappingKey Key="OperationPatientID" Content="infecon_operation.Patient_Id">      
+    </MappingKey>
+    <MappingKey Key="RegisterInfoPatientID" Content="infecon_clnic_master.Patient_Id">
+    </MappingKey> 
+    <MappingKey Key="PatsInHospitalPatientID" Content="infecon_pats_in_hospital.Patient_Id">
+    </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

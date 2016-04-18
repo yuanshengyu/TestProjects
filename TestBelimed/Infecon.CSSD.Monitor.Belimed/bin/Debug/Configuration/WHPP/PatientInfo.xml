@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!-- 获取病人信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfo" DataBaseType="SqlServer">getpatient_infecon</Content>
+
+    <Content Key="GetOp_schedule" DataBaseType="Oracle">
+      <![CDATA[
+        select
+      operating_room_no as OPERATIONROOM, --手术间
+      scheduled_date_time as SCHEDULEDDATETIME, --手术时间
+      sequence as SEQUENCE, --手术台次
+      name as NAME, --姓名
+      age as PATIENTAGE, --年龄
+      inp_no as PATIENTID,--住院号
+      dept_stayed as DEPTNAME, --病床
+      bed_no as BEDNO,--床号
+      sex as SEX,--性别
+      diag_before_operation as DIAGBEFOREOPERATION,--诊断
+      operation_name as OPERATOR,--手术名称
+      surgeon as SURGEON,--手术者
+      anesthesia_method as ANESTHESIAMETHOD,--麻醉方式
+      anesthesia_doctor as ANESTHESIADOCTOR,--麻醉者
+      operation_nurse as SECONDSUPPLYNURSE, --洗手
+      supply_nurse as FIRSTOPERATIONNURSE--巡回
+      from medsurgery.view_op_schedule
+      where 1=1 {0}
+      ]]>  
+    </Content>
+  </Contents>
+</SqlConfig>

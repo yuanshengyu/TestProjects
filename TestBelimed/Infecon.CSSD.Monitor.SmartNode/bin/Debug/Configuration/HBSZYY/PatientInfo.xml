@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      /*--病人基本信息--*/
+      select
+      br.ipid,			  --病人编号
+      br.patiname,		  --病人姓名
+      br.sex,              --性别
+      br.birthday,         --出生年月
+      br.age,              --年龄
+      br.idcard,           --身份证号
+      br.homeaddress,      --地址
+      br.homephone,        --联系电话
+      br.orgid,            --机构ID
+      br.ipnumber as zipnumber,         --住院号
+      br.wardname,         --病区
+      br.bedcode,          --床位
+      ss.ipnumber,         --病案号
+      ss.surgeryroomname,  --手术室
+      ss.askdeptname,      --科室
+      ss.surgerydate,      --手术时间
+      ss.surgeryroomdtl,   --手术台次
+      ss.state,            --手术状态
+      ss.surgerystarttime, --手术开始时间
+      ss.surgeryendtime    --手术结束时间
+      from vw_infecon_ippati br
+      left join vw_infecon_ipsurgery ss on br.ipid=ss.ipid
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      zy.ipid as VALUE,--病人编号
+      zy.ipid as INPATIENTCODE,--病人编号
+      zy.patiname as NAME,  --病人姓名
+      zy.patiname as DISPLAYNAME, --病人姓名
+      zy.sex as PATIENTSEX,   --病人性别
+      zy.age as PATIENTAGE,--年龄
+      --住院信息
+      zy.ipnumber as SocialSecurityCard, --住院号
+      zy.wardname as WARDAREA,--病区
+      zy.bedcode as BEDNO --床位
+      from vw_infecon_ippati zy
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      br.ipid as VALUE,--病人编号
+      br.patiname as NAME,  --病人姓名
+      br.patiname as DISPLAYNAME, --病人姓名
+      br.sex as PATIENTSEX,   --病人性别
+      br.age as PATIENTAGE,--年龄
+      ss.askdeptname as OPERATIONDEPARTMENT    --科室
+      from vw_infecon_ippati br
+      left join vw_infecon_ipsurgery ss on br.ipid=ss.ipid
+      where 1=1 {0}
+    </Content>
+    
+    <!---->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      select
+      BRBH,  --病人编号
+      BRXM,  --姓名
+      GFNO,  --医保号
+      BRXB,  --性别
+      BRNL,  --年龄
+      BRDZ,  --地址
+      TELE,  --电话
+      SFZHM, --身份证号
+      CSRQ,  --出生日期
+      FBLX,
+      FBMC,
+      JZKH,
+      MZH,   --门诊号
+      MZKB,
+      GHKSMC,  --挂号科室名称
+      MZLX,
+      GHSJ,    --挂号时间
+      KSXH
+      from OUTLINK.V_GYS_MZBRXX
+      where 1=1 {0}
+      order by  GHSJ Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      BRBH as VALUE,--病人编号
+      BRXM as NAME,  --病人姓名
+      BRXM as DISPLAYNAME, --病人姓名
+      BRXB as PATIENTSEX,   --病人性别
+      CSRQ as PatientBirthday, --出生年月
+      BRNL as PATIENTAGE,--年龄
+      MZH as REGISTERCODE,   --挂号系统编号
+      GHSJ as REGISTERDATETIME, --挂号时间
+      GHKSMC as REGISTERDEPARTMENT --挂号科室
+      from OUTLINK.V_GYS_MZBRXX
+      where 1=1 {0}
+      order by  GHSJ Desc
+    </Content>
+  </Contents>
+</SqlConfig>

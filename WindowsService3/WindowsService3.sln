@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService3", "WindowsService3\WindowsService3.csproj", "{6317A7F9-6266-4D79-8B96-8DA0015A29AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6317A7F9-6266-4D79-8B96-8DA0015A29AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6317A7F9-6266-4D79-8B96-8DA0015A29AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6317A7F9-6266-4D79-8B96-8DA0015A29AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6317A7F9-6266-4D79-8B96-8DA0015A29AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,5 @@
+E:\MyProjects\TestDecorator\TestDecorator\bin\Debug\TestDecorator.exe
+E:\MyProjects\TestDecorator\TestDecorator\bin\Debug\TestDecorator.pdb
+E:\MyProjects\TestDecorator\TestDecorator\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestDecorator\TestDecorator\obj\Debug\TestDecorator.exe
+E:\MyProjects\TestDecorator\TestDecorator\obj\Debug\TestDecorator.pdb

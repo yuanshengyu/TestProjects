@@ -1,0 +1,5 @@
+E:\MyProjects\TestWCF\TestWCF2\bin\TestWCF2.dll
+E:\MyProjects\TestWCF\TestWCF2\bin\TestWCF2.pdb
+E:\MyProjects\TestWCF\TestWCF2\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestWCF\TestWCF2\obj\Debug\TestWCF2.dll
+E:\MyProjects\TestWCF\TestWCF2\obj\Debug\TestWCF2.pdb

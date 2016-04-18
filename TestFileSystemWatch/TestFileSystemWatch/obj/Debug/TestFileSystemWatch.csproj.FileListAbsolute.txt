@@ -1,0 +1,9 @@
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\bin\Debug\TestFileSystemWatch.exe.config
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\bin\Debug\TestFileSystemWatch.exe
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\bin\Debug\TestFileSystemWatch.pdb
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\obj\Debug\TestFileSystemWatch.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\obj\Debug\TestFileSystemWatch.Form1.resources
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\obj\Debug\TestFileSystemWatch.Properties.Resources.resources
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\obj\Debug\TestFileSystemWatch.csproj.GenerateResource.Cache
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\obj\Debug\TestFileSystemWatch.exe
+E:\MyProjects\TestFileSystemWatch\TestFileSystemWatch\obj\Debug\TestFileSystemWatch.pdb

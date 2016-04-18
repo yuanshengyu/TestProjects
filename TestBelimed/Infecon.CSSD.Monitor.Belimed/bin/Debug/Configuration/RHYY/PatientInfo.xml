@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+		select
+		br.bz,     --0门诊  1住院
+		br.patid,  --病人编号
+		br.hzxm,   --病人姓名
+		br.sex,    --性别
+		br.birth,  --出生日期
+		br.sfzh,   --身份证号
+		br.lxdz,   --联系地址
+		br.lxdh,   --电话
+		br.gwbz,   --是否高危
+		zy.blh,    --住院号
+		zy.bqdm,   --病区
+		zy.cwdm,   --床位
+		zy.cwhs,   --床位护士
+		zy.patid   --病人编号
+		from JBXX br
+		left join ZYXX zy on br.patid=zy.patid
+		where 1=1 {0}
+	</Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+		select
+		--病人基本信息
+		br.patid as VALUE,--病人编号
+		br.patid as INPATIENTCODE,--病人编号
+		br.hzxm as NAME,  --病人姓名
+		br.hzxm as DISPLAYNAME, --病人姓名
+		br.sex as PATIENTSEX,   --病人性别
+		br.birth as PatientBirthday, --出生年月
+		year(getdate())-substring(br.birth,1,4) as PATIENTAGE,--年龄
+		--住院信息
+		zy.blh as SocialSecurityCard, --住院号
+		zy.bqdm as WARDAREA,--病区
+		zy.cwdm as BEDNO, --床位
+		zy.cwhs as BEDNURSE --床位护士
+		from Infecon_brjbxx br
+		left join Infecon_zyxx zy on br.patid=zy.patid
+		where 1=1 {0}
+	</Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+		select
+		--手术信息
+		br.patid as VALUE,--病人编号
+		br.hzxm as NAME,  --病人姓名
+		br.hzxm as DISPLAYNAME, --病人姓名
+		br.sex as PATIENTSEX,   --病人性别
+		br.birth as PatientBirthday, --出生年月
+		year(getdate())-substring(br.birth,1,4) as PATIENTAGE,--年龄
+		ss.blh as MEDICALRECORDCODE,   --病案号
+		ss.sss as OPERATIONROOM,   --手术室
+		ss.ks as OPERATIONDEPARTMENT,    --科室
+		ss.aprq as OPERATIONDATE,  --手术时间
+		ss.ssys as OPERATIONDOCTOR,  --手术医生
+		ss.ssmc as OPERATIONNAME  --手术名称
+		from Infecon_ssxx ss
+		inner join Infecon_brjbxx br on ss.patid=br.patid
+		inner join Infecon_zyxx zy on br.patid=zy.patid
+		where 1=1 {0}
+	</Content>
+    
+    <!--挂号病人信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+		select
+		br.bz,     --0门诊  1住院
+		br.patid,  --病人编号
+		br.hzxm,   --病人姓名
+		br.sex,    --性别
+		br.birth,  --出生日期
+		br.sfzh,   --身份证号
+		br.lxdz,   --联系地址
+		br.lxdh,   --电话
+		br.gwbz,   --是否高危
+		gh.xh,     --挂号系统编号
+		gh.ghlb,   --0普通门诊，急诊
+		gh.ghrq,   --挂号日期
+		gh.ksdm,   --挂号科室
+		gh.ghhx,   --挂号号
+		gh.patid   --病人编号
+		from JBXX br
+		left join GHXX gh on br.patid=gh.patid
+		where 1=1 {0}
+		order by  gh.ghrq Desc
+	</Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+		select
+		--病人基本信息
+		br.patid as VALUE,--病人编号
+		br.hzxm as NAME,  --病人姓名
+		br.hzxm as DISPLAYNAME, --病人姓名
+		br.sex as PATIENTSEX,   --病人性别
+		br.birth as PatientBirthday, --出生年月
+		year(getdate())-substring(br.birth,1,4) as PATIENTAGE,--年龄
+		gh.xh as REGISTERCODE,   --挂号系统编号
+		gh.ghlb as OUTPATIENTEMERGENCY,--挂号类型
+		gh.ghrq as REGISTERDATETIME, --挂号时间
+		gh.ghhx as REGISTERNUMBER, --挂号序号
+		gh.ksdm as REGISTERDEPARTMENT --挂号科室
+		from Infecon_ghxx gh
+		left join Infecon_brjbxx br on gh.patid=br.patid
+		where 1=1 {0}
+		order by  gh.ghrq Desc
+	</Content>
+  </Contents>
+</SqlConfig>

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!--获取人员信息-->
+    <Content Key="GetUserImport" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT STAFF_DICT.NAME,
+             STAFF_DICT.DEPT_CODE,
+             STAFF_DICT.USER_NAME,
+             STAFF_DICT.JOB
+      FROM STAFF_DICT
+      WHERE 1=1 {0}
+      ]]>
+    </Content>
+    <!--获取科室信息-->
+    <Content Key="GetOrgDept" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT DEPT_DICT.DEPT_CODE,
+             DEPT_DICT.DEPT_NAME,
+             DEPT_DICT.INPUT_CODE
+      FROM DEPT_DICT
+      where 1=1 {0}
+      ]]>
+    </Content>
+    <!-- 获取病人信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfo" DataBaseType="Oracle">
+		SELECT
+		infecon_patient_master.Patient_id AS PatientCode
+		,infecon_patient_master.Patient_id AS MedicalRecordCode
+		,infecon_patient_master.Id_no AS PatientIDCard
+		,infecon_patient_master.Patient_id AS SocialSecurityCard
+		,infecon_patient_master.name AS PatientName
+		,infecon_patient_master.sex AS PatientSex
+		,infecon_patient_master.Date_of_birth AS PatientBirthday
+		,floor(months_between(sysdate,infecon_patient_master.Date_of_birth)/12) AS PatientAge
+		,infecon_patient_master.Mailing_address as PatientAddress
+		,NULL AS HighRiskInfectivity
+		FROM infecon_patient_master
+		WHERE rownum=1 {0}
+	</Content>
+    <!-- 获取病人住院信息 根据 Patient_id-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT
+      infecon_pats_in_hospital.patient_id as InPatientCode,
+      infecon_pats_in_hospital.Dept_name AS WardArea,
+      infecon_pats_in_hospital.Dept_name AS InDepartment,
+      null AS Nursing,
+      infecon_pats_in_hospital.Bed_no AS BedNumber,
+      null as InPatientDoctor,
+      NULL AS BedNurse
+      FROM infecon_pats_in_hospital
+      WHERE rownum = 1 {0}
+      ]]>
+    </Content>
+    <!-- 获取病人手术信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      infecon_operation.Operation AS OperationName,
+      infecon_operation.Patient_id AS MedicalRecordCode,
+      null AS OperationID,
+      null AS OperationDepartment,
+      infecon_operation.Operating_room_no AS OperationRoom,
+      infecon_operation.surgeon AS OperationDoctor,
+      infecon_operation.Start_date_time AS OperationDate,
+      infecon_operation.Start_date_time AS OperationBegin,
+      null AS OperationEnd,
+      null AS HandWashingNurse1,
+      null AS HandWashingNurse2,
+      null AS ItinerateNurse1,
+      null AS ItinerateNurse2,
+      NULL AS OperationOrderCode,
+      NULL AS OperationStatus
+      FROM infecon_operation
+      WHERE  rownum <= 5  {0} order by infecon_operation.Start_date_time DESC
+      ]]>
+    </Content>
+    <!-- 获取病人挂号信息-->
+    <!-- 未确认 数据库无权限-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      infecon_clnic_master.Patient_id AS RegisterCode,
+      infecon_clnic_master.Visit_no AS RegisterNumber,
+      infecon_clnic_master.dept_name AS RegisterDepartment,
+      infecon_clnic_master.Visit_date AS RegisterDateTime,
+      infecon_clnic_master.Clinic_type AS OutPatientEmergency
+      FROM infecon_clnic_master
+      WHERE rownum = 1 {0}
+      Order By Visit_Date DESC
+      ]]>
+    </Content>
+    <Content Key="QueryPatientInfoPopupData" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT
+      infecon_patient_master.Patient_id AS PatientCode
+      ,infecon_patient_master.Patient_id AS MedicalRecordCode
+      ,infecon_patient_master.Id_no AS PatientIDCard
+      ,infecon_patient_master.Patient_id AS SocialSecurityCard
+      ,infecon_patient_master.name AS PatientName
+      ,infecon_patient_master.sex AS PatientSex
+      ,infecon_patient_master.Date_of_birth AS PatientBirthday
+      ,floor(months_between(sysdate,infecon_patient_master.Date_of_birth)/12) AS PatientAge
+      ,infecon_patient_master.Mailing_address as PatientAddress
+      FROM infecon_patient_master
+      WHERE rownum <= 200   {0}
+      ]]>
+    </Content>    
+    <!-- 根据手术信息查询 强制条件,手术室,手术时间-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfoPopupData" DataBaseType="Oracle">
+       <![CDATA[
+      SELECT
+      infecon_patient_master.PATIENT_ID AS VALUE,
+      infecon_patient_master.PATIENT_ID AS MedicalRecordCode,
+      infecon_operation.Operation AS NAME,
+      infecon_patient_master.name AS PatientName,
+      infecon_patient_master.sex AS PatientSex,
+      infecon_patient_master.name AS DISPLAYNAME,
+      infecon_patient_master.Date_of_birth AS PatientBirthday,
+      infecon_operation.Operation AS OperationName,
+      null AS OperationID,
+      null AS OperationDepartment,
+      infecon_operation.Operating_room_no AS OperationRoom,
+      infecon_operation.surgeon AS OperationDoctor,
+      infecon_operation.Start_date_time AS OperationDate
+      FROM infecon_operation
+      LEFT JOIN infecon_patient_master
+      ON infecon_operation.Patient_id = infecon_patient_master.Patient_id      
+      WHERE rownum <= 200 {0}
+      Order By infecon_operation.Start_date_time DESC
+      ]]>
+    </Content>
+
+    <!-- 已测试 Oracle 无问题-->
+    <!-- 根据住院信息查询 (需要指定科室) 检索当前住院病人列表供选择 -->
+    <Content Key="GetInPatientPopupData" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      infecon_patient_master.Patient_id AS VALUE,
+      infecon_patient_master.Patient_id AS InPatientCode,
+      infecon_patient_master.name AS NAME,
+      infecon_patient_master.sex AS PatientSex,
+      infecon_patient_master.name AS DISPLAYNAME,
+      infecon_pats_in_hospital.Dept_name AS WardArea, 
+      floor(months_between(sysdate,infecon_patient_master.Date_of_birth)/12) AS PatientAge,
+      infecon_pats_in_hospital.Dept_name AS InDepartment,
+      null AS Nursing,
+      infecon_pats_in_hospital.bed_no AS Bedno,
+      NULL AS BedNurse,
+      NULL AS InPatientDoctor
+      FROM infecon_pats_in_hospital
+      LEFT JOIN infecon_patient_master
+      ON infecon_pats_in_hospital.Patient_id = infecon_patient_master.Patient_id
+      WHERE 1=1 {0} 
+      Order By InPatientCode DESC
+      ]]>
+    </Content>
+    <!-- 未确认 数据库无权限-->
+    <!-- 根据挂号信息查询 (需要指定科室) -->
+    <Content Key="GetRegisterPopupData" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT
+      infecon_patient_master.Patient_id AS VALUE,
+      infecon_clnic_master.Visit_no AS VisitNo,
+      infecon_patient_master.name AS NAME,
+      infecon_patient_master.sex AS SEX,
+      infecon_patient_master.name AS DISPLAYNAME,
+      infecon_clnic_master.Visit_dept AS VisitDepartment,
+      infecon_clnic_master.Visit_date AS VisitDate,
+      infecon_clnic_master.Clinic_type AS ClinicType,
+      infecon_patient_master.Date_of_birth AS PatientBirthday
+      FROM infecon_clnic_master
+      LEFT JOIN infecon_patient_master
+      ON infecon_clnic_master.Patient_id = infecon_patient_master.Patient_id
+      WHERE rownum <= 200 {0}
+      Order By VisitDate DESC
+      ]]>
+    </Content>
+  </Contents>
+</SqlConfig>

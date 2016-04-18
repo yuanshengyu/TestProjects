@@ -1,0 +1,10 @@
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\HelloNHibernate.exe.config
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\HelloNHibernate.exe
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\HelloNHibernate.pdb
+E:\MyProjects\HelloNHibernate\HelloNHibernate\obj\Debug\HelloNHibernate.csprojResolveAssemblyReference.cache
+E:\MyProjects\HelloNHibernate\HelloNHibernate\obj\Debug\HelloNHibernate.exe
+E:\MyProjects\HelloNHibernate\HelloNHibernate\obj\Debug\HelloNHibernate.pdb
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\Iesi.Collections.dll
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\NHibernate.dll
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\Iesi.Collections.xml
+E:\MyProjects\HelloNHibernate\HelloNHibernate\bin\Debug\NHibernate.xml

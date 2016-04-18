@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      select
+      br.PATIENT_ID as PatientID,
+      br.NAME as PatientName,
+      br.SEX as PatientSex,
+      br.DATE_OF_BIRTH as PatientBirthday,
+      br.AGE as PatientAge,
+      br.ID_NO as PatientIDCard,
+      br.MAILING_ADDRESS as PatientAddress,
+
+      zy.INP_NO as InPatientID,
+      zy.WARD_CODE as WARDAREA,
+      zy.BED_NO as BedNo,
+      zy.NURSE as BedNurse,
+
+      ss.INP_NO as MedicalreCordCode,
+      ss.OPERATING_ROOM as OperationRoom,
+      ss.OPERATING_DEPT as OperationDepartment,
+      ss.REQ_DATE_TIME as OperationDate,
+      ss.SURGEON as OperationDoctor,
+      ss.OPERATION_NAME as OperationName,
+      ss.START_TIME as OperationBegin,
+      ss.END_TIME as OperationEnd
+      from  V_INFECON_PATIENTINFO br
+      inner join V_INFECON_PATS_IN_HOSPITAL zy on br.PATIENT_ID=zy.PATIENT_ID
+      left join V_INFECON_OPERATION ss on br.PATIENT_ID=ss.PATIENT_ID
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PATIENT_ID as VALUE,--病人编号
+      br.PATIENT_ID as INPATIENTCODE,--病人编号
+      br.NAME as NAME,  --病人姓名
+      br.NAME as DISPLAYNAME, --病人姓名
+      br.SEX as PATIENTSEX,   --病人性别
+      br.DATE_OF_BIRTH as PatientBirthday, --出生年月
+      br.AGE as PATIENTAGE,--年龄
+      --住院信息
+      zy.WARD_CODE as WARDAREA,--病区
+      zy.BED_NO as BEDNO --床位
+      from V_INFECON_PATIENTINFO br
+      inner join V_INFECON_PATS_IN_HOSPITAL zy on br.PATIENT_ID=zy.PATIENT_ID
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      br.PATIENT_ID as VALUE,--病人编号
+      br.NAME as NAME,  --病人姓名
+      br.NAME as DISPLAYNAME, --病人姓名
+      br.SEX as PATIENTSEX,   --病人性别
+      br.DATE_OF_BIRTH as PatientBirthday, --出生年月
+      br.AGE as PATIENTAGE,--年龄
+      ss.INP_NO as MEDICALRECORDCODE,   --病案号
+      ss.OPERATING_ROOM as OPERATIONROOM,   --手术室
+      ss.OPERATING_DEPT as OPERATIONDEPARTMENT,    --科室
+      ss.REQ_DATE_TIME as OPERATIONDATE,  --手术时间
+      ss.SURGEON as OPERATIONDOCTOR,  --手术医生
+      ss.OPERATION_NAME as OPERATIONNAME  --手术名称
+      from V_INFECON_PATIENTINFO br
+      left join V_INFECON_OPERATION ss on br.PATIENT_ID=ss.PATIENT_ID
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      select
+      br.PATIENT_ID as PatientID,
+      br.NAME as PatientName,
+      br.SEX as PatientSex,
+      br.DATE_OF_BIRTH as PatientBirthday,
+      br.AGE as PatientAge,
+      br.ID_NO as PatientIDCard,
+      br.MAILING_ADDRESS as PatientAddress,
+
+      gh.VISIT_NO as RegisterCode,
+      gh.VISIT_DEPT_NAME as RegisterDepartment,
+      gh.VISIT_DATE as RegisterDateTime
+      from V_INFECON_PATIENTINFO br
+      inner join V_INFECON_CLINIC gh on br.PATIENT_ID=gh.PATIENT_ID
+      where 1=1 {0}
+      order by gh.VISIT_DATE Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PATIENT_ID as VALUE,--病人编号
+      br.NAME as NAME,  --病人姓名
+      br.NAME as DISPLAYNAME, --病人姓名
+      br.SEX as PATIENTSEX,   --病人性别
+      br.DATE_OF_BIRTH as PatientBirthday, --出生年月
+      br.AGE as PATIENTAGE,--年龄
+      gh.VISIT_NO as REGISTERCODE,   --挂号系统编号
+      gh.VISIT_DATE as REGISTERDATETIME --挂号时间
+      from V_INFECON_PATIENTINFO br
+      inner join V_INFECON_CLINIC gh on br.PATIENT_ID=gh.PATIENT_ID
+      where 1=1 {0}
+      order by gh.VISIT_DATE Desc
+    </Content>
+    
+    <!--根据工号查询登录人员信息-->
+    <Content Key="GetUserByID" DataBaseType="SqlServer">
+      /*--根据工号查询登录人员信息--*/
+      select name from view_supply_employee where emp_sn=@emp_sn
+    </Content>
+  </Contents>
+</SqlConfig>

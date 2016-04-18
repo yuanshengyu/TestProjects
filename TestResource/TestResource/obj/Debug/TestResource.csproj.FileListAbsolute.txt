@@ -1,0 +1,10 @@
+E:\MyProjects\TestResource\TestResource\bin\Debug\TestResource.exe
+E:\MyProjects\TestResource\TestResource\bin\Debug\TestResource.pdb
+E:\MyProjects\TestResource\TestResource\bin\Debug\Infecon.Resource.dll
+E:\MyProjects\TestResource\TestResource\bin\Debug\Infecon.Resource.pdb
+E:\MyProjects\TestResource\TestResource\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestResource\TestResource\obj\Debug\TestResource.Form1.resources
+E:\MyProjects\TestResource\TestResource\obj\Debug\TestResource.Properties.Resources.resources
+E:\MyProjects\TestResource\TestResource\obj\Debug\TestResource.csproj.GenerateResource.Cache
+E:\MyProjects\TestResource\TestResource\obj\Debug\TestResource.exe
+E:\MyProjects\TestResource\TestResource\obj\Debug\TestResource.pdb

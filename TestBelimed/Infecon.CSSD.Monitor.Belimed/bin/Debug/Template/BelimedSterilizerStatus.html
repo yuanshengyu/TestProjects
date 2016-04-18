@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<!--<style type="text/css">
+.bgHead{
+	background:url(Device_<# BgImageFlg #>_S_Head.png);
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+	-moz-background-size:100% 100%;
+		background-size:100% 100%;
+}
+.bgMain{
+	background:url(Device_<# BgImageFlg #>_S_Main.png);
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+	-moz-background-size:100% 100%;
+		background-size:100% 100%;
+}
+</style>-->
+<style type="text/css">
+.bgHead{
+	background:url(Device_On_S_Head.png);
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+	-moz-background-size:100% 100%;
+		background-size:100% 100%;
+}
+.bgMain{
+	background:url(Device_On_S_Main.png);
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+	-moz-background-size:100% 100%;
+		background-size:100% 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div>
+	<div class="bgHead" style="width: 198px; height: 80px">
+	  <div style="position: absolute; font-size: 20px;">
+		<table style="width: 195px; height: 60px">
+        	<tr>
+            	<td align="right" valign="middle" ><# SensorCaption #></td>
+            </tr>
+        </table>
+      </div>
+  </div>
+
+    <div class="bgMain" style="width: 198px; height: 168px">
+	  <div style="position: absolute; font-size: 12px; left: 15px; top: 95px;">
+		<table>
+        	<tr>
+            	<td>程序名：</td>
+            	<td colspan="2"><# ProgramNameCaption #></td>
+            </tr>
+        	<tr>
+            	<td>程序段：</td>
+            	<td colspan="2"><# ProgramPhase #></td>
+            </tr>
+        	<tr>
+            	<td>时间：</td>
+            	<td colspan="2"><# UpdatedTime #></td>
+            </tr>
+        	<tr>
+            	<td>温度：</td>
+                <td align="right"><# MeasurementSensor2 #></td>
+                <td align="left">°C</td>
+            </tr>
+        	<tr>
+            	<td>压力：</td>
+                <td align="right"><# MeasurementSensor5 #></td>
+                <td align="left">mbar a</td>
+            </tr>
+        	<tr>
+            	<td>状态：</td>
+            	<td colspan="2"><# StatusCaption #></td>
+            </tr>
+        </table>
+      </div>
+    </div>
+</div>
+
+</body>
+</html>

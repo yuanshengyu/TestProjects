@@ -1,0 +1,5 @@
+E:\MyProjects\HelloNHibernate\TestCompress\bin\Debug\TestCompress.exe
+E:\MyProjects\HelloNHibernate\TestCompress\bin\Debug\TestCompress.pdb
+E:\MyProjects\HelloNHibernate\TestCompress\obj\Debug\TestCompress.csprojResolveAssemblyReference.cache
+E:\MyProjects\HelloNHibernate\TestCompress\obj\Debug\TestCompress.exe
+E:\MyProjects\HelloNHibernate\TestCompress\obj\Debug\TestCompress.pdb

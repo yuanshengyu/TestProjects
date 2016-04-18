@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents> 
+	  <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+		  select * from   
+		  CSSD_RegisterInfo  left join CSSD_PatientInfo
+		  on CSSD_PatientInfo.PatientCode=CSSD_RegisterInfo.PatientCode
+		  where  1=1 {0}
+	  </Content>
+	  <Content Key="GetinPatientInfo" DataBaseType="SqlServer">
+		  select * from
+		  CSSD_InPatientInfo  left join CSSD_PatientInfo
+		  on CSSD_InPatientInfo.PatientCode=CSSD_PatientInfo.PatientCode
+		  where  1=1 {0}
+	  </Content>
+  </Contents>
+</SqlConfig>

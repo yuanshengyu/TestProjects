@@ -1,0 +1,7 @@
+E:\MyProjects\TestTemplate\TestTemplate\bin\Debug\TestTemplate.exe.config
+E:\MyProjects\TestTemplate\TestTemplate\obj\Debug\TestTemplate.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestTemplate\TestTemplate\obj\Debug\TestTemplate.csproj.ResolveComReference.cache
+E:\MyProjects\TestTemplate\TestTemplate\bin\Debug\TestTemplate.exe
+E:\MyProjects\TestTemplate\TestTemplate\bin\Debug\TestTemplate.pdb
+E:\MyProjects\TestTemplate\TestTemplate\obj\Debug\TestTemplate.exe
+E:\MyProjects\TestTemplate\TestTemplate\obj\Debug\TestTemplate.pdb

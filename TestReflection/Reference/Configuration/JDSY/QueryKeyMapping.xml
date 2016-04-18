@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="PatientCode" Content="C_BrCode"> <!--门诊号-->
+    </MappingKey>
+    <MappingKey Key="MedicalRecordCode" Content="C_BrBlh"> <!--住院号-->
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="C_BrBlh"> <!--住院号-->
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="C_BrCode"> <!--门诊号-->
+    </MappingKey>
+    <MappingKey Key="PatientSex" Content="I_BrSex">
+      <MappingValues>
+        <MappingValue Key="1" Content="男"></MappingValue>
+        <MappingValue Key="2" Content="女"></MappingValue>        
+      </MappingValues>
+    </MappingKey>    
+    <MappingKey Key="OperatingDepartment" Content="Operation_master.Operating_dept"> <!-- 手术科室 -->
+    </MappingKey>
+    <MappingKey Key="WardArea" Content="C_KsCode"> <!-- 病区 -->
+    </MappingKey>
+    <MappingKey Key="OperationRoom" Content="Operation_master.Operating_room_no"> <!-- 手术间-->
+    </MappingKey>
+    <MappingKey Key="OperationDate" Content="Operation_master.Start_date_time"> <!-- 手术时间-->
+    </MappingKey>
+    <MappingKey Key="OperatingStatus" Content="手术状态"> <!-- 手术状态-->
+    </MappingKey>
+    <MappingKey Key="VisitDepartment" Content="Clinic_master.Visit_dept">
+      <!-- 挂号科室-->
+    </MappingKey>
+    <MappingKey Key="OperationPatientID" Content="Operation_master.Patient_Id">      
+    </MappingKey>
+    <MappingKey Key="RegisterInfoPatientID" Content="Clinic_master.Patient_Id">
+    </MappingKey> 
+    <MappingKey Key="PatsInHospitalPatientID" Content="Pats_in_hospital.Patient_Id">
+    </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

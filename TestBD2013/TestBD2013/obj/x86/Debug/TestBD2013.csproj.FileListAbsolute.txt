@@ -1,0 +1,4 @@
+E:\MyProjects\TestBD2013\TestBD2013\bin\x86\Debug\TestBD2013.exe
+E:\MyProjects\TestBD2013\TestBD2013\bin\x86\Debug\TestBD2013.pdb
+E:\MyProjects\TestBD2013\TestBD2013\obj\x86\Debug\TestBD2013.exe
+E:\MyProjects\TestBD2013\TestBD2013\obj\x86\Debug\TestBD2013.pdb

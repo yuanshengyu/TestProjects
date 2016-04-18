@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="InfeconHNSRM" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=INFECON-PC;Initial Catalog=InfeconHNSRM;Integrated Security=True" SettingsObjectName="TestLINQ.Properties.Settings" SettingsPropertyName="InfeconHNSRMConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.MonitorCollectData" Member="MonitorCollectData">
+    <Type Name="MonitorCollectData">
+      <Column Name="FID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FLogID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="FDeviceID" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="FMonitorType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FDataSourceType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FBeginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FEndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FSystemNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FVersion" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FProgramNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FPargramName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FProgramPhrase" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FBatchNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FZoneNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FHasCompress" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MonitorCollectDataEntry" Member="MonitorCollectDataEntry">
+    <Type Name="MonitorCollectDataEntry">
+      <Column Name="FParentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FValue1" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+      <Column Name="FValue2" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+      <Column Name="FValue3" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+      <Column Name="FReceiveString" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
+      <Column Name="FID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FCurrentStatus" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="FProgramPhrase" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FErrorNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FValue4" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+      <Column Name="FValue5" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+      <Column Name="FValue6" Type="System.Decimal" DbType="Decimal(8,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

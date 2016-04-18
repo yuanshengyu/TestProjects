@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+      select
+      br.CHART_NO,  --病人编号
+      br.NAME,      --姓名
+      br.GENDER,    --性别
+      br.BIRTHDAY,  --出生日期
+      br.AGE,       --年龄
+      br.ID_NO,     --身份证号
+      br.INSURANCE_NO,--社保号
+      br.ADDRESS,   --地址
+      br.TEL_NO,    --电话
+      br.MAJOR_DISEASES,--高危传染
+      zy.CASE_NO,--住院号
+      zy.WARD_NAME,--病区
+      zy.BED_NO,  --床位
+      zy.NURSE_ID,--床位护士
+      ss.APPLY_NO,--病案号
+      ss.OPS_ROOM_CODE,--手术室
+      ss.DEPT_NAME,--科室
+      ss.OPR_DATE,--手术时间
+      ss.OPR_COUNT,--手术台次
+      ss.DOC_NAME,--手术医生
+      ss.OPR_NAME1,--手术名称
+      ss.WASH_ID1,--洗手护士1
+      ss.WASH_ID2,--洗手护士2
+      ss.ROUND_ID1,--巡回护士1
+      ss.ROUND_ID2,--巡回护士2
+      ss.OPR_STATUS,--手术状态
+      ss.OPS_START_DATETIME,--手术开始时间
+      ss.OPS_END_DATETIME --手术结束时间
+      from Supply_Pati_Info br
+      left join Supply_Inp_Info zy on br.CHART_NO=zy.CHART_NO
+      left join Supply_Opr_Info ss on zy.CHART_NO=ss.CHART_NO
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      br.CHART_NO as VALUE,--病人编号
+      br.CHART_NO as INPATIENTCODE,--病人编号
+      br.NAME as NAME,  --病人姓名
+      br.NAME as DISPLAYNAME, --病人姓名
+      br.GENDER as PATIENTSEX,   --病人性别
+      br.BIRTHDAY as PatientBirthday, --出生年月
+      br.AGE as PATIENTAGE,--年龄
+      --住院信息
+      zy.WARD_NAME as WARDAREA,--病区
+      zy.BED_NO as BEDNO, --床位
+      zy.NURSE_ID as BEDNURSE --床位护士
+      from Supply_Pati_Info br
+      left join Supply_Inp_Info zy on br.CHART_NO=zy.CHART_NO
+      where 1=1 {0}
+
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      select
+      --手术信息
+      br.CHART_NO as VALUE,--病人编号
+      br.NAME as NAME,  --病人姓名
+      br.NAME as DISPLAYNAME, --病人姓名
+      br.GENDER as PATIENTSEX,   --病人性别
+      br.BIRTHDAY as PatientBirthday, --出生年月
+      br.AGE as PATIENTAGE,--年龄
+      ss.APPLY_NO as MEDICALRECORDCODE,   --病案号
+      ss.OPS_ROOM_CODE as OPERATIONROOM,   --手术室
+      ss.DEPT_NAME as OPERATIONDEPARTMENT,    --科室
+      ss.OPR_DATE as OPERATIONDATE,  --手术时间
+      ss.DOC_NAME as OPERATIONDOCTOR,  --手术医生
+      ss.OPR_NAME1 as OPERATIONNAME  --手术名称
+      from Supply_Pati_Info br
+      left join Supply_Opr_Info ss on br.CHART_NO=ss.CHART_NO
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      /*--病人、挂号、信息--*/
+      select
+      br.CHART_NO,  --病人编号
+      br.NAME,      --姓名
+      br.GENDER,    --性别
+      br.BIRTHDAY,  --出生日期
+      br.AGE,       --年龄
+      br.ID_NO,     --身份证号
+      br.INSURANCE_NO,--社保号
+      br.ADDRESS,   --地址
+      br.TEL_NO,    --电话
+      br.MAJOR_DISEASES,--高危传染
+      gh.REG_NO,--挂号系统编号
+      gh.REG_TYPE,--挂号类型
+      gh.REG_DATE,--挂号时间
+      gh.SORT--挂号序号
+      from Supply_Pati_Info br
+      left join Supply_Reg_Info gh on br.CHART_NO=gh.CHART_NO
+      where 1=1 {0}
+      order by REG_DATE Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      br.CHART_NO as VALUE,--病人编号
+      br.NAME as NAME,  --病人姓名
+      br.NAME as DISPLAYNAME, --病人姓名
+      br.GENDER as PATIENTSEX,   --病人性别
+      br.BIRTHDAY as PatientBirthday, --出生年月
+      br.AGE as PATIENTAGE,--年龄
+      gh.REG_NO as REGISTERCODE,   --挂号系统编号
+      gh.REG_TYPE as OUTPATIENTEMERGENCY,--挂号类型
+      gh.REG_DATE as REGISTERDATETIME, --挂号时间
+      gh.SORT as REGISTERNUMBER --挂号序号
+      from Supply_Pati_Info br
+      left join Supply_Reg_Info gh on br.CHART_NO=gh.CHART_NO
+      where 1=1 {0}
+      order by REG_DATE Desc
+    </Content>
+  </Contents>
+</SqlConfig>

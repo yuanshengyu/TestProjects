@@ -1,0 +1,5 @@
+E:\MyProjects\TestUploadFiles\HTTPHelper\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestUploadFiles\HTTPHelper\bin\Debug\HTTPHelper.dll
+E:\MyProjects\TestUploadFiles\HTTPHelper\bin\Debug\HTTPHelper.pdb
+E:\MyProjects\TestUploadFiles\HTTPHelper\obj\Debug\HTTPHelper.dll
+E:\MyProjects\TestUploadFiles\HTTPHelper\obj\Debug\HTTPHelper.pdb

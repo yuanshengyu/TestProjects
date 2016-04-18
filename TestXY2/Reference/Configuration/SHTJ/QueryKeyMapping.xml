@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="PatientCode" Content="pmi.patient_id"> <!--病案号-->
+    </MappingKey>
+    <MappingKey Key="MedicalRecordCode" Content="pmi.Inp_no">      
+    </MappingKey>    
+    <MappingKey Key="InPatientDeptCode" Content="pih.Dept_code">
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="pmi.Inp_no">
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="pmi.patient_id">
+    </MappingKey> 
+    <MappingKey Key="PatientNamePINYINOperationPatient" Content="om.Operating_room_no">
+    </MappingKey>
+    <MappingKey Key="PatientNamePINYINInPatient" Content="pih.bed_no">
+    </MappingKey>
+    <MappingKey Key="PatientNamePINYINRegisterPatient" Content="pih.bed_no">
+    </MappingKey>
+    <MappingKey Key="OperatingDepartment" Content="om.Operating_dept"> <!-- 手术科室 -->
+    </MappingKey>
+    <MappingKey Key="WardArea" Content="pih.Dept_code"> <!-- 病区 -->
+    </MappingKey>
+    <MappingKey Key="OperationRoom" Content="om.Operating_room_no"> <!-- 手术间-->
+    </MappingKey>
+    <MappingKey Key="OperationDate" Content="om.Start_date_time"> <!-- 手术时间-->
+    </MappingKey>
+    <MappingKey Key="OperatingStatus" Content="手术状态"> <!-- 手术状态-->
+    </MappingKey>
+    <MappingKey Key="VisitDepartment" Content="cm.Visit_dept">
+      <!-- 挂号科室-->
+    </MappingKey>
+    <MappingKey Key="OperationPatientID" Content="om.Patient_Id">      
+    </MappingKey>
+    <MappingKey Key="RegisterInfoPatientID" Content="cm.Patient_Id">
+    </MappingKey> 
+    <MappingKey Key="PatsInHospitalPatientID" Content="pih.Patient_Id">
+    </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="PatientCode" Content="s.zyh"> <!--病案号-->
+    </MappingKey>
+    <MappingKey Key="MedicalRecordCode" Content="s.zyh">
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="s.zyh">
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="s.zyh">
+    </MappingKey>    
+    <MappingKey Key="OperatingDepartment" Content="Operation_master.Operating_dept"> <!-- 手术科室 -->
+    </MappingKey>
+    <MappingKey Key="WardArea" Content="Pats_in_hospital.Dept_code"> <!-- 病区 -->
+    </MappingKey>
+    <MappingKey Key="OperationDate" Content="a.FAPPDATE">
+    </MappingKey>
+    <MappingKey Key="PatsInHospitalPatientID" Content="s.zyh">
+    </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

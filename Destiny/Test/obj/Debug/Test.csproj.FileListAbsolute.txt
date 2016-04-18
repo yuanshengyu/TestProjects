@@ -1,0 +1,5 @@
+E:\MyProjects\Destiny\Test\bin\Debug\Test.exe
+E:\MyProjects\Destiny\Test\bin\Debug\Test.pdb
+E:\MyProjects\Destiny\Test\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\Destiny\Test\obj\Debug\Test.exe
+E:\MyProjects\Destiny\Test\obj\Debug\Test.pdb

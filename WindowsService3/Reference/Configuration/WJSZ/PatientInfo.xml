@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!-- 获取病人信息--> 
+    <Content Key="GetPatientInfo" DataBaseType="SqlServer">
+		SELECT
+		PatientCode
+		,PatientName
+		,PatientSex
+		,PatientBirthday
+		,PatientAge
+		,PatientAddress
+		,HighRiskInfectivity
+		FROM openquery(ORCLDB, 'SELECT * FROM SUNSOFT.v_Pats_master_index WHERE  PatientCode=''{0}''')
+	</Content>
+    <!-- 获取病人住院信息 -->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+      <![CDATA[
+      SELECT
+      InPatientCode,
+      WardArea,     
+      BedNumber,      
+      BedNurse
+      FROM openquery(ORCLDB, 'SELECT * FROM SUNSOFT.v_pats_in WHERE  InPatientCode=''{0}''')      
+      ]]>
+    </Content>
+    <!-- 获取病人挂号信息-->
+    <!-- 未确认 数据库无权限-->
+    <Content Key="GetRegisterPatientInfo" DataBaseType="SqlServer">
+     <![CDATA[
+      SELECT
+      RegisterNumber AS RegisterCode,
+      RegisterNumber AS RegisterNumber,
+      RegisterNAME,
+	  RegisterBRNL,
+      RegisterBRXBtID
+      FROM openquery(ORCLDB, 'SELECT * FROM SUNSOFT.V_PATS_BRXX where RegisterNumber=''{0}''')      
+      ]]>
+    </Content>
+  </Contents>
+</SqlConfig>

@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+      select
+      br.PatientCode, --病人编号
+      br.PatientName, --病人姓名
+      br.PatientSex,  --性别
+      br.PatientBirthday, --出生日期
+      br.PatientAge,  --年龄
+      br.PatientIDCard, --身份证号
+      br.SocialSecurityCard,  --社保号
+      br.PatientAddress,   --地址
+      br.PatientPhone,  --联系电话
+      br.HighRiskInfectivity  --高危传染
+      from his.Ufida_His_Infecon_jbxx br
+      where 1=1 {0}
+    </Content>
+
+     <!--获取门诊病人信息-->
+    <Content Key="GetOperationPopupMZData" DataBaseType="SqlServer">
+      select
+      br.PatientCode, --病人编号
+      br.PatientName, --病人姓名
+      br.PatientSex,  --性别
+      br.PatientBirthday, --出生日期
+      br.PatientAge,  --年龄
+      br.PatientIDCard, --身份证号
+      br.SocialSecurityCard,  --社保号
+      br.PatientAddress,   --地址
+      br.PatientPhone,  --联系电话
+      br.HighRiskInfectivity  --高危传染
+      from his.Ufida_His_Infecon_MZjbxx br
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientCode as INPATIENTCODE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      br.PatientSex as PATIENTSEX,   --病人性别
+      convert(datetime,br.PatientBirthday,120) as PatientBirthday, --出生年月
+      year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      --住院信息
+      zy.WardArea as WARDAREA,--病区
+      zy.BedNumber as BEDNO --床位
+      from View_Infecon_Patient br
+      left join View_Infecon_InPatient zy on br.PatientCode=zy.PatientCode
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      select
+      --手术信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      br.PatientSex as PATIENTSEX,   --病人性别
+      convert(datetime,br.PatientBirthday,120) as PatientBirthday, --出生年月
+      year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      ss.MedicalRecordCode as MEDICALRECORDCODE,   --病案号
+      ss.OperationRoom as OPERATIONROOM,   --手术室
+      ss.OperationDepartment as OPERATIONDEPARTMENT,    --科室
+      ss.OperationDate as OPERATIONDATE,  --手术时间
+      ss.OperationDoctor as OPERATIONDOCTOR,  --手术医生
+      ss.OperationName as OPERATIONNAME  --手术名称
+      from View_Infecon_Patient br
+      left join View_Infecon_Operation ss on br.PatientCode=ss.PatientCode
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      /*--病人挂号信息--*/
+      select
+      br.PatientCode, --病人编号
+      br.PatientName, --姓名
+      br.MedicalRecordCode, --病历号
+      br.PatientSex,   --性别
+      convert(datetime,br.PatientBirthday,120) as PatientBirthday, --出生年月
+      year(getdate())-substring(br.PatientBirthday,1,4) as PatientAge, --年龄
+      br.PatientIDCard, --身份证号
+      br.SocialSecurityCard, --社保卡号
+      br.PatientAddress, --地址
+      br.PatientPhone, --联系电话
+      br.HighRiskInfectivity, --是否具有高危
+
+      gh.RegisterCode, --挂号系统编号
+      gh.OutPatientEmergency, --挂号类型
+      convert(datetime,gh.RegisterDateTime,120) as RegisterDateTime, --挂号时间
+      gh.RegisterDepartment, --挂号科室
+      gh.RegisterNumber --挂号号
+      from View_Infecon_Patient br
+      left join View_Infecon_Register gh on br.PatientCode=gh.PatientCode
+      where 1=1 {0}
+      order by convert(datetime,gh.RegisterDateTime,120) Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      br.PatientSex as PATIENTSEX,   --病人性别
+      convert(datetime,br.PatientBirthday,120) as PatientBirthday, --出生年月
+      year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      gh.RegisterCode as REGISTERCODE,   --挂号系统编号
+      gh.OutPatientEmergency as OUTPATIENTEMERGENCY,--挂号类型
+      convert(datetime,gh.RegisterDateTime,120) as REGISTERDATETIME, --挂号时间
+      gh.RegisterNumber as REGISTERNUMBER --挂号序号
+      from View_Infecon_Patient br
+      left join View_Infecon_Register gh on br.PatientCode=gh.PatientCode
+      where 1=1 {0}
+      order by convert(datetime,gh.RegisterDateTime,120) Desc
+    </Content>
+  </Contents>
+</SqlConfig>

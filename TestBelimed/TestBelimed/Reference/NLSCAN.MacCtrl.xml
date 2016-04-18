@@ -1,0 +1,638 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NLSCAN.MacCtrl</name>
+    </assembly>
+    <members>
+        <member name="T:NLSCAN.MacCtrl.NLSSysInfo">
+            <summary>
+            Get some information of the device
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetCurrentDLLVersion">
+            <summary>
+            Get the NLSCAN.MacCtrl.dll current inner version.
+            </summary>
+            <returns>the string of version information,like"1.0.0.0"</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetSerialNo">
+            <summary>
+            Get the device serial numbers.
+            </summary>
+            <returns>Return the string of serial numbers.e.g.:"EPB082830NOM".</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetSoftwareVersion">
+            <summary>
+            Get the device software version.
+            </summary>
+            <returns>Return the string of device software version. e.g."PT980 V1.4.1 Build080922".</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetProductName">
+            <summary>
+            Get the device name.
+            </summary>
+            <returns>Return the string of device name. e.g.:"NLS-PT980 Series".</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetManufactureDate">
+            <summary>
+            Get the device manufacture date (made date).
+            </summary>
+            <returns>The string of manufacture date.e.g.:"20071228".</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetProductionDate">
+            <summary>
+            Get the device production date.
+            </summary>
+            <returns>Return the string of production date. e.g.:"20081012".</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GlobalMemoryStatus(NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS@)">
+            <summary>
+            The GlobalMemoryStatus function obtains information about the 
+            system's current usage of both physical and virtual memory.
+            </summary>
+            <param name="ms">New to a MEMORYSTATUS structure.</param>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetSystemMemoryDivision(System.UInt32@,System.UInt32@,System.UInt32@)">
+            <summary>
+            This function retrieves information from the kernel pertaining to object store and system memory.
+            Note: This function is deprecated and should no longer be used.
+            </summary>
+            <param name="lpdwStorePages">Pointer to the number of pages dedicated to the store.</param>
+            <param name="lpdwRamPages">Pointer to the number of pages dedicated to system memory.</param>
+            <param name="lpdwPageSize">Pointer to the number of bytes in a page.</param>
+            <returns>Return true is succeeds, else is false.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetPowerPercent">
+            <summary>
+            Get the power percent.
+            </summary>
+            <returns>Return the current power percent: one of [0-100].</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.GetGPRSSignalQuality">
+            <summary>
+            Get the signal quality.
+            </summary>
+            <returns>If success,it will return the signal quality : one of [0 - 31], else if it return 99 is module error, return negative is other error.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysInfo.WriteLog(System.String,System.String)">
+            <summary>
+            use this to write the log file, include the current time.support Chinese.
+            </summary>
+            <param name="strLogMsg">the string of log message</param>
+            <param name="AppPathLogFileName">the full path of log file</param>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS">
+            <summary>
+            The struct of memory status.
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwLength">
+            <summary>
+            sizeof(MEMORYSTATUS) 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwMemoryLoad">
+            <summary>
+            percent of memory in use 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwTotalPhys">
+            <summary>
+            bytes of physical memory 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwAvailPhys">
+            <summary>
+            free physical memory bytes 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwTotalPageFile">
+            <summary>
+            bytes of paging file 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwAvailPageFile">
+            <summary>
+            free bytes of paging file 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwTotalVirtual">
+            <summary>
+             user bytes of address space 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSSysInfo.MEMORYSTATUS.dwAvailVirtual">
+            <summary>
+            free user bytes
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.NLSScanner">
+                Description:
+            
+                Created:2008/10/14
+                Author:fjptlzx
+                Copyright:www.nlscan.com
+            
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.MultiByteToUnicodeString(System.Byte[],System.Int32)">
+            <summary>
+            This function maps a character string 
+            to a wide-character (Unicode) string.
+            </summary>
+            <param name="buf">the character string to be converted.</param>
+            <param name="bufLen">Specifies the size in bytes of the string 
+            pointed to by the buf parameter</param>
+            <returns>Return the translated string,if the buf is null,it will return "",
+            if the bufLen is zero or less then zero,it will return "",
+            if the function fails,it will return "".</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.#ctor">
+            <summary>
+            Initialize a read code client
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.Finalize">
+            <summary>
+            Destroy the client
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.G_SetScannerEnabled(System.Boolean)">
+            <summary>
+            Set the read device Enabled or Disabled.
+            </summary>
+            <param name="bEnabled">true:Enable,false:disable</param>
+            <returns>If succeed return zero, 
+            if return -1 is not call Open,
+            other value is error.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.StartScan(System.Boolean)">
+            <summary>
+            Control the read device start scan or stop scan.
+            </summary>
+            <param name="bScan">true:start scan,false:stop scan</param>
+            <returns>If succeed return zero, 
+            If Scanner haven't Open(),then it will return -1,
+            and other value is error.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.Open">
+            <summary>
+            Open a read code client.
+            </summary>
+            <returns>If succeed return zero, other value is error.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSScanner.Close">
+            <summary>
+            Close the read code client.
+            </summary>
+            <returns>If succeed return zero, other value is error.</returns>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.NLSScanner.EnabledAcceptData">
+            <summary>
+            Gets or sets a value indicating whether 
+            the client accept the data sent by read device.
+            The default value is True(Accept the data).
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.NLSScanner.StartScanTimeOut">
+            <summary>
+            Gets or sets a value(in mS) indicating The timeout of control read device start scan(StartScan(true)),
+            if timeout and haven't get data from device,then it will call StartScan(false) to stop scan.
+            The default value is -1(an infinite amount of time).
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.NLSScanner.nCodePage">
+            <summary>
+            Gets or sets the MultiByteToUnicodeString()'s CodePage value,the default value is 0.
+            </summary>
+        </member>
+        <member name="E:NLSCAN.MacCtrl.NLSScanner.OnDecodeEvent">
+            <summary>
+            The client decode event.
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.DecodeEventHandler">
+            <summary>
+            the decode event handler
+            </summary>
+            <param name="sender">the object name</param>
+            <param name="e">the event parameter</param>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.ScannerEventArgs">
+            <summary>
+            scanner event parameter class
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.ScannerEventArgs.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Byte[])">
+            <summary>
+            Initialize a scanner event parameter class.
+            </summary>
+            <param name="iDevID">The device ID.</param>
+            <param name="iType">The data type.</param>
+            <param name="iLen">The data length.</param>
+            <param name="istrData">The wide-character (Unicode)string data.</param>
+            <param name="iByteData">The Multi-character string by bytes.</param>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.ScannerEventArgs.DevID">
+            <summary>
+            The device ID.
+            You will know which reading mode Decode by this ID.
+            for example:1D/2D/RFID ...
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.ScannerEventArgs.DataType">
+            <summary>
+            The data type
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.ScannerEventArgs.DataLen">
+            <summary>
+            The data length
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.ScannerEventArgs.Data">
+            <summary>
+            the wide-character (Unicode)string data.
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.ScannerEventArgs.ByteData">
+            <summary>
+            the Multi-character string by bytes
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.CustomMarshaler">
+            <summary>
+            CustomMarshaler class.
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.MarshallingMethods">
+            
+            <summary>
+            MarshallingMethods class implementation.
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.CustomMarshalAsAttribute">
+            
+            <summary>
+            CustomMarshalAsAttribute implementaion.
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.NLSSysCtrl">
+            <summary>
+            some about the system control
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.NKDbgPrintfW(System.String)">
+            <summary>
+            Kernel debug print information by serial port.
+            </summary>
+            <param name="lpszFmt">The string of information which want to output.</param>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.GetTickCount">
+            <summary>
+            Get the current tick count in mS.
+            </summary>
+            <returns>Return the int type in mS.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.buz_ctrl(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            System beep control function.
+            </summary>
+            <param name="freq">Specify beep frequency, value range is[200,20000](Hz), if freq = 0, turn off beep at once.</param>
+            <param name="volume">Specify beep volume, value range is[0,100], if volume = 0, turn off beep at once.</param>
+            <param name="mdelay">Specify beep time, unit is (ms), if mdelay = 0, turn off beep at once; if mdelay = -1, beep will always turn on.</param>
+            <returns>Succeed return zero, else return other value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.buz_mute(System.Boolean)">
+            <summary>
+            Set system beep mute mode
+            </summary>
+            <param name="mute">TRUE Set system to mute mode, FALSE Set system to normal beep mode</param>
+            <returns>Succeed return zero, else return other value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.vibrator_ctrl(System.Int32)">
+            <summary>
+            Vibrator control function.
+            </summary>
+            <param name="mdelay">Vibra time, unit (ms), if mdelay = 0 stop vibra at once, 
+            if mdelay = -1, vibra forever.</param>
+            <returns>Succeed return zero, else return other value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.led_ctrl(System.Boolean)">
+            <summary>
+            Control device LED pilot lamp.
+            </summary>
+            <param name="on">TRUE set LED turn on, FALSE set LED turn off</param>
+            <returns>Succeed return zero, other value is error.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.lcd_bkl_get">
+            <summary>
+            Get LCD BackLight level, valid level range[0 - 100].
+            </summary>
+            <returns>If succeed, return LCD BackLight level; fail return value less than zero.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.lcd_bkl_set(System.Int32)">
+            <summary>
+            Set LCD BackLight level.
+            </summary>
+            <param name="bright">Set LCD BackLight level, valid value range is [0 - 100]</param>
+            <returns>Succeed return zero, else return other value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.lcd_bkl_idle_get">
+            <summary>
+            Get LCD BackLight level at power save mode.
+            </summary>
+            <returns>If succeed, return BackLight level, valid value range is [0 - 100]; fail return value less than zero.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.lcd_bkl_idle_set(System.Int32)">
+            <summary>
+            Set LCD power save mode BackLight level.
+            </summary>
+            <param name="bright">LCD power save mode BackLight level value, valid range is [0 - 100].</param>
+            <returns>Succeed return zero, else return other value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.kbd_bkl_get">
+            <summary>
+            Get KeyPad BackLight level
+            </summary>
+            <returns>If succeed, return KeyPad BackLight level, valid value range [0 - 100]; fail return less than zero value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.kbd_bkl_set(System.Int32)">
+            <summary>
+            Set KeyPad BackLight level.
+            </summary>
+            <param name="bright">KeyPad BackLight level, valid value range [0-100]</param>
+            <returns>Succeed return zero, else return other value</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.kbd_bkl_delay(System.Int32)">
+            <summary>
+            Set KeyPad BackLight auto off time
+            </summary>
+            <param name="sdelay">KeyPad BackLight auto off delay time parameter, unit is second.</param>
+            <returns>succeed return zero, else return other value.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.kbd_beep_config(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Set Key-press beep parameter
+            </summary>
+            <param name="freq">Key-press beep frequency, value range [200,5000](Hz)</param>
+            <param name="volume">Key-press beep volume, value range [0,100]</param>
+            <param name="mdelay">Key-press beep time, unit (ms)</param>
+            <returns>Succeed return zero, else return other value</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSSysCtrl.kbd_beep_mute(System.Boolean)">
+            <summary>
+            Set Key-press beep mode
+            </summary>
+            <param name="mute">TRUE set Key-press to mute mode, FALSE set Key-press to normal mode.</param>
+            <returns>Succeed return zero, else return other value</returns>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.NLSRasDial">
+            <summary>
+            RasDialNLS class.
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.#ctor">
+            <summary>
+            Initialize a NLSRasDial
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.Finalize">
+            <summary>
+            Destroy the NLSRasDial
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.GetEntryName">
+            <summary>
+            The GetEntryName function lists all entry names in a remote access phone book.
+            </summary>
+            <returns>Return the entry names lists.</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.DialUp(System.String,System.String,System.String)">
+            <summary>
+            The DialUp function establishes a RAS connection between a RAS client and a RAS server 
+            by asynchronous operation mode
+            </summary>
+            <param name="pEntryName">Specifies a string that contains the phone-book 
+            entry to use to establish the connection. </param>
+            <param name="pUserName">Specifies a string that contains the user's user name.</param>
+            <param name="pPassword">Specifies a string that contains the user's password.</param>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.GetStatus">
+            <summary>
+            This function retrieves information on the current status of the specified 
+            remote access connection. 
+            </summary>
+            <returns>Return the status code,the code value is one of enum RASCONNSTATE</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.GetStatus(System.String)">
+            <summary>
+            This function retrieves information on the current status of the specified remote
+            access connection by entry name.You can get other Entry name's status by this function
+            </summary>
+            <param name="pEntryName">The entry name likes "gprs".</param>
+            <returns>Return the status code,the code value is one of enum RASCONNSTATE</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.HangUp">
+            <summary>
+            The HangUp function terminates a remote access connection. 
+            </summary>
+            <returns>If the function succeeds, the return value is zero.
+            If the function fails, the return value is a nonzero error value</returns>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.NLSRasDial.HangUp(System.String)">
+            <summary>
+            The HangUp function terminates a remote access connection by entry name. 
+            </summary>
+            <returns>If the function succeeds, the return value is zero.
+            If the function fails, the return value is a nonzero error value</returns>
+        </member>
+        <member name="E:NLSCAN.MacCtrl.NLSRasDial.OnRasAllStatusEvent">
+            <summary>
+            Set the dial-up all status event.
+            </summary>
+        </member>
+        <member name="E:NLSCAN.MacCtrl.NLSRasDial.OnRasConnectedEvent">
+            <summary>
+            Set the dial-up event if the status is Connected.
+            </summary>
+        </member>
+        <member name="E:NLSCAN.MacCtrl.NLSRasDial.OnRasDisconnectedEvent">
+            <summary>
+            Set the dial-up event if the status is Disconnected.
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE">
+            <summary>
+            The RASCONNSTATE enumeration type contains values 
+            that specify the states that can occur during a RAS connection operation. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_UnknownState">
+            <summary>
+            Get an unknown state.
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_DisRasDial">
+            <summary>
+            It have not dial-up.
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_OpenPort">
+            <summary>
+            The communication port is about to be opened. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_PortOpened">
+            <summary>
+            The communication port has been opened successfully. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_ConnectDevice">
+            <summary>
+            A device is about to be connected. RasGetConnectStatus 
+            can be called to determine the name and type of the device being connected. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_DeviceConnected">
+            <summary>
+            A device has connected successfully.
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AllDevicesConnected">
+            <summary>
+            All devices in the device chain have successfully connected. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_Authenticate">
+            <summary>
+            The authentication process is starting. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthNotify">
+            <summary>
+            An authentication event has occurred. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthRetry">
+            <summary>
+            The client has requested another validation attempt with a new user name/password/domain. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthCallback">
+            <summary>
+            The remote access server has requested a callback number. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthChangePassword">
+            <summary>
+            The client has requested to change the password on the account. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthProject">
+            <summary>
+            The projection phase is starting. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthLinkSpeed">
+            <summary>
+            The link-speed calculation phase is starting. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_AuthAck">
+            <summary>
+            An authentication request is being acknowledged. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_ReAuthenticate">
+            <summary>
+            Reauthentication (after callback) is starting. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_Authenticated">
+            <summary>
+            The client has successfully completed authentication. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_PrepareForCallback">
+            <summary>
+            The line is about to disconnect in preparation for callback. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_WaitForModemReset">
+            <summary>
+            The client is delaying in order to give the modem 
+            time to reset itself in preparation for callback. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_WaitForCallback">
+            <summary>
+            The client is waiting for an incoming call from the remote access server. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_Projected">
+            <summary>
+            This state occurs after the RASCS_AuthProject state. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_Interactive">
+            <summary>
+            This state has a value of RASCS_PAUSED and 
+            corresponds to the terminal state supported by RASPHONE.EXE. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_RetryAuthentication">
+            <summary>
+            This state corresponds to the retry authentication state supported by RASPHONE.EXE. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_CallbackSetByCaller">
+            <summary>
+            This state corresponds to the callback state supported by RASPHONE.EXE. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_PasswordExpired">
+            <summary>
+            This state corresponds to the change password state supported by RASPHONE.EXE. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_Connected">
+            <summary>
+            This state has a value of RASCS_DONE and corresponds to successful connection. 
+            </summary>
+        </member>
+        <member name="F:NLSCAN.MacCtrl.NLSRasDial.RASCONNSTATE.RASCS_Disconnected">
+            <summary>
+            Disconnection or failed connection. 
+            </summary>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.RasStatusEventHandler">
+            <summary>
+            The dial-up status event handler
+            </summary>
+            <param name="sender">The object name</param>
+            <param name="e">The event parameter</param>
+        </member>
+        <member name="T:NLSCAN.MacCtrl.RasStatusEventArgs">
+            <summary>
+            The dial-up status event class
+            </summary>
+        </member>
+        <member name="M:NLSCAN.MacCtrl.RasStatusEventArgs.#ctor(System.Int32,System.String)">
+            <summary>
+            Initialize a dial-up status event parameter class.
+            </summary>
+            <param name="iStateCode">The state code.</param>
+            <param name="iStateStr">The state string.</param>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.RasStatusEventArgs.StateCode">
+            <summary>
+            The state code
+            </summary>
+        </member>
+        <member name="P:NLSCAN.MacCtrl.RasStatusEventArgs.StateStr">
+            <summary>
+            The state string
+            </summary>
+        </member>
+    </members>
+</doc>

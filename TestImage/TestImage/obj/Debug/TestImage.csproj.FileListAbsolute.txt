@@ -1,0 +1,6 @@
+E:\MyProjects\TestImage\TestImage\bin\Debug\TestImage.exe.config
+E:\MyProjects\TestImage\TestImage\bin\Debug\TestImage.exe
+E:\MyProjects\TestImage\TestImage\bin\Debug\TestImage.pdb
+E:\MyProjects\TestImage\TestImage\obj\Debug\TestImage.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestImage\TestImage\obj\Debug\TestImage.exe
+E:\MyProjects\TestImage\TestImage\obj\Debug\TestImage.pdb

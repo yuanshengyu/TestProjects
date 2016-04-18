@@ -1,0 +1,6 @@
+E:\MyProjects\TestLINQ\TestLINQ\bin\Debug\TestLINQ.exe.config
+E:\MyProjects\TestLINQ\TestLINQ\bin\Debug\TestLINQ.exe
+E:\MyProjects\TestLINQ\TestLINQ\bin\Debug\TestLINQ.pdb
+E:\MyProjects\TestLINQ\TestLINQ\obj\Debug\TestLINQ.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestLINQ\TestLINQ\obj\Debug\TestLINQ.exe
+E:\MyProjects\TestLINQ\TestLINQ\obj\Debug\TestLINQ.pdb

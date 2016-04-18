@@ -1,0 +1,6 @@
+E:\MyProjects\TestParallel\TestParallel\bin\Debug\TestParallel.exe.config
+E:\MyProjects\TestParallel\TestParallel\bin\Debug\TestParallel.exe
+E:\MyProjects\TestParallel\TestParallel\bin\Debug\TestParallel.pdb
+E:\MyProjects\TestParallel\TestParallel\obj\Debug\TestParallel.exe
+E:\MyProjects\TestParallel\TestParallel\obj\Debug\TestParallel.pdb
+E:\MyProjects\TestParallel\TestParallel\obj\Debug\TestParallel.csprojResolveAssemblyReference.cache

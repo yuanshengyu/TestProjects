@@ -1,0 +1,10 @@
+E:\MyProjects\TestBelimed\TestBelimed\bin\Debug\TestBelimed.exe
+E:\MyProjects\TestBelimed\TestBelimed\bin\Debug\TestBelimed.pdb
+E:\MyProjects\TestBelimed\TestBelimed\bin\Debug\Common.Logging.dll
+E:\MyProjects\TestBelimed\TestBelimed\bin\Debug\Quartz.dll
+E:\MyProjects\TestBelimed\TestBelimed\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestBelimed\TestBelimed\obj\Debug\TestBelimed.Form1.resources
+E:\MyProjects\TestBelimed\TestBelimed\obj\Debug\TestBelimed.Properties.Resources.resources
+E:\MyProjects\TestBelimed\TestBelimed\obj\Debug\TestBelimed.csproj.GenerateResource.Cache
+E:\MyProjects\TestBelimed\TestBelimed\obj\Debug\TestBelimed.exe
+E:\MyProjects\TestBelimed\TestBelimed\obj\Debug\TestBelimed.pdb

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!-- 获取病人信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfo" DataBaseType="Oracle">
+		SELECT
+		V_INFECON_OPERAT_INFO.apply_operat_no AS PatientCode
+		,V_INFECON_OPERAT_INFO.apply_operat_no AS MedicalRecordCode
+		,IC_CARD_ID AS PatientIDCard
+		,SAFETYNO AS SocialSecurityCard
+		,SICK_NAME AS PatientName
+		,SEX AS PatientSex
+		,BIRTHDATE AS PatientBirthday
+		,floor(months_between(sysdate,V_INFECON_SICK_BASIC_INFO.BIRTHDATE)/12) AS PatientAge
+		,ADDRESS as PatientAddress
+		,INFECTION AS HighRiskInfectivity
+		,in_dept AS WardArea
+		,bed_no AS BedNumber
+		FROM V_INFECON_SICK_BASIC_INFO left join V_INFECON_OPERAT_INFO
+		on V_INFECON_SICK_BASIC_INFO.SICK_ID=V_INFECON_OPERAT_INFO.SICK_ID
+		left join V_INFECON_SICK_VISIT_INFO on V_INFECON_SICK_VISIT_INFO.SICK_ID=V_INFECON_SICK_BASIC_INFO.SICK_ID
+		WHERE 1=1  {0}
+	</Content>	  
+    <!-- 获取病人住院信息 根据 Patient_id-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+		SELECT
+		 V_INFECON_SICK_VISIT_INFO.residence_no AS PatientCode
+		,V_INFECON_SICK_VISIT_INFO.residence_no AS MedicalRecordCode
+		,IC_CARD_ID AS PatientIDCard
+		,SAFETYNO AS SocialSecurityCard
+		,SICK_NAME AS PatientName
+		,SEX AS PatientSex
+		,BIRTHDATE AS PatientBirthday
+		,floor(months_between(sysdate,V_INFECON_SICK_BASIC_INFO.BIRTHDATE)/12) AS PatientAge
+		,ADDRESS as PatientAddress
+		,INFECTION AS HighRiskInfectivity
+		,in_dept AS WardArea
+		,bed_no AS BedNumber
+		FROM V_INFECON_SICK_BASIC_INFO  left join V_INFECON_SICK_VISIT_INFO on V_INFECON_SICK_VISIT_INFO.SICK_ID=V_INFECON_SICK_BASIC_INFO.SICK_ID
+		WHERE 1=1  {0} order by V_INFECON_SICK_VISIT_INFO.residence_no desc
+	</Content>
+    <!-- 获取病人手术信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+		SELECT
+		OPERAT_ITEM_NAME AS OperationName,
+		apply_operat_no AS OperationID,
+		operat_dept AS OperationDepartment,
+		'' AS OperationRoom,
+		SURGEON AS OperationDoctor,
+		operat_time AS OperationDate,
+		operat_arrange_date_time AS OperationBegin,
+		END_DATE_TIME AS OperationEnd,
+		FIRST_OPERATION_NURSE AS HandWashingNurse1,
+		SECOND_OPERATION_NURSE AS HandWashingNurse2,
+		first_supply_nurse AS ItinerateNurse1,
+		second_supply_nurse AS ItinerateNurse2,
+		NULL AS OperationOrderCode,
+		OPERATION_STATUS AS OperationStatus
+		FROM V_INFECON_OPERAT_INFO
+		WHERE 1 = 1 {0} order by operat_arrange_date_time DESC
+	</Content>
+    <!-- 获取病人挂号信息-->   
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+		SELECT
+		nullah_number AS RegisterCode,
+		seq_number AS RegisterNumber,
+		cure_dept AS RegisterDepartment,
+		register_time AS RegisterDateTime,
+		NULL AS OutPatientEmergency
+		FROM V_INFECON_SICK_CURE_INFO
+		WHERE 1 = 1 {0}
+		Order By RegisterDateTime DESC
+	</Content>
+    <Content Key="QueryPatientInfoPopupData" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT
+      Pat_master_index.Patient_id AS PatientCode
+      ,Pat_master_index.Inp_no AS MedicalRecordCode
+      ,Pat_master_index.Id_no AS PatientIDCard
+      ,Pat_master_index.Patient_id AS SocialSecurityCard
+      ,Pat_master_index.name AS PatientName
+      ,Pat_master_index.sex AS PatientSex
+      ,Pat_master_index.Date_of_birth AS PatientBirthday
+      ,floor(months_between(sysdate,Pat_master_index.Date_of_birth)/12) AS PatientAge
+      ,Pat_master_index.Mailing_address as PatientAddress
+      FROM Pat_master_index
+      WHERE 1 = 1   {0}
+      ]]>
+    </Content>    
+    <!-- 根据手术信息查询 强制条件,手术室,手术时间-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfoPopupData" DataBaseType="Oracle">
+		SELECT
+		V_INFECON_OPERAT_INFO.apply_operat_no AS VALUE,
+		V_INFECON_OPERAT_INFO.apply_operat_no AS MedicalRecordCode,
+		V_INFECON_OPERAT_INFO.OPERAT_ITEM_NAME AS NAME,
+		V_INFECON_SICK_BASIC_INFO.SICK_NAME AS PatientName,
+		V_INFECON_SICK_BASIC_INFO.SEX  AS PatientSex,
+		V_INFECON_SICK_BASIC_INFO.SICK_NAME AS DISPLAYNAME,
+		V_INFECON_SICK_BASIC_INFO.BIRTHDATE AS PatientBirthday,
+		V_INFECON_OPERAT_INFO.OPERAT_ITEM_NAME AS OperationName,
+		V_INFECON_OPERAT_INFO.apply_operat_no AS OperationID,
+		V_INFECON_OPERAT_INFO.operat_dept AS OperationDepartment,
+		V_INFECON_OPERAT_INFO.OPERATION_STATUS AS OperationStatus,
+		V_INFECON_OPERAT_INFO.SURGEON AS OperationDoctor,
+		V_INFECON_OPERAT_INFO.operat_time AS OperationDate
+		,V_INFECON_SICK_VISIT_INFO.residence_no as zyh
+		FROM V_INFECON_OPERAT_INFO inner join V_INFECON_SICK_BASIC_INFO
+		on V_INFECON_SICK_BASIC_INFO.SICK_ID=V_INFECON_OPERAT_INFO.SICK_ID
+		inner join V_INFECON_SICK_VISIT_INFO on V_INFECON_SICK_VISIT_INFO.SICK_ID=V_INFECON_SICK_BASIC_INFO.SICK_ID
+		WHERE 1=1  {0}
+		Order By V_INFECON_OPERAT_INFO.operat_time asc
+	</Content>
+
+    <!-- 已测试 Oracle 无问题-->
+    <!-- 根据住院信息查询 (需要指定科室) 检索当前住院病人列表供选择 -->
+    <Content Key="GetInPatientPopupData" DataBaseType="Oracle">
+      SELECT
+      Pat_master_index.Patient_id AS VALUE,
+      Pat_master_index.Inp_no AS InPatientCode,
+      Pat_master_index.name AS NAME,
+      Pat_master_index.sex AS PatientSex,
+      Pat_master_index.name AS DISPLAYNAME,
+      Pats_in_hospital.Ward_Code AS WardArea,
+      Pat_master_index.Date_of_birth AS PatientBirthday,
+      Pats_in_hospital.Dept_code AS InDepartment,
+      Pats_in_hospital.Nursing_Class AS Nursing,
+      NULL AS BedNurse,
+      NULL AS InPatientDoctor
+      FROM Pats_in_hospital
+      LEFT JOIN Pat_master_index
+      ON Pats_in_hospital.Patient_id = Pat_master_index.Patient_id
+      WHERE 1 = 1 {0}
+      Order By InPatientCode DESC
+    </Content>
+    <!-- 未确认 数据库无权限-->
+    <!-- 根据挂号信息查询 (需要指定科室) -->
+    <Content Key="GetRegisterPopupData" DataBaseType="Oracle">
+      SELECT
+      Pat_master_index.Patient_id AS VALUE,
+      Clinic_master.Visit_no AS VisitNo,
+      Pat_master_index.name AS NAME,
+      Pat_master_index.sex AS SEX,
+      Pat_master_index.name AS DISPLAYNAME,
+      Clinic_master.Visit_dept AS VisitDepartment,
+      Clinic_master.Visit_date AS VisitDate,
+      Clinic_master.Clinic_type AS ClinicType,
+      Pat_master_index.Date_of_birth AS PatientBirthday
+      FROM Clinic_master
+      LEFT JOIN Pat_master_index
+      ON Clinic_master.Patient_id = Pat_master_index.Patient_id
+      WHERE 1 = 1 {0}
+      Order By VisitDate DESC
+    </Content>
+  </Contents>
+</SqlConfig>

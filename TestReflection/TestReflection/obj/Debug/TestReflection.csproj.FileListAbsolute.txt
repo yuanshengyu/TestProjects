@@ -1,0 +1,5 @@
+E:\MyProjects\TestReflection\TestReflection\bin\Debug\TestReflection.exe
+E:\MyProjects\TestReflection\TestReflection\bin\Debug\TestReflection.pdb
+E:\MyProjects\TestReflection\TestReflection\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestReflection\TestReflection\obj\Debug\TestReflection.exe
+E:\MyProjects\TestReflection\TestReflection\obj\Debug\TestReflection.pdb

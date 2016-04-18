@@ -1,0 +1,5 @@
+E:\MyProjects\TestListSort\TestListSort3\bin\Debug\TestListSort3.exe
+E:\MyProjects\TestListSort\TestListSort3\bin\Debug\TestListSort3.pdb
+E:\MyProjects\TestListSort\TestListSort3\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestListSort\TestListSort3\obj\Debug\TestListSort3.exe
+E:\MyProjects\TestListSort\TestListSort3\obj\Debug\TestListSort3.pdb

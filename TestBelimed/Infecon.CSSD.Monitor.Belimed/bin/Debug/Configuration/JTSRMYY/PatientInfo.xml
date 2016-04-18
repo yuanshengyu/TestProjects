@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+      select TOP 1
+      c.bqdm,a.sqrq '申请日期',
+      a.patid,
+      a.cwdm as '床号',
+      a.hzxm as '姓名',
+      c.sex '性别',
+      case when c.birth = ' ' then ' ' else convert(varchar,datediff(yy,c.birth,getdate())) end as '年龄',
+      a.ssdm,a.ssmc as '手术名称',
+      a.mzdm,a.mzmc as '麻醉名称',
+      e.name '主刀医生',
+      d.name as '病区名称',
+      (case when a.jzssbz=1 then '急诊手术'
+      when a.jzssbz=2 then '择期手术' else '普通手术' end) as '手术类别',
+      a.blh as '住院号',
+      a.ssksdm,b.name as '手术室',
+      a.jlzt,a.roomno as '手术间',
+      a.sstc as '手术台次',
+      a.aprq as '安排日期',
+      a.ksdm,
+      a.djrq '登记日期',
+      a.yzxh , --通知日期
+      a.tzrq '通知日期',
+      a.sqrq,--时间
+      (select top 1 f.zdmc from  SS_SSZDK f(nolock)
+      where zdlb=0 and zdlx=0 and a.xh=f.ssxh) as  '术前诊断'  from
+      SS_SSDJK a (nolock),
+      SS_SSDMK b (nolock),
+      ZY_BRSYK c (nolock),
+      ZY_BQDMK d (nolock),
+      YY_ZGBMK e (nolock)
+      where a.syxh = c.syxh and c.brzt not in (3,8,9)   and c.bqdm = d.id and b.id=a.ssksdm and a.ysdm*=e.id {0} order by a.sqrq desc
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientCode as INPATIENTCODE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      case when br.PatientSex=0 then '男' else '女' end as PATIENTSEX,   --病人性别
+      year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      --住院信息
+      zy.InPatientCode as SocialSecurityCard, --住院号
+      zy.WardArea as WARDAREA,--病区
+      zy.BedNumber as BEDNO --床位
+
+      from v_disinfect_patientinfo br
+      left join v_disinfect_inpatientinfos zy on br.PatientCode=zy.PatientCode
+      where 1=1 {0}
+      
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="SqlServer">
+      select
+      --手术信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      case when br.PatientSex=0 then '男' else '女' end as PATIENTSEX,   --病人性别
+      year(getdate())-substring(br.PatientBirthday,1,4) as PATIENTAGE,--年龄
+      ss.OPERAT_DEPT_CODE as OPERATIONDEPARTMENT    --科室
+      from v_disinfect_patientinfo br
+      left join v_disinfect_operationinfos ss on br.MedicalRecordCode=ss.MedicalRecordCode
+      where 1=1 {0}
+    </Content>
+    
+    <!---->
+    <Content Key="GetRegisterInfos" DataBaseType="SqlServer">
+      select top 10  g.patid ,
+      g.ghsjh  ,--挂号时间号
+      g.ghxh   ,--挂号序号
+      g.fph  ,--发票号
+      g.hzxm  ,--姓名
+      g.blh  --病历号
+      ,g.cardno  --磁卡号
+      ,f.sex  -- 性别
+      ,case when f.birth  = ' ' then ' '
+      else convert(varchar,datediff(yy,f.birth ,getdate())) end as '年龄'
+      from VW_MZBRJSK g(nolock),SF_BRXXK f(nolock) where g.cardno=f.cardno {0}
+      order by  gh.ghsjh Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="SqlServer">
+      select
+      --病人基本信息
+      g.fph as VALUE,--病人编号
+      g.hzxm as NAME,  --病人姓名
+      g.hzxm as DISPLAYNAME, --病人姓名
+      f.sex as PATIENTSEX,   --病人性别
+      case when f.birth  = ' ' then ' '
+      else convert(varchar,datediff(yy,f.birth ,getdate())) end as PATIENTAGE,--年龄
+
+      g.ghxh as REGISTERCODE,   --挂号系统编号
+      g.ghsjh  as REGISTERDATETIME --挂号时间
+      from VW_MZBRJSK g(nolock),SF_BRXXK f(nolock) where g.cardno=f.cardno {0}
+      order by  gh.ghsjh Desc
+    </Content>
+  </Contents>
+</SqlConfig>

@@ -1,0 +1,13 @@
+E:\MyProjects\TestMedia\TestMedia\bin\Debug\TestMedia.exe
+E:\MyProjects\TestMedia\TestMedia\bin\Debug\TestMedia.pdb
+E:\MyProjects\TestMedia\TestMedia\bin\Debug\Interop.WMPLib.dll
+E:\MyProjects\TestMedia\TestMedia\bin\Debug\AxInterop.WMPLib.dll
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\Interop.WMPLib.dll
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\AxInterop.WMPLib.dll
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\TestMedia.csproj.ResolveComReference.cache
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\TestMedia.Form1.resources
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\TestMedia.Properties.Resources.resources
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\TestMedia.csproj.GenerateResource.Cache
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\TestMedia.exe
+E:\MyProjects\TestMedia\TestMedia\obj\Debug\TestMedia.pdb

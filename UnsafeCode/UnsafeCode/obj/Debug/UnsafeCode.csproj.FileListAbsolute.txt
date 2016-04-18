@@ -1,0 +1,9 @@
+E:\MyProjects\UnsafeCode\UnsafeCode\bin\Debug\UnsafeCode.exe.config
+E:\MyProjects\UnsafeCode\UnsafeCode\bin\Debug\UnsafeCode.exe
+E:\MyProjects\UnsafeCode\UnsafeCode\bin\Debug\UnsafeCode.pdb
+E:\MyProjects\UnsafeCode\UnsafeCode\obj\Debug\UnsafeCode.csprojResolveAssemblyReference.cache
+E:\MyProjects\UnsafeCode\UnsafeCode\obj\Debug\UnsafeCode.Form1.resources
+E:\MyProjects\UnsafeCode\UnsafeCode\obj\Debug\UnsafeCode.Properties.Resources.resources
+E:\MyProjects\UnsafeCode\UnsafeCode\obj\Debug\UnsafeCode.csproj.GenerateResource.Cache
+E:\MyProjects\UnsafeCode\UnsafeCode\obj\Debug\UnsafeCode.exe
+E:\MyProjects\UnsafeCode\UnsafeCode\obj\Debug\UnsafeCode.pdb

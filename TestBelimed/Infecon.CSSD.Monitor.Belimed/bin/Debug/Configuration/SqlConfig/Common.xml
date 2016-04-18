@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="SP_InsertUpdate_General" DataBaseType="SqlServer">
+      IF NOT EXISTS(SELECT * FROM {0} WHERE 1 = 1 {2})
+      INSERT INTO {0} ({3}) VALUES ({4})
+      ELSE
+      UPDATE {0} SET {1} WHERE 1 = 1 {2}
+    </Content>
+    <Content Key="SP_InsertUpdate_General" DataBaseType="Oracle">
+      declare RowsCount number;
+      begin
+      SELECT COUNT(*) INTO RowsCount FROM {0} WHERE 1 = 1 {2};
+      IF (RowsCount = 0 )THEN
+      INSERT INTO {0} ({3}) VALUES ({4});
+      ELSE
+      UPDATE {0} SET {1} WHERE 1 = 1 {2};
+      END IF;
+      end ;
+    </Content>
+    <Content Key="Query_IsPackageSettingData" DataBaseType="SqlServer">
+      SELECT * FROM PackageSetting WHERE 1 = 1 {0}
+    </Content>
+    <Content Key="Query_IsPackageSettingData" DataBaseType="Oracle">
+      SELECT * FROM PackageSetting WHERE 1 = 1 {0}
+    </Content>
+    <Content Key="SP_Select_General" DataBaseType="SqlServer">
+      SELECT {1} FROM {0} WHERE 1 = 1 {2}
+    </Content>
+    <Content Key="SP_Query_General" DataBaseType="SqlServer">
+      SELECT {1} FROM {0} WHERE 1 = 1 {2}
+    </Content>
+    <Content Key="SP_Query_General" DataBaseType="Oracle">
+      SELECT {1} FROM {0} WHERE 1 = 1 {2}
+    </Content>
+    <Content Key="SP_Select_General" DataBaseType="Oracle">
+      SELECT {1} FROM {0} WHERE 1 = 1 {2}
+    </Content>
+    <Content Key="Query_OrgsDictIDName" DataBaseType="SqlServer">
+      Select ID as VALUE,NAME,NAME AS DISPLAYNAME,CODE from AC_Org  Where  (AC_Org.ISDISABLED=0 or AC_Org.ISDISABLED is null)  {0}    order by Pinyin,NAME
+    </Content>
+    <Content Key="Query_OrgsDictIDName" DataBaseType="Oracle">
+      Select ID as VALUE,NAME,NAME AS DISPLAYNAME,CODE from AC_Org  Where   (AC_Org.ISDISABLED=0 or AC_Org.ISDISABLED is null)  {0}    order by Pinyin, NAME
+    </Content> 
+	<Content Key="Query_OrgsDictIDNameByLoginName" DataBaseType="SqlServer">
+    Select ID as VALUE,NAME,NAME AS DISPLAYNAME,CODE from AC_Org  Where  (AC_Org.ISDISABLED=0 or AC_Org.ISDISABLED is null)  and id in (select AC_Org.id  from ac_user inner join AC_OrgUser on ac_user.ID=ac_orguser.UserID
+    inner join AC_Org on ac_org.ID=ac_orguser.OrgID
+    where ac_user.IsDisabled=0 and ac_user.LoginName=@loginname)    order by Pinyin, NAME
+  </Content>
+	<Content Key="Query_OrgsDictIDNameByLoginName" DataBaseType="Oracle">
+    Select ID as VALUE,NAME,NAME AS DISPLAYNAME,CODE from AC_Org  Where   (AC_Org.ISDISABLED=0 or AC_Org.ISDISABLED is null)  and id in (select AC_Org.id  from ac_user inner join AC_OrgUser on ac_user.ID=ac_orguser.UserID
+    inner join AC_Org on ac_org.ID=ac_orguser.OrgID
+    where ac_user.IsDisabled=0 and upper(ac_user.LoginName)=:loginname)   order by Pinyin, NAME
+  </Content>
+    <Content Key="Query_OrgsDictCodeName" DataBaseType="SqlServer">
+      Select CODE as VALUE,NAME,NAME AS DISPLAYNAME,ID  from AC_Org  Where  (AC_Org.ISDISABLED=0 or AC_Org.ISDISABLED is null)  {0}    order by Pinyin, NAME
+    </Content>
+    <Content Key="Query_OrgsDictCodeName" DataBaseType="Oracle">
+      Select CODE as VALUE,NAME,NAME AS DISPLAYNAME,ID  from AC_Org  Where   (AC_Org.ISDISABLED=0 or AC_Org.ISDISABLED is null)  {0}    order  by Pinyin, NAME
+    </Content>
+
+    <Content Key="Query_WarehouseDictIDName" DataBaseType="SqlServer">
+		Select WarehouseID as VALUE,WarehouseName as NAME,WarehouseName as DISPLAYNAME,CODE from Warehouse Where (IsDisabled=0 or IsDisabled is null) {0}
+	</Content>
+    <Content Key="Query_WarehouseDictIDName" DataBaseType="Oracle">
+      Select WarehouseID as VALUE,WarehouseName as NAME,WarehouseName as DISPLAYNAME,CODE from Warehouse Where  (IsDisabled=0 or IsDisabled is null) {0}
+    </Content>
+    
+    <Content Key="Query_WarehouseDictIDNameDisplayName" DataBaseType="SqlServer">
+      Select WarehouseID as VALUE,OrgID,WarehouseName as NAME,WarehouseName as DISPLAYNAME,CODE from Warehouse Where   (IsDisabled=0 or IsDisabled is null) {0}
+    </Content>
+    <Content Key="Query_WarehouseDictIDNameDisplayName" DataBaseType="Oracle">
+      Select WarehouseID as VALUE,OrgID,WarehouseName as NAME,WarehouseName as DISPLAYNAME,CODE from Warehouse Where  (IsDisabled=0 or IsDisabled is null) {0}
+    </Content>
+
+    <Content Key="Query_SystemTypeParameterDictIDNameDisplayName" DataBaseType="SqlServer">
+      select TypeValue as VALUE ,TypeName as NAME,TypeName as DISPLAYNAME from SystemTypeParameter where 1=1 {0} order by OrderBy asc
+    </Content>
+    <Content Key="Query_SystemTypeParameterDictIDNameDisplayName" DataBaseType="Oracle">
+      select TypeValue as VALUE ,TypeName as NAME,TypeName as DISPLAYNAME from SystemTypeParameter where 1=1 {0} order by OrderBy asc
+    </Content>
+
+
+    <Content Key="Query_ManufacturerDictIDNameDisplayName" DataBaseType="SqlServer">
+      Select ManufacturerID as VALUE,NAME,NAME AS DISPLAYNAME from Manufacturer where Manufacturer.IsDisabled=0 or Manufacturer.IsDisabled is null
+    </Content>
+    <Content Key="Query_ManufacturerDictIDNameDisplayName" DataBaseType="Oracle">
+      Select ManufacturerID as VALUE,NAME,NAME AS DISPLAYNAME from Manufacturer where Manufacturer.IsDisabled=0 or Manufacturer.IsDisabled is null
+    </Content>
+
+    <Content Key="Query_ManufacturerDictIDNameCargotypeID" DataBaseType="SqlServer">
+      select a.ManufacturerID as VALUE,a.NAME,b.CARGOTYPEID from Manufacturer a   WITH (NOLOCK)
+      Inner join ManufacturerProducts b
+      on a.ManufacturerID=b.ManufacturerID where
+      (a.IsDisabled=0 or a.IsDisabled is null)
+    </Content>
+    <Content Key="Query_ManufacturerDictIDNameCargotypeID" DataBaseType="Oracle">
+      select a.ManufacturerID as VALUE,a.NAME,b.CARGOTYPEID from Manufacturer a
+      Inner join ManufacturerProducts b
+      on a.ManufacturerID=b.ManufacturerID where
+      (a.IsDisabled=0 or a.IsDisabled is null)
+    </Content>
+    
+    <Content Key="Query_PatientListDictIDNameDisplayName" DataBaseType="SqlServer">
+      Select distinct PatientList.PatientID as VALUE ,PatientList.PatientName as NAME,PatientList.PatientSex as SEX,PatientList.PatientName AS DISPLAYNAME,PatientList.PatientAge AS AGE from PatientList where 1=1
+    </Content>
+    <Content Key="Query_PatientListDictIDNameDisplayName" DataBaseType="Oracle">
+      Select distinct PatientList.PatientID as VALUE ,PatientList.PatientName as NAME,PatientList.PatientSex as SEX,PatientList.PatientName AS DISPLAYNAME,PatientList.PatientAge AS AGE from PatientList where 1=1
+    </Content>
+    <Content Key="Query_USERDictIDNameDisplayName" DataBaseType="SqlServer">
+      Select ID as  VALUE,NAME,NAME AS DISPLAYNAME FROM AC_USER WHERE AC_USER.ISDISABLED = 0 OR AC_USER.ISDISABLED IS NULL
+    </Content>
+    <Content Key="Query_USERDictIDNameDisplayName" DataBaseType="Oracle">
+      Select ID as  VALUE,NAME,NAME AS DISPLAYNAME FROM AC_USER WHERE AC_USER.ISDISABLED = 0 OR AC_USER.ISDISABLED IS NULL
+    </Content>
+    
+    <Content Key="Query_USERDictIDNameOrgName" DataBaseType="SqlServer">
+      Select a.ID as VALUE,a.NAME,a.NAME AS DISPLAYNAME,c.NAME as ORGIDTEXT,b.ORGID from AC_User a    inner join AC_OrgUser b  ON a.ID = b.UserID left join AC_Org c on c.ID = b.OrgID Where (a.ISDISABLED = 0 OR a.ISDISABLED IS NULL)  
+    </Content>
+    <Content Key="Query_USERDictIDNameOrgName" DataBaseType="Oracle">
+      Select a.ID as VALUE,a.NAME,a.NAME AS DISPLAYNAME,c.NAME as ORGIDTEXT,b.ORGID from AC_User a    inner join AC_OrgUser b  ON a.ID = b.UserID left join AC_Org c on c.ID = b.OrgID Where (a.ISDISABLED = 0 OR a.ISDISABLED IS NULL)  
+    </Content>
+
+    <Content Key="Query_LocationDictIDNameByIDAndFilter" DataBaseType="SqlServer">
+      select a.LocationID as VALUE,a.LocationName as NAME,a.LocationName as DISPLAYNAME  from Location a
+      left join Warehouse b on a.WarehouseID = b.WarehouseID  where a.isdisabled = 0 and a.WarehouseID =@WarehouseID   {0} order by a.LocationName
+    </Content>
+    <Content Key="Query_LocationDictIDNameByIDAndFilter" DataBaseType="Oracle">
+      select a.LocationID as VALUE,a.LocationName as NAME,a.LocationName as DISPLAYNAME  from Location a
+      left join Warehouse b on a.WarehouseID = b.WarehouseID  where a.isdisabled = 0 and a.WarehouseID =:WarehouseID   {0} order by a.LocationName
+    </Content> 
+	<Content Key="Query_LocationByProvideOrg" DataBaseType="SqlServer">
+		select a.LocationID as VALUE,a.LocationName as NAME,a.LocationName as DISPLAYNAME,b.WarehouseName as WAREHOUSENAME  from Location a
+		left join Warehouse b on a.WarehouseID = b.WarehouseID  where a.isdisabled = 0  
+	</Content>
+	<Content Key="Query_LocationByProvideOrg" DataBaseType="Oracle">
+		select a.LocationID as VALUE,a.LocationName as NAME,a.LocationName as DISPLAYNAME,b.WarehouseName as WAREHOUSENAME  from Location a
+		left join Warehouse b on a.WarehouseID = b.WarehouseID  where a.isdisabled = 0   
+	</Content>
+    <Content Key="Select_GetLocationListA" DataBaseType="SqlServer">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      And OrgID=(Select OrgID From AC_OrgUser Where UserID=(Select ID From AC_User Where Code=@UserCode And @QueryString Order by LocationName
+    </Content>
+    <Content Key="Select_GetLocationListA" DataBaseType="Oracle">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      And OrgID=(Select OrgID From AC_OrgUser Where UserID=(Select ID From AC_User Where Code=:UserCode And :QueryString Order by LocationName
+    </Content>
+
+    <Content Key="Select_GetLocationListB" DataBaseType="SqlServer">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      And OrgID=(Select OrgID From AC_OrgUser Where UserID=(Select ID From AC_User Where Code=@UserCode  Order by LocationName
+    </Content>
+    <Content Key="Select_GetLocationListB" DataBaseType="Oracle">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      And OrgID=(Select OrgID From AC_OrgUser Where UserID=(Select ID From AC_User Where Code=:UserCode  Order by LocationName
+    </Content>
+
+    <Content Key="Select_GetLocationListC" DataBaseType="SqlServer">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      And @QueryString Order by LocationName
+    </Content>
+    <Content Key="Select_GetLocationListC" DataBaseType="Oracle">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      And :QueryString Order by LocationName
+    </Content>
+
+    <Content Key="Select_GetLocationListD" DataBaseType="SqlServer">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+       Order by LocationName
+    </Content>
+    <Content Key="Select_GetLocationListD" DataBaseType="Oracle">
+      Select BarCode,LocationName,LocationID From Location Where 1=1
+      Order by LocationName
+    </Content>
+
+
+    <Content Key="Query_RoleDictIDName" DataBaseType="SqlServer">
+      SELECT ID AS VALUE,  NAME,NAME  AS DISPLAYNAME FROM AC_ROLE WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)    {0}
+    </Content>
+    <Content Key="Query_RoleDictIDName" DataBaseType="Oracle">
+      SELECT ID AS VALUE,  NAME,NAME  AS DISPLAYNAME FROM AC_ROLE WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)   {0}
+    </Content>
+
+    <Content Key="Query_CONTAINERDictIDName" DataBaseType="SqlServer">
+      SELECT CONTAINERID AS VALUE,CONTAINERNAME AS NAME,CONTAINERNAME  AS DISPLAYNAME FROM CONTAINER WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)   {0}
+    </Content>
+    <Content Key="Query_CONTAINERDictIDName" DataBaseType="Oracle">
+      SELECT CONTAINERID AS VALUE,CONTAINERNAME AS NAME,CONTAINERNAME  AS DISPLAYNAME FROM CONTAINER WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)   {0}
+    </Content>
+ 
+    <Content Key="Query_DEVICEDictIDName" DataBaseType="SqlServer">
+      SELECT DEVICEID AS VALUE,DEVICENAME AS NAME,DEVICENAME  AS DISPLAYNAME FROM DEVICES WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)   {0}
+    </Content>
+    <Content Key="Query_DEVICEDictIDName" DataBaseType="Oracle">
+      SELECT DEVICEID AS VALUE,DEVICENAME AS NAME,DEVICENAME  AS DISPLAYNAME FROM DEVICES WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)   {0}
+    </Content>
+    
+    <Content Key="Query_OuterPackingDictIDName" DataBaseType="SqlServer">
+      SELECT PTYPEID AS VALUE,PNAME AS NAME,PNAME  AS DISPLAYNAME,PDAYS FROM PACKAGETYPE WHERE (ISDISABLED = 0 OR ISDISABLED IS NULL)  
+    </Content>
+    <Content Key="Query_OuterPackingDictIDName" DataBaseType="Oracle">
+      SELECT PTYPEID AS VALUE,PNAME AS NAME,PNAME  AS DISPLAYNAME,PDAYS FROM PACKAGETYPE WHERE (ISDISABLED = 0 OR ISDISABLED IS NULL)  
+    </Content> 
+    
+    <Content Key="Query_SupplierContactDictIDName" DataBaseType="SqlServer">
+      SELECT SUPPLIERID AS VALUE,CONTACT AS NAME,CONTACT AS DISPLAYNAME FROM SUPPLIER WHERE (ISDISABLED =0 OR ISDISABLED IS NULL) AND NOT ISNULL(CONTACT,'')=''   {0}
+    </Content>
+    <Content Key="Query_SupplierContactDictIDName" DataBaseType="Oracle">
+      SELECT SUPPLIERID AS VALUE,CONTACT AS NAME,CONTACT AS DISPLAYNAME FROM SUPPLIER WHERE (ISDISABLED =0 OR ISDISABLED IS NULL) AND CONTACT IS NOT NULL  {0}
+    </Content>
+
+    <Content Key="Query_SupplierNameDictIDName" DataBaseType="SqlServer">
+      SELECT SUPPLIERID AS VALUE,NAME,NAME AS DISPLAYNAME  FROM SUPPLIER WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)     {0}
+    </Content>
+    <Content Key="Query_SupplierNameDictIDName" DataBaseType="Oracle">
+      SELECT SUPPLIERID AS VALUE,NAME,NAME AS DISPLAYNAME  FROM SUPPLIER WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)    {0}
+    </Content>
+    
+    <Content Key="Query_SupplierManufacturersDictIDName" DataBaseType="SqlServer">
+      select a.ManufacturerID as Value,b.Name from SupplierManufacturers a inner join Manufacturer b ON a.ManufacturerID = b.ManufacturerID Where (b.IsDisabled=0 or b.IsDisabled is null)     {0}
+    </Content>
+    <Content Key="Query_SupplierManufacturersDictIDName" DataBaseType="Oracle">
+      select a.ManufacturerID as Value,b.Name from SupplierManufacturers a inner join Manufacturer b ON a.ManufacturerID = b.ManufacturerID Where (b.IsDisabled=0 or b.IsDisabled is null)    {0}
+    </Content>
+
+    <Content Key="Query_SuppliersDictIDName" DataBaseType="SqlServer">
+      Select SupplierID as Value,Name from Supplier
+    </Content>
+    <Content Key="Query_SuppliersDictIDName" DataBaseType="Oracle">
+      Select SupplierID as Value,Name from Supplier
+    </Content>
+    
+    <Content Key="Query_CARGOTYPEKINDDictIDName" DataBaseType="SqlServer">
+      SELECT ID AS VALUE,KINDNAME AS NAME FROM CARGOTYPEKIND WHERE 1=1
+    </Content>
+    <Content Key="Query_CARGOTYPEKINDDictIDName" DataBaseType="Oracle">
+      SELECT ID AS VALUE,KINDNAME AS NAME FROM CARGOTYPEKIND WHERE 1=1
+    </Content>
+    
+    <Content Key="Query_CARGOTYPEDictIDName" DataBaseType="SqlServer">
+      SELECT CARGOTYPEID AS VALUE,CARGOTYPENAME AS NAME FROM CARGOTYPE WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+    <Content Key="Query_CARGOTYPEDictIDName" DataBaseType="Oracle">
+      SELECT CARGOTYPEID AS VALUE,CARGOTYPENAME AS NAME FROM CARGOTYPE WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+
+    <Content Key="Query_DistinctDeviceModel" DataBaseType="SqlServer">
+      SELECT DISTINCT  DEVICEMODEL FROM DEVICES    WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+    <Content Key="Query_DistinctDeviceModel" DataBaseType="Oracle">
+      SELECT DISTINCT  DEVICEMODEL FROM DEVICES    WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+
+    <Content Key="Query_OperationDictIDName" DataBaseType="SqlServer">
+      SELECT OPERATIONID VALUE,OPERATIONNAME NAME,OPERATIONNAME DISPLAYNAME FROM OPERATION  WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+    <Content Key="Query_OperationDictIDName" DataBaseType="Oracle">
+      SELECT OPERATIONID VALUE,OPERATIONNAME NAME,OPERATIONNAME DISPLAYNAME FROM OPERATION   WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content> 
+    <Content Key="Query_LocationDictIDName" DataBaseType="SqlServer">
+      Select LocationID as VALUE,LocationName as NAME,LocationName AS DISPLAYNAME , WAREHOUSEID from Location  WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+    <Content Key="Query_LocationDictIDName" DataBaseType="Oracle">
+      Select LocationID as VALUE,LocationName as NAME,LocationName AS DISPLAYNAME , WAREHOUSEID from Location  WHERE (ISDISABLED =0 OR ISDISABLED IS NULL)
+    </Content>
+    
+    <Content Key="Query_LocationWarehouseNameDictIDName" DataBaseType="SqlServer">
+		select a.LocationID as VALUE,a.LocationName as NAME, b.WarehouseName as DISPLAYNAME, b.WarehouseName as WAREHOUSENAME   from Location a  left join Warehouse b on a.WarehouseID = b.WarehouseID Where   (a.IsDisabled=0 or a.IsDisabled is null)
+	</Content>
+    <Content Key="Query_LocationWarehouseNameDictIDName" DataBaseType="Oracle">
+		select a.LocationID as VALUE,a.LocationName as NAME, b.WarehouseName as DISPLAYNAME, b.WarehouseName as WAREHOUSENAME   from Location a  left join Warehouse b on a.WarehouseID = b.WarehouseID Where   (a.IsDisabled=0 or a.IsDisabled is null)
+	</Content>
+
+    <Content Key="Query_CargoTypeAndKindDictIDName" DataBaseType="SqlServer">
+      SELECT CARGOTYPE.CARGOTYPEID AS VALUE,CASE WHEN CARGOTYPEKIND.KINDNAME IS NULL THEN CARGOTYPE.CARGOTYPENAME ELSE CARGOTYPE.CARGOTYPENAME+' ['+CARGOTYPEKIND.KINDNAME+' ]' END AS NAME,CARGOTYPE.CARGOTYPENAME AS DISPLAYNAME FROM CARGOTYPE LEFT JOIN CARGOTYPEKIND ON CARGOTYPE.CARGOTYPEKIND = CARGOTYPEKIND.ID WHERE  (IsDisabled=0 or IsDisabled is null)
+    </Content>
+    <Content Key="Query_CargoTypeAndKindDictIDName" DataBaseType="Oracle">
+      SELECT CARGOTYPE.CARGOTYPEID AS VALUE,CASE WHEN CARGOTYPEKIND.KINDNAME IS NULL THEN CARGOTYPE.CARGOTYPENAME ELSE CARGOTYPE.CARGOTYPENAME||' ['||CARGOTYPEKIND.KINDNAME||' ]' END AS NAME,CARGOTYPE.CARGOTYPENAME AS DISPLAYNAME FROM CARGOTYPE LEFT JOIN CARGOTYPEKIND ON CARGOTYPE.CARGOTYPEKIND = CARGOTYPEKIND.ID WHERE  (IsDisabled=0 or IsDisabled is null)
+    </Content>
+
+    <Content Key="Query_CargoTypeJoinCargoTypeKindDictIDName" DataBaseType="SqlServer">
+      SELECT CARGOTYPE.CARGOTYPEID AS VALUE,CARGOTYPE.CARGOTYPENAME AS NAME,CARGOTYPE.CARGOTYPENAME AS DISPLAYNAME,CargoType.CARGOTYPEKIND,CargoTypeKind.KindName as CARGOTYPEKINDTEXT
+      ,CARGOTYPEKIND.OrgID,AC_Org.Name ORGNAME,CARGOTYPE.PINYIN,0 as QUANTITY
+      ,CARGOTYPE.amount as AMOUNT
+      FROM CARGOTYPE
+      LEFT JOIN CARGOTYPEKIND ON CARGOTYPE.CARGOTYPEKIND = CARGOTYPEKIND.ID
+      LEFT JOIN AC_Org ON CARGOTYPEKIND.OrgID=AC_Org.ID
+      WHERE CARGOTYPE.ISDISABLED = 0  {0} ORDER BY CARGOTYPE.PINYIN
+    </Content>
+    <Content Key="Query_CargoTypeJoinCargoTypeKindDictIDName" DataBaseType="Oracle">
+      SELECT CARGOTYPE.CARGOTYPEID AS VALUE,CARGOTYPE.CARGOTYPENAME AS NAME,CARGOTYPE.CARGOTYPENAME AS DISPLAYNAME,CargoType.CARGOTYPEKIND,CargoTypeKind.KindName as CARGOTYPEKINDTEXT
+      ,CARGOTYPEKIND.OrgID,AC_Org.Name ORGNAME,CARGOTYPE.PINYIN,0 as QUANTITY
+      ,CARGOTYPE.amount as AMOUNT
+      FROM CARGOTYPE
+      LEFT JOIN CARGOTYPEKIND ON CARGOTYPE.CARGOTYPEKIND = CARGOTYPEKIND.ID
+      LEFT JOIN AC_Org ON CARGOTYPEKIND.OrgID=AC_Org.ID
+      WHERE CARGOTYPE.ISDISABLED = 0 {0} ORDER BY CARGOTYPE.PINYIN
+    </Content>
+    
+    <Content Key="Query_CargoTypeKindDictIDNameTopType" DataBaseType="SqlServer">
+      SELECT ID AS VALUE,KINDNAME AS NAME,KINDNAME AS DISPLAYNAME,CARGOTOPTYPE FROM CARGOTYPEKIND WHERE (ISDELETE =0 OR ISDELETE IS NULL) 
+    </Content>
+    <Content Key="Query_CargoTypeKindDictIDNameTopType" DataBaseType="Oracle">
+      SELECT ID AS VALUE,KINDNAME AS NAME,KINDNAME AS DISPLAYNAME,CARGOTOPTYPE FROM CARGOTYPEKIND WHERE (ISDELETE =0 OR ISDELETE IS NULL) 
+    </Content>
+
+    <Content Key="Query_ComboDataGetOrgName" DataBaseType="SqlServer">
+      SELECT ID AS VALUE ,CODE,dbo.fun_getPY(NAME) + '--' + NAME  AS DISPLAY  FROM AC_ORG WHERE IsDisabled = 0   ORDER BY Pinyin,NAME
+    </Content>
+    <Content Key="Query_ComboDataGetOrgName" DataBaseType="Oracle">
+      SELECT ID AS VALUE ,CODE,NAME  AS DISPLAY  FROM AC_ORG WHERE IsDisabled = 0  ORDER BY Pinyin, NAME
+    </Content>
+
+	  <Content Key="Query_ComboDataGetFlowOrg" DataBaseType="SqlServer">
+      SELECT ID AS VALUE ,CODE, NAME  AS DISPLAY  FROM AC_ORG WHERE IsDisabled = 0 and CanOperateFlow=1  ORDER BY Pinyin, NAME
+    </Content>
+	  <Content Key="Query_ComboDataGetFlowOrg" DataBaseType="Oracle">
+      SELECT ID AS VALUE ,CODE,NAME  AS DISPLAY  FROM AC_ORG WHERE IsDisabled = 0 and CanOperateFlow=1  ORDER BY Pinyin, NAME
+    </Content> 
+	  <Content Key="Query_ComboDataGetID" DataBaseType="SqlServer">
+      SELECT ID AS VALUE ,CODE,NAME AS DISPLAY FROM AC_USER ORDER BY DISPLAY
+    </Content>
+    <Content Key="Query_ComboDataGetID" DataBaseType="Oracle">
+      SELECT ID AS VALUE ,CODE,NAME AS DISPLAY FROM AC_USER ORDER BY DISPLAY
+    </Content>
+
+    <Content Key="Query_ComboDataGetCargoTypeKindByType" DataBaseType="SqlServer">
+		SELECT ID AS VALUE,CODE ,pinyin+'--'+KINDNAME AS DISPLAY FROM CARGOTYPEKIND
+		WHERE CARGOTOPTYPE = @cargoTopType AND IsDelete = 0 ORDER BY DISPLAY
+	</Content>
+    <Content Key="Query_ComboDataGetCargoTypeKindByType" DataBaseType="Oracle">
+		SELECT ID AS VALUE,CODE ,pinyin||'--'||KINDNAME AS DISPLAY FROM CARGOTYPEKIND
+		WHERE CARGOTOPTYPE = :cargoTopType AND IsDelete = 0 ORDER BY DISPLAY
+	</Content>
+
+    <Content Key="Query_ComboDataGetCargoTypeIDByKind" DataBaseType="SqlServer">
+      SELECT CARGOTYPEID AS VALUE,BARCODE ,dbo.fun_getPY(CARGOTYPENAME) + '--' + CARGOTYPENAME AS DISPLAY FROM CARGOTYPE
+      WHERE CARGOTYPEKIND = @CargoTypeKind AND IsDisabled = 0  ORDER BY DISPLAY
+    </Content>
+    <Content Key="Query_ComboDataGetCargoTypeIDByKind" DataBaseType="Oracle">
+      SELECT CARGOTYPEID AS VALUE,BARCODE ,pinyin||'--'||CARGOTYPENAME AS DISPLAY FROM CARGOTYPE
+      WHERE CARGOTYPEKIND = :CargoTypeKind AND IsDisabled = 0  ORDER BY DISPLAY
+    </Content>
+
+    <Content Key="Query_ComboDataGetCargoTypeID" DataBaseType="SqlServer">
+		SELECT CARGOTYPEID AS VALUE,BARCODE ,pinyin+'--'+CARGOTYPENAME AS DISPLAY FROM CARGOTYPE
+		WHERE CargoTopType = 16 AND IsDisabled = 0
+		ORDER BY BARCODE
+	</Content>
+    <Content Key="Query_ComboDataGetCargoTypeID" DataBaseType="Oracle">
+		SELECT CARGOTYPEID AS VALUE,BARCODE ,pinyin||'--'||CARGOTYPENAME AS DISPLAY FROM CARGOTYPE
+		WHERE CargoTopType = 16 AND IsDisabled = 0
+		ORDER BY BARCODE
+	</Content>
+
+    <Content Key="Query_PackageCostLevelSelect" DataBaseType="SqlServer">
+      Select FID as VALUE,FNAME DISPLAYNAME,FName NAME from PackageCostLevel  Where  IsNull(FIsDisable,0)=0  {0}    order by FNAME
+    </Content>
+    <Content Key="Query_PackageCostLevelSelect" DataBaseType="Oracle">
+      Select FID as VALUE,FNAME DISPLAYNAME,FName NAME from PackageCostLevel  Where   (FIsDisable=0 or FIsDisable is null)  {0}    order by FNAME
+    </Content>
+
+    <Content Key="Query_GetStorageQuantity" DataBaseType="SqlServer">
+      <![CDATA[
+      select c.CargoTypeID VALUE,c.CargoTypeName DISPLAYNAME,c.CargoTypeName NAME,
+      sum(s.Quantity)-(select isnull(SUM(quantity),0) from OperationHISSetting his where his.cargotypeid=c.CargoTypeID and his.SysDataTime = convert(varchar(10),getdate(),120) ) QUANTITY
+      from  StorageList s
+      inner join CargoType c on c.CargoTypeID=s.CargoTypeID and s.status=50
+      where 1=1 {0}
+      group by c.CargoTypeID,c.CargoTypeName
+      having sum(s.Quantity) >0
+      ]]>
+    </Content>
+    <Content Key="Query_GetStorageQuantity" DataBaseType="Oracle">
+      <![CDATA[
+      select c.CargoTypeID VALUE,c.CargoTypeName DISPLAYNAME,c.CargoTypeName NAME,
+      sum(s.Quantity)-(select nvl(SUM(quantity),0) from OperationHISSetting his where his.cargotypeid=c.CargoTypeID and his.SysDataTime = to_char(sysdate,'yyyy-MM-dd') ) QUANTITY
+      from  StorageList s
+      inner join CargoType c on c.CargoTypeID=s.CargoTypeID and s.status=50
+      where 1=1 {0}
+      group by c.CargoTypeID,c.CargoTypeName
+      having sum(s.Quantity) >0
+      ]]>
+    </Content>
+    
+    
+    <Content Key="Sql_MergeOrgID" DataBaseType="SqlServer">
+      Update AC_Org set IsDisabled=1 where ID in (@MergeOrgIDlist)
+      Update FlowUse set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist) 
+      Update Location set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update StorageOut set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update SafeStock set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update PermanentSupply set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update Operation set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowPreOrder set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowProvideMaterial set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowRecycleOrder set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowProvideLendReturn set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowProvideConfirm set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowProvide set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowPackageIn set FOrgID=@strMergeToGuid where FOrgID in (@MergeOrgIDlist)
+      Update FetchDoc set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update CargoTypeOrder set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update CargoTypeKind set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update AC_OrgUser set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowPackageList set OwnOrgID=@strMergeToGuid where OwnOrgID in (@MergeOrgIDlist)
+      Update Warehouse set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+      Update FlowUseMedicalAppliance set OrgID=@strMergeToGuid where OrgID in (@MergeOrgIDlist)
+    </Content>
+    <Content Key="Sql_MergeCargoTypeID" DataBaseType="SqlServer">
+      Update CarGotype set IsDisabled=1 where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowUseList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowTask set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update StorageOutList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update StorageList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update SafeStock set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update PermanentSupply set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+
+      Update OperationSetting set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowRecycleDamageList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowProvideMaterialList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowProvideLendReturnDetail set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowProvideLend set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowPackageIn set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowPackageLostBarcode set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+
+      Update FlowPackage set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update CargoTypeOrder set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update AC_OrgProducts set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update AC_OrgOneProducts set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update DevicesUseList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowPackageList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowPackageInCargoList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+
+      Update FlowPreOrderDetail set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowRecycleLostList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowPackageCargoList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FLOWPACKAGELOSTBARCODECLIST set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update SupplierProducts set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update ManufacturerProducts set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update PackageStatic set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+
+      Update PackageSetting set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update StorageInList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowUseMedicalAppliance set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowProvideList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+      Update FlowPackageDetailList set CargoTypeID=@strMergeToGuid where CargoTypeID in (@MergeOrgIDlist)
+    </Content>
+    
+    <Content Key="Query_GetPinYin" DataBaseType="SqlServer">
+      select dbo.fun_getPY(@str)
+    </Content>
+    <Content Key="Query_GetPinYin" DataBaseType="Oracle">
+      select fun_getPY(:str) from dual
+    </Content>
+
+    <Content Key="Query_GetDevicePart" DataBaseType="SqlServer">
+      select  FID VALUE,FName NAME,FName DISPLAYNAME from DevicePart where FIsDisabled =0 {0}
+    </Content>
+    <Content Key="Query_GetDevicePart" DataBaseType="Oracle">
+      select  FID VALUE,FName NAME,FName DISPLAYNAME from DevicePart where FIsDisabled =0 {0}
+    </Content>
+    <!--<Content Key="Sensor_Query_GetSensorListByGroup" DataBaseType="SqlServer">
+      SELECT SensorID
+      ,SensorGroup
+      ,SensorType
+      ,SensorModel
+      ,SensorKey
+      ,SensorKeyEx
+      ,SensorName
+      ,Connection
+      ,PositionMark
+      ,SensorShowType
+      ,Remarks
+      FROM Sensor
+      WHERE SensorGroup = @SensorGroup
+      ORDER BY SensorKey
+    </Content>-->
+  </Contents>
+</SqlConfig>

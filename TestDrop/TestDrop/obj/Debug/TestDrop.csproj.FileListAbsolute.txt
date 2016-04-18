@@ -1,0 +1,8 @@
+E:\MyProjects\TestDrop\TestDrop\bin\Debug\TestDrop.exe
+E:\MyProjects\TestDrop\TestDrop\bin\Debug\TestDrop.pdb
+E:\MyProjects\TestDrop\TestDrop\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestDrop\TestDrop\obj\Debug\TestDrop.Form1.resources
+E:\MyProjects\TestDrop\TestDrop\obj\Debug\TestDrop.Properties.Resources.resources
+E:\MyProjects\TestDrop\TestDrop\obj\Debug\TestDrop.csproj.GenerateResource.Cache
+E:\MyProjects\TestDrop\TestDrop\obj\Debug\TestDrop.exe
+E:\MyProjects\TestDrop\TestDrop\obj\Debug\TestDrop.pdb

@@ -1,0 +1,8 @@
+E:\MyProjects\TestSimensOPC\TestSimensOPC\bin\Debug\TestSimensOPC.exe
+E:\MyProjects\TestSimensOPC\TestSimensOPC\bin\Debug\TestSimensOPC.pdb
+E:\MyProjects\TestSimensOPC\TestSimensOPC\bin\Debug\Interop.OPCAutomation.dll
+E:\MyProjects\TestSimensOPC\TestSimensOPC\bin\Debug\Interop.OPCSiemensDAAutomation.dll
+E:\MyProjects\TestSimensOPC\TestSimensOPC\bin\Debug\SiemensSMARTOPCdotNETLib.dll
+E:\MyProjects\TestSimensOPC\TestSimensOPC\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestSimensOPC\TestSimensOPC\obj\Debug\TestSimensOPC.exe
+E:\MyProjects\TestSimensOPC\TestSimensOPC\obj\Debug\TestSimensOPC.pdb

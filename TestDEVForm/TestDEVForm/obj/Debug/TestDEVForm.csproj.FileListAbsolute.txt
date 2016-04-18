@@ -1,0 +1,8 @@
+E:\MyProjects\TestDEVForm\TestDEVForm\bin\Debug\TestDEVForm.exe
+E:\MyProjects\TestDEVForm\TestDEVForm\bin\Debug\TestDEVForm.pdb
+E:\MyProjects\TestDEVForm\TestDEVForm\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestDEVForm\TestDEVForm\obj\Debug\TestDEVForm.Properties.Resources.resources
+E:\MyProjects\TestDEVForm\TestDEVForm\obj\Debug\TestDEVForm.csproj.GenerateResource.Cache
+E:\MyProjects\TestDEVForm\TestDEVForm\obj\Debug\TestDEVForm.exe
+E:\MyProjects\TestDEVForm\TestDEVForm\obj\Debug\TestDEVForm.pdb
+E:\MyProjects\TestDEVForm\TestDEVForm\obj\Debug\TestDEVForm.XtraForm1.resources

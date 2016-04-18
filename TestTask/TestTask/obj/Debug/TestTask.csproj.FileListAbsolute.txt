@@ -1,0 +1,6 @@
+E:\MyProjects\TestTask\TestTask\bin\Debug\TestTask.exe.config
+E:\MyProjects\TestTask\TestTask\bin\Debug\TestTask.exe
+E:\MyProjects\TestTask\TestTask\bin\Debug\TestTask.pdb
+E:\MyProjects\TestTask\TestTask\obj\Debug\TestTask.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestTask\TestTask\obj\Debug\TestTask.exe
+E:\MyProjects\TestTask\TestTask\obj\Debug\TestTask.pdb

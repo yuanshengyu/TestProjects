@@ -1,0 +1,5 @@
+E:\MyProjects\TestGeneric\TestGeneric\bin\Debug\TestGeneric.exe
+E:\MyProjects\TestGeneric\TestGeneric\bin\Debug\TestGeneric.pdb
+E:\MyProjects\TestGeneric\TestGeneric\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestGeneric\TestGeneric\obj\Debug\TestGeneric.exe
+E:\MyProjects\TestGeneric\TestGeneric\obj\Debug\TestGeneric.pdb

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Content Key="GetPatientInfo" DataBaseType="Oracle">
+    select
+    --手术病人信息
+    ss.PatientCode,        --病人编号
+    ss.MedicalRecordCode,  --病案号
+    ss.OperationRoom,      --手术室
+    ss.OperationDepartment,--科室
+    ss.OperationDate,      --手术时间
+    ss.OperationOrderCode, --手术台次
+    ss.OperationDoctor,    --手术医生
+    ss.OperationName,      --手术名称
+    ss.HandWashingNurse1,  --洗手护士1
+    ss.HandWashingNurse2,  --洗手护士2
+    ss.ItinerateNurse1,    --巡回护士1
+    ss.ItinerateNurse2,    --巡回护士2
+    ss.OperationStatus,    --手术状态
+    ss.OperationBegin,     --手术开始时间
+    ss.OperationEnd,       --手术结束时间
+    ss.InRoomTime,         --入手术室时间
+    ss.OutRoomTime         --出手术室时间
+    from gys.operation_master_gys ss
+    where PatientCode='{0}'
+  </Content>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      select
+      br.PatientCode,        --病人编号
+      br.PatientName,        --病人姓名
+      br.PatientSex,         --病人性别
+      br.PatientBirthday,    --出生日期
+
+      br.PatientIDCard,      --身份证号
+      br.PatientAddress,     --地址
+      br.PatientPhone,       --联系电话
+      br.HighRiskInfectivity, --高危传染
+
+      zy.PatientCode as PatientCodeZY,  --病人编号
+      zy.InPatientCode,      --住院号
+      zy.WardArea,           --病区
+      zy.BedNumber,          --床位
+      zy.BedNurse           --床位护士
+      from surg_make.v_patient_info_gys br
+      left join surg_make.pats_in_hospital_gys zy on br.PatientCode=zy.PatientCode
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientCode as INPATIENTCODE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      br.PatientSex as PATIENTSEX,   --病人性别
+      br.PatientBirthday as PatientBirthday, --出生年月
+  
+      --住院信息
+      zy.InPatientCode as SocialSecurityCard, --住院号
+      zy.WardArea as WARDAREA,--病区
+      zy.BedNumber as BEDNO, --床位
+      zy.BedNurse as BEDNURSE --床位护士
+      from surg_make.v_patient_info_gys br
+      left join surg_make.pats_in_hospital_gys zy on br.PatientCode=zy.PatientCode
+      where 1=1 {0}
+
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      br.PatientSex as PATIENTSEX,   --病人性别
+      br.PatientBirthday as PatientBirthday, --出生年月
+      
+      ss.MedicalRecordCode as MEDICALRECORDCODE,   --病案号
+      ss.OperationRoom as OPERATIONROOM,   --手术室
+      ss.OperationDepartment as OPERATIONDEPARTMENT,    --科室
+      ss.OperationDate as OPERATIONDATE,  --手术时间
+      ss.OperationDoctor as OPERATIONDOCTOR,  --手术医生
+      ss.OperationName as OPERATIONNAME  --手术名称
+      from surg_make.v_patient_info_gys br
+      left join gys.operation_master_gys ss on br.PatientCode=ss.PatientCode
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      select
+      br.PatientCode,        --病人编号
+      br.PatientName,        --病人姓名
+      br.PatientSex,         --病人性别
+      br.PatientBirthday,    --出生日期
+   
+      br.PatientIDCard,      --身份证号
+      br.PatientAddress,     --地址
+      br.PatientPhone,       --联系电话
+      br.HighRiskInfectivity, --高危传染
+
+      gh.PatientCode,        --病人ID
+      gh.RegisterCode,       --挂号系统编号
+      gh.RegisterDateTime,   --挂号时间
+      gh.RegisterDepartment, --挂号科室
+      gh.RegisterNumber      --挂号号
+      from surg_make.v_patient_info_gys br
+      left join surg_make.clinic_master_gys gh on br.PatientCode=gh.PatientCode
+      where 1=1 {0}
+      order by RegisterDateTime Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PatientCode as VALUE,--病人编号
+      br.PatientName as NAME,  --病人姓名
+      br.PatientName as DISPLAYNAME, --病人姓名
+      br.PatientSex as PATIENTSEX,   --病人性别
+      br.PatientBirthday as PatientBirthday, --出生年月
+    
+      gh.RegisterCode as REGISTERCODE,   --挂号系统编号
+      gh.RegisterDateTime as REGISTERDATETIME, --挂号时间
+      gh.RegisterNumber as REGISTERNUMBER, --挂号序号
+      gh.RegisterDepartment as REGISTERDEPARTMENT --挂号科室
+      from surg_make.v_patient_info_gys br
+      left join surg_make.clinic_master_gys gh on br.PatientCode=gh.PatientCode
+      where 1=1 {0}
+      order by RegisterDateTime Desc
+    </Content>
+  </Contents>
+</SqlConfig>

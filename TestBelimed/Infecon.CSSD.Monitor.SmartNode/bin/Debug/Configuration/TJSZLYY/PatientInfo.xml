@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      select
+      br.PATIID as PatientID, --病人ID
+      br.PATINAME as PatientName, --姓名
+      br.SEXNAME as Sex, --性别
+      br.BIRTHDATE as BirthDate, --出生日期
+      br.FLTELENUM  as Phone, --电话
+      br.IDCARD as IDCard, --身份证号
+      br.CLINICCARDID, --就诊号
+
+      zy.INPATIID as InPatientID, --住院号
+      zy.SERIALNO, --患者流水号
+      zy.ORGNAME_DIAG as DeptName, --科室
+      zy.ORGNAME_LOC as Wardrea,--病区
+      zy.BEDNAME as BedNo, --床号
+      zy.EMPNAME_DOCTOR as DoctorName, --医生
+      zy.EMPNAME_MURSE as BedNurse, --床位护士
+      zy.DATE_ADMIT as InDate, --入院日期
+
+      ss.SERIALNO as OperationID,--患者流水号
+      ss.ORGNAME as DeptName,--科室名称
+      ss.REPLYDATE as OperationDate, --手术日期
+      ss.OPPLNAME as OperationRoom, --手术间
+      ss.OPPLUM as OperationOpplum, --手术台次
+      ss.OPNAME as OperationName, --手术名称
+      ss.EMPNAME as OperationDoctorName--手术医生
+
+      from dbhis.v_xdzs_patiinfo br
+      left join dbhis.v_xdzs_pai_visit zy on br.PATIID=zy.PATIID
+      left join dbhis.v_xdzs_Cmi_App_Op ss on br.PATIID=ss.PATIID
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PATIID as VALUE,--病人编号
+      br.PATIID as INPATIENTCODE,--病人编号
+      br.PATINAME as NAME,  --病人姓名
+      br.PATINAME as DISPLAYNAME, --病人姓名
+      br.SEXNAME as PATIENTSEX,   --病人性别
+      br.BIRTHDATE as PatientBirthday, --出生年月
+      --br.AGE as PATIENTAGE,--年龄
+      --住院信息
+      zy.ORGNAME_LOC as WARDAREA,--病区
+      zy.BEDNAME as BEDNO --床位
+      from dbhis.v_xdzs_patiinfo br
+      left join dbhis.v_xdzs_pai_visit zy on br.PATIID=zy.PATIID
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      br.PATIID as VALUE,--病人编号
+      br.PATINAME as NAME,  --病人姓名
+      br.PATINAME as DISPLAYNAME, --病人姓名
+      br.SEXNAME as PATIENTSEX,   --病人性别
+      br.BIRTHDATE as PatientBirthday, --出生年月
+      --br.AGE as PATIENTAGE,--年龄
+      ss.SERIALNO as MEDICALRECORDCODE,   --病案号
+      ss.OPPLNAME as OPERATIONROOM,   --手术室
+      ss.ORGNAME as OPERATIONDEPARTMENT,    --科室
+      ss.REPLYDATE as OPERATIONDATE,  --手术时间
+      ss.EMPNAME as OPERATIONDOCTOR,  --手术医生
+      ss.OPNAME as OPERATIONNAME  --手术名称
+      from dbhis.v_xdzs_patiinfo br
+      left join dbhis.v_xdzs_Cmi_App_Op ss on br.PATIID=ss.PATIID
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      select
+      br.PATIID as PatientID, --病人ID
+      br.PATINAME as PatientName, --姓名
+      br.SEXNAME as Sex, --性别
+      br.BIRTHDATE as BirthDate, --出生日期
+      br.FLTELENUM  as Phone, --电话
+      br.IDCARD as IDCard, --身份证号
+      br.CLINICCARDID, --就诊号
+      gh.CLINICCARDID, --挂号信息
+      gh.SERALNO,  --患者流水号
+      gh.DATE_INPUT, --挂号时间
+      gh.ORGNAME_DIAG, --挂号科室
+      gh.EMPNAME__DIAG, --挂号医生
+      gh.SORTNUM  --挂号序号(排队号)
+      from dbhis.v_xdzs_patiinfo br
+      left join dbhis.v_xdzs_pao_visit gh on br.PATIID=gh.PATIID
+      where 1=1 {0}
+      order by gh.DATE_INPUT Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      br.PATIID as VALUE,--病人编号
+      br.PATINAME as NAME,  --病人姓名
+      br.PATINAME as DISPLAYNAME, --病人姓名
+      br.SEXNAME as PATIENTSEX,   --病人性别
+      br.BIRTHDATE as PatientBirthday, --出生年月
+      --br.AGE as PATIENTAGE,--年龄
+      gh.SERALNO as REGISTERCODE,   --挂号系统编号
+      gh.DATE_INPUT as REGISTERDATETIME --挂号时间
+      from V_INFECON_PATIENTINFO br
+      from dbhis.v_xdzs_patiinfo br
+      left join dbhis.v_xdzs_pao_visit gh on br.PATIID=gh.PATIID
+      where 1=1 {0}
+      order by gh.VISIT_DATE Desc
+    </Content>
+    
+    <!--根据工号查询登录人员信息-->
+    <Content Key="GetUserByID" DataBaseType="SqlServer">
+      /*--根据工号查询登录人员信息--*/
+      select name from view_supply_employee where emp_sn=@emp_sn
+    </Content>
+  </Contents>
+</SqlConfig>

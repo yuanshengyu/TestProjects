@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="MedicalRecordCode" Content="br.REQUEST_NO"></MappingKey><!--病案号-->
+    <MappingKey Key="PatientCode" Content="zy.PK_PAT"></MappingKey><!--病人ID-->
+    <MappingKey Key="InPatientCode" Content="zy.INP_NO"></MappingKey>  <!--住院号-->
+    <MappingKey Key="MedicalRecordCodeInHis" Content="zy.INP_NO"></MappingKey><!--外来器械管理-->
+    <MappingKey Key="InPatientDeptCode" Content="zy.WARD_NAME"></MappingKey><!--病区-->
+    <MappingKey Key="RegisterCode" Content="PATIENT_ID"> </MappingKey><!--挂号编号--><!--
+    <MappingKey Key="OperationDepartment" Content="ss.name"></MappingKey>--><!--科室-->
+    <!--<MappingKey Key="WardArea" Content="zy.病区">--><!--病区--><!--
+    </MappingKey>-->
+    <MappingKey Key="OperationRoom" Content="ss.SURGERY_ROOM_NAME"></MappingKey><!--手术间-->
+    <MappingKey Key="OperationDate" Content="ss.SURGERY_DATE"></MappingKey><!--时间-->
+    <!--<MappingKey Key="OperationStatus" Content="ss.op_status">--><!--手术状态--><!--
+      <MappingValues>
+        <MappingValue Key="OperationStatus_ReadyReturnRoom" Content="1"></MappingValue>
+        <MappingValue Key="OperationStatus_02" Content="未设置"></MappingValue>
+        <MappingValue Key="OperationStatus_03" Content="已设置"></MappingValue>
+      </MappingValues>
+    </MappingKey>-->
+  </MappingKeys>
+</QueryKeyMapping>

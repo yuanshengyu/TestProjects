@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QueryKeyMapping>
+  <MappingKeys>
+    <MappingKey Key="MedicalRecordCode" Content="V_XDGY_ZYBR.brbh">
+    </MappingKey>
+    <MappingKey Key="PatientCode" Content="V_XDGY_ZYBR.brbh">
+    </MappingKey>
+    <MappingKey Key="RegisterCode" Content="V_XDGY_GHXX.sbxh">
+    </MappingKey>
+    <MappingKey Key="InPatientCode" Content="V_XDGY_ZYBR.zyh">
+    </MappingKey>
+	  <MappingKey Key="operationPatientCode" Content="V_XDGY_SSXX.brbh">
+	  </MappingKey>	  
+	  <MappingKey Key="OperationRoom" Content="ssfj">
+    </MappingKey>
+	  <MappingKey Key="InPatientDeptCode" Content="ksmc">
+	  </MappingKey> 
+	  <MappingKey Key="zyh" Content="V_XDGY_ZYBR.zyh">
+	  </MappingKey>
+	  <MappingKey Key="mzh" Content="V_XDGY_GHXX.brbh">
+	  </MappingKey>
+    <MappingKey Key="OperationDate" Content="ssrq">
+    </MappingKey>
+	  <MappingKey Key="PatientNamePINYINOperationPatient" Content="brch">
+	  </MappingKey>
+  </MappingKeys>
+</QueryKeyMapping>

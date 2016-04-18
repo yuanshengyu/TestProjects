@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ClearSetting>
+  <ListenerPort>14321</ListenerPort>
+  <Encoding>UTF8</Encoding>
+  <SendInterval>300000</SendInterval>
+  <ColumnSpliltSymbol>▎</ColumnSpliltSymbol>
+  <RowSpliltSymbol>▌</RowSpliltSymbol>
+  <DataBitsLength>10</DataBitsLength>
+  <CommandBitLength>4</CommandBitLength>
+  <RemoteServers>
+    <RemoteServer Key="0001" ServerName="房间1" IP="127.0.0.1" Port="14322"></RemoteServer>
+    <!--<RemoteServer Key="0002" ServerName="房间2" IP="127.0.0.1" Port="14322"></RemoteServer>
+    <RemoteServer Key="0003" ServerName="房间3" IP="127.0.0.1" Port="14322"></RemoteServer>
+    <RemoteServer Key="0004" ServerName="房间4" IP="127.0.0.1" Port="14322"></RemoteServer>-->
+  </RemoteServers>
+  <ClearCommands>    
+    <ClearCommand Key="GetEndoscopes" CommandType="Send" Desc="发送 取内窥镜信息" CommandCode="0001" CommandText="00000000040001" TimerEnable="true"></ClearCommand>
+    <ClearCommand Key="GetEndoscopes" CommandType="Receive" Desc="接收 取内窥镜信息" CommandCode="0002" DataBitsLength="10" CommandBitLength="4">
+      <ExcuteKey>Clear_EndoscopesSync</ExcuteKey>
+      <DataMappings>
+        <DataMapping Key="EndoscopeNo" TcpIndex="0"></DataMapping>
+        <DataMapping Key="EndoscopeType" TcpIndex="1"></DataMapping>
+        <DataMapping Key="EndoscopeInfo" TcpIndex="2"></DataMapping>        
+      </DataMappings>
+    </ClearCommand>
+    <ClearCommand Key="GetOperators" CommandType="Send" Desc="发送 取操作员信息" CommandCode="0003" CommandText="00000000040003" TimerEnable="true"></ClearCommand>
+    <ClearCommand Key="GetOperators" CommandType="Receive" Desc="接收 取操作员信息" CommandCode="0004">
+      <ExcuteKey>Clear_OperatorsSync</ExcuteKey>
+      <DataMappings>
+        <DataMapping Key="OperatorNo" TcpIndex="0"></DataMapping>
+        <DataMapping Key="OperatorName" TcpIndex="1"></DataMapping>
+      </DataMappings>
+    </ClearCommand>
+    <ClearCommand Key="GetLastRecordByEndoscope" CommandType="Send" Desc="发送 取指定内镜编号最后一次消毒记录" CommandCode="0005"></ClearCommand>
+    <ClearCommand Key="GetLastRecordByEndoscope" CommandType="Receive" Desc="接收 取指定内镜编号最后一次消毒记录" CommandCode="0006"></ClearCommand>
+    <ClearCommand Key="GetDisinfectionStep" CommandType="Send" Desc="发送 取指定洗消编号的详细步骤" CommandCode="0007" TimerEnable="true"></ClearCommand>
+    <ClearCommand Key="GetDisinfectionStep" CommandType="Receive" Desc="接收 取指定洗消编号的详细步骤" CommandCode="0008"></ClearCommand>
+    <ClearCommand Key="GetRecordByEndoscope" CommandType="Send" Desc="发送 取指定内镜编号,指定时间范围内记录" CommandCode="0009"></ClearCommand>
+    <ClearCommand Key="GetRecordByEndoscope" CommandType="Receive" Desc="接收 取指定内镜编号,指定时间范围内记录" CommandCode="0010"></ClearCommand>
+    <ClearCommand Key="GetRecordByTimeScope" CommandType="Send" Desc="发送 取指定时间范围内记录" CommandCode="0011"></ClearCommand>
+    <ClearCommand Key="GetRecordByTimeScope" CommandType="Receive" Desc="接收 取指定时间范围内记录" CommandCode="0012"></ClearCommand>
+    <ClearCommand Key="GetRecordMoreThanByID" CommandType="Send" Desc="发送 取ID号大于指定值的记录" CommandText="00000000040013" CommandCode="0013" TimerEnable="true"></ClearCommand>
+    <ClearCommand Key="GetRecordMoreThanByID" CommandType="Receive" Desc="接收 取ID号大于指定值的记录" CommandCode="0014" DataBitsLength="10" CommandBitLength="4" >
+      <Excute>Clear_DisinfectionSync</Excute>
+      <DataMappings>        
+        <DataMapping Key="ClearID" TcpIndex="0"></DataMapping>
+        <DataMapping Key="ClearSN" TcpIndex="1"></DataMapping>
+        <DataMapping Key="DisinfectionNo" TcpIndex="2"></DataMapping>
+        <DataMapping Key="EndoscopeNo" TcpIndex="3"></DataMapping>
+        <DataMapping Key="EndoscopeType" TcpIndex="4"></DataMapping>
+        <DataMapping Key="Operator" TcpIndex="5"></DataMapping>
+        <DataMapping Key="PatientName" TcpIndex="6"></DataMapping>
+        <DataMapping Key="StartTime" TcpIndex="7"></DataMapping>
+        <DataMapping Key="EndTime" TcpIndex="8"></DataMapping>
+        <DataMapping Key="TotalTimes" TcpIndex="9"></DataMapping>
+        <DataMapping Key="EndoscopeInfo" TcpIndex="10"></DataMapping>
+        <DataMapping Key="ClearGuid" AddOnData="true" ></DataMapping>
+        <DataMapping Key="ServerName"  AddOnData="true" ></DataMapping>
+      </DataMappings>
+    </ClearCommand>
+  </ClearCommands>
+</ClearSetting>

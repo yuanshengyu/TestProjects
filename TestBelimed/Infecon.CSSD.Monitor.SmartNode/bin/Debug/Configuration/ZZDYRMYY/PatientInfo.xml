@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+      /*--住院信息--*/
+      select
+      zy.PK_PAT as PatientID, --病人主键
+      zy.INP_NO as InPatientCode, --住院号
+      zy.NAME as PatientName,   --病人姓名
+      zy.SEX as PatientSex,    --性别
+      zy.ID_NO as PatientIDCard,  --身份证号
+      zy.PAT_PHONE as PatientPhone, --联系电话
+      zy.DATE_OF_BIRTH as PatientBirthday, --出生日期
+      zy.AGE as PatientAge, --年龄
+      zy.MAILING_ADDRESS as PatientAddress,     --联系地址
+      zy.WARD_NAME as DeptName,    --病区
+      zy.DEPT_NAME,  --科室
+      zy.BED_LABEL as BedNumber,   --床号
+      ss.REQUEST_NO,  --申请单号
+      ss.SURGERY_DATE,  --手术时间
+      ss.SURGERY_NAME,   --手术名称
+      ss.SURGERY_DOCTER_NAME, --手术医生
+      ss.SURGERY_ASSISTANT1_NAME, --一助
+      ss.SURGERY_ASSISTANT2_NAME, --二助
+      ss.DEPT_NAME as OperationDeptName,  --科室名称
+      ss.SURGERY_ROOM_NAME,  --手术室名称
+      ss.SURGERY_SEQ  --手术台次
+      from esb_view_hzzyxx zy
+      left join esb_view_sos_operation_report ss on zy.PK_PAT=ss.PATIENT_ID
+      where 1=1 {0}
+    </Content>
+
+    <!--获取病人住院信息-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      zy.PK_PAT as VALUE,--病人编号
+      zy.PK_PAT as INPATIENTCODE,--病人编号
+      zy.NAME as NAME,  --病人姓名
+      zy.NAME as DISPLAYNAME, --病人姓名
+      zy.SEX as PATIENTSEX,   --病人性别
+      zy.DATE_OF_BIRTH as PatientBirthday, --出生年月
+      zy.AGE as PATIENTAGE,--年龄
+      --住院信息
+      zy.WARD_NAME as WARDAREA,--病区
+      zy.BED_LABEL as BEDNO --床位
+      from esb_view_hzzyxx zy
+      where 1=1 {0}
+    </Content>
+    
+    <!--手术病人信息-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+      select
+      --手术信息
+      zy.PK_PAT as VALUE,--病人编号
+      zy.NAME as NAME,  --病人姓名
+      zy.NAME as DISPLAYNAME, --病人姓名
+      zy.SEX as PATIENTSEX,   --病人性别
+      zy.DATE_OF_BIRTH as PatientBirthday, --出生年月
+      zy.AGE as PATIENTAGE,--年龄
+      ss.REQUEST_NO as MEDICALRECORDCODE,   --病案号
+      ss.SURGERY_ROOM_NAME as OPERATIONROOM,   --手术室
+      ss.DEPT_NAME as OPERATIONDEPARTMENT,    --科室
+      ss.SURGERY_DATE as OPERATIONDATE,  --手术时间
+      ss.SURGERY_DOCTER_NAME as OPERATIONDOCTOR,  --手术医生
+      ss.SURGERY_NAME as OPERATIONNAME  --手术名称
+      from esb_view_hzzyxx zy
+      left join esb_view_sos_operation_report ss on zy.PK_PAT=ss.PATIENT_ID
+      where 1=1 {0}
+    </Content>
+    
+    <!--病人挂号信息-->
+    <Content Key="GetRegisterInfos" DataBaseType="Oracle">
+      select
+      PATIENT_ID,
+      VISIT_ID,  --就诊序号
+      PATIENT_NAME,
+      AGE,
+      BIRTH_DATE, --出生日期
+      ID_NO, --身份证号
+      SEX_NAME,
+      MAILING_ADDRESS,--联系地址
+      HOME_TEL, --连接电话
+      DEPT_NAME, --科室名称
+      ENCOUNTER_TIME,  --挂号时间
+      DOCTOR_NAME  --医生姓名
+      from ESB_VIEW_OUTP_ENCOUNTER_INFO
+      where 1=1 {0}
+      order by ENCOUNTER_TIME Desc
+    </Content>
+    
+    <!--挂号信息-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+      select
+      --病人基本信息
+      PATIENT_ID as VALUE,--病人编号
+      PATIENT_NAME as NAME,  --病人姓名
+      PATIENT_NAME as DISPLAYNAME, --病人姓名
+      SEX_NAME as PATIENTSEX,   --病人性别
+      BIRTH_DATE as PatientBirthday, --出生年月
+      AGE as PATIENTAGE,--年龄
+      VISIT_ID as REGISTERCODE,   --挂号系统编号
+      MODE_NAME as OUTPATIENTEMERGENCY,--挂号类型
+      ENCOUNTER_TIME as REGISTERDATETIME, --挂号时间
+      VISIT_ID as REGISTERNUMBER --挂号序号
+      from ESB_VIEW_OUTP_ENCOUNTER_INFO
+      where 1=1 {0}
+      order by ENCOUNTER_TIME Desc
+    </Content>
+    
+    <!--根据工号查询登录人员信息-->
+    <Content Key="GetUserByID" DataBaseType="SqlServer">
+      /*--根据工号查询登录人员信息--*/
+      select name from view_supply_employee where emp_sn=@emp_sn
+    </Content>
+  </Contents>
+</SqlConfig>

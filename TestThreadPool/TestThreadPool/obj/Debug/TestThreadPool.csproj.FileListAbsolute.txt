@@ -1,0 +1,6 @@
+E:\MyProjects\TestThreadPool\TestThreadPool\bin\Debug\TestThreadPool.exe.config
+E:\MyProjects\TestThreadPool\TestThreadPool\bin\Debug\TestThreadPool.exe
+E:\MyProjects\TestThreadPool\TestThreadPool\bin\Debug\TestThreadPool.pdb
+E:\MyProjects\TestThreadPool\TestThreadPool\obj\Debug\TestThreadPool.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestThreadPool\TestThreadPool\obj\Debug\TestThreadPool.exe
+E:\MyProjects\TestThreadPool\TestThreadPool\obj\Debug\TestThreadPool.pdb

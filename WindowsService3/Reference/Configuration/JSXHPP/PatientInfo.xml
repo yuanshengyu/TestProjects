@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="Oracle">
+		SELECT 1
+		,to_char(病人编号)  AS PatientCode
+		,社保卡号 AS SocialSecurityCard
+		,身份证号 AS PatientIDCard
+		,病例ID AS MedicalRecordCode
+		,科室 AS OperationDepartment
+		,病区 AS WardArea
+		,床位 AS BedNumber
+		,病人姓名 AS PatientName
+		,性别 AS PatientSex
+		,手术时间 AS OperationDate
+		,年龄 AS PatientAge
+		,出生年月 AS PatientBirthday
+		,手术间 AS OperationRoom
+		,手术医生 AS OperationDoctor
+		,洗手护士1 AS HandWashingNurse1
+		,null AS HandWashingNurse2
+		,巡回护士1 AS ItinerateNurse1
+		,null AS ItinerateNurse2
+		,手术状态 AS OperationStatus
+		,入室时间 AS InRoomTime
+		,出室时间 AS OutRoomTime
+		,手术开始时间 AS OperationBegin
+		,手术结束时间 AS OperationEnd
+		FROM View_ZK
+		WHERE 1 = 1 {0}
+		Order By OperationDate DESC
+	</Content>
+    <Content Key="GetPatientInfoPopupData" DataBaseType="Oracle">
+		SELECT DISTINCT 
+		病例ID AS VALUE,
+		病例ID AS MEDICALRECORDCODE,
+		实施手术名称 AS OPERATIONNAME,
+		病人姓名 AS NAME,
+		性别 AS PATIENTSEX,
+		病人姓名 AS DISPLAYNAME,
+		年龄 AS AGE,
+		科室 AS OPERATIONDEPARTMENT,
+		手术间 AS OPERATIONROOM,
+		手术医生 AS OPERATIONDOCTOR,
+		手术时间 AS OPERATIONDATE
+		FROM View_ZK
+		WHERE 1 = 1 {0}
+		Order By OperationDate DESC
+	</Content>
+	<Content Key="GetPatientInfoData" DataBaseType="Oracle">
+		SELECT
+		病人基本信息.病人编号  AS PatientCode
+		,社保卡号 AS SocialSecurityCard
+		,身份证号 AS PatientIDCard
+		,住院信息.住院号 AS MedicalRecordCode
+		,病人姓名 AS PatientName
+		,性别 AS PatientSex
+		,出生年月 AS PatientBirthday
+		,地址 as Address
+		,联系电话 as Phone
+		,病区 as ward_code
+		,床位 as bednum
+		FROM 病人基本信息 left join 住院信息
+		on 病人基本信息.病人编号=住院信息.病人编号
+		WHERE 1 = 1 {0}
+	</Content> 
+  <Content Key="GetPatientInfoData1" DataBaseType="Oracle">
+	  SELECT
+	   patient_id  AS PatientCode
+	  ,insurance_no AS SocialSecurityCard
+	  ,id_no AS PatientIDCard
+	  ,patient_id AS MedicalRecordCode
+	  ,name AS PatientName
+	  ,sex AS PatientSex
+	  ,date_of_birth AS PatientBirthday
+	  ,mailing_address as Address
+	  ,phone_number_home as Phone
+	  FROM t
+	  WHERE 1 = 1 {0}
+  </Content>
+  </Contents>
+</SqlConfig>

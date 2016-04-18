@@ -1,0 +1,8 @@
+E:\MyProjects\SetVisible\SetVisible\bin\Debug\SetVisible.exe
+E:\MyProjects\SetVisible\SetVisible\bin\Debug\SetVisible.pdb
+E:\MyProjects\SetVisible\SetVisible\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\SetVisible\SetVisible\obj\Debug\SetVisible.Form1.resources
+E:\MyProjects\SetVisible\SetVisible\obj\Debug\SetVisible.Properties.Resources.resources
+E:\MyProjects\SetVisible\SetVisible\obj\Debug\SetVisible.csproj.GenerateResource.Cache
+E:\MyProjects\SetVisible\SetVisible\obj\Debug\SetVisible.exe
+E:\MyProjects\SetVisible\SetVisible\obj\Debug\SetVisible.pdb

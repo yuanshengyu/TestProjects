@@ -1,0 +1,5 @@
+E:\MyProjects\TestXML\TestXML\bin\Debug\TestXML.exe
+E:\MyProjects\TestXML\TestXML\bin\Debug\TestXML.pdb
+E:\MyProjects\TestXML\TestXML\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestXML\TestXML\obj\Debug\TestXML.exe
+E:\MyProjects\TestXML\TestXML\obj\Debug\TestXML.pdb

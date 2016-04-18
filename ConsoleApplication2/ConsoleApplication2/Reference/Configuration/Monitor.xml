@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfClassShape xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassShape>
+    <Resizable>false</Resizable>
+    <SceneIndex>0</SceneIndex>
+    <Hovered>false</Hovered>
+    <Name>GNode</Name>
+    <Rectangle>
+      <Location>
+        <X>89</X>
+        <Y>50</Y>
+      </Location>
+      <Size>
+        <Width>200</Width>
+        <Height>150</Height>
+      </Size>
+      <X>89</X>
+      <Y>50</Y>
+      <Width>200</Width>
+      <Height>150</Height>
+    </Rectangle>
+    <IsSelected>true</IsSelected>
+    <Width>200</Width>
+    <Height>150</Height>
+    <X>89</X>
+    <Y>50</Y>
+    <ShapeColorArgb>-6454910</ShapeColorArgb>
+    <Location>
+      <X>89</X>
+      <Y>50</Y>
+    </Location>
+    <Time xsi:nil="true" />
+    <Pressure xsi:nil="true" />
+    <Temperature>22.76</Temperature>
+    <Humidity>33.68</Humidity>
+    <ReceiveDate>2010-12-20T16:29:24.765625+08:00</ReceiveDate>
+    <TemperatureText>温度: </TemperatureText>
+    <HumidityText>湿度: </HumidityText>
+    <ReceiveDateText>时间: </ReceiveDateText>
+    <Collapsed>false</Collapsed>
+    <NodeID>0000221C</NodeID>
+    <Title>回收区-温湿</Title>
+  </ClassShape>
+  <ClassShape>
+    <Resizable>false</Resizable>
+    <SceneIndex>1</SceneIndex>
+    <Hovered>false</Hovered>
+    <Name>GNode</Name>
+    <Rectangle>
+      <Location>
+        <X>315</X>
+        <Y>51</Y>
+      </Location>
+      <Size>
+        <Width>200</Width>
+        <Height>150</Height>
+      </Size>
+      <X>315</X>
+      <Y>51</Y>
+      <Width>200</Width>
+      <Height>150</Height>
+    </Rectangle>
+    <IsSelected>false</IsSelected>
+    <Width>200</Width>
+    <Height>150</Height>
+    <X>315</X>
+    <Y>51</Y>
+    <ShapeColorArgb>-6454910</ShapeColorArgb>
+    <Location>
+      <X>315</X>
+      <Y>51</Y>
+    </Location>
+    <Time xsi:nil="true" />
+    <Pressure xsi:nil="true" />
+    <Temperature>23.29</Temperature>
+    <Humidity>40.09</Humidity>
+    <ReceiveDate>2010-12-20T16:29:52.859375+08:00</ReceiveDate>
+    <TemperatureText>温度: </TemperatureText>
+    <HumidityText>湿度: </HumidityText>
+    <ReceiveDateText>时间: </ReceiveDateText>
+    <Collapsed>false</Collapsed>
+    <NodeID>0000223B</NodeID>
+    <Title>清洗区-温湿</Title>
+  </ClassShape>
+  <ClassShape>
+    <Resizable>false</Resizable>
+    <SceneIndex>2</SceneIndex>
+    <Hovered>false</Hovered>
+    <Name>GNode</Name>
+    <Rectangle>
+      <Location>
+        <X>553</X>
+        <Y>51</Y>
+      </Location>
+      <Size>
+        <Width>200</Width>
+        <Height>150</Height>
+      </Size>
+      <X>553</X>
+      <Y>51</Y>
+      <Width>200</Width>
+      <Height>150</Height>
+    </Rectangle>
+    <IsSelected>false</IsSelected>
+    <Width>200</Width>
+    <Height>150</Height>
+    <X>553</X>
+    <Y>51</Y>
+    <ShapeColorArgb>-6454910</ShapeColorArgb>
+    <Location>
+      <X>553</X>
+      <Y>51</Y>
+    </Location>
+    <Time xsi:nil="true" />
+    <Pressure xsi:nil="true" />
+    <Temperature>22.69</Temperature>
+    <Humidity>35.93</Humidity>
+    <ReceiveDate>2010-12-20T16:29:44.671875+08:00</ReceiveDate>
+    <TemperatureText>温度: </TemperatureText>
+    <HumidityText>湿度: </HumidityText>
+    <ReceiveDateText>时间: </ReceiveDateText>
+    <Collapsed>false</Collapsed>
+    <NodeID>0000223C</NodeID>
+    <Title>配包区-温湿</Title>
+  </ClassShape>
+  <ClassShape>
+    <Resizable>false</Resizable>
+    <SceneIndex>3</SceneIndex>
+    <Hovered>false</Hovered>
+    <Name>GNode</Name>
+    <Rectangle>
+      <Location>
+        <X>90</X>
+        <Y>219</Y>
+      </Location>
+      <Size>
+        <Width>200</Width>
+        <Height>150</Height>
+      </Size>
+      <X>90</X>
+      <Y>219</Y>
+      <Width>200</Width>
+      <Height>150</Height>
+    </Rectangle>
+    <IsSelected>false</IsSelected>
+    <Width>200</Width>
+    <Height>150</Height>
+    <X>90</X>
+    <Y>219</Y>
+    <ShapeColorArgb>-6454910</ShapeColorArgb>
+    <Location>
+      <X>90</X>
+      <Y>219</Y>
+    </Location>
+    <Time xsi:nil="true" />
+    <Pressure xsi:nil="true" />
+    <Temperature>22.67</Temperature>
+    <Humidity>34.58</Humidity>
+    <ReceiveDate>2010-12-20T16:29:28.078125+08:00</ReceiveDate>
+    <TemperatureText>温度: </TemperatureText>
+    <HumidityText>湿度: </HumidityText>
+    <ReceiveDateText>时间: </ReceiveDateText>
+    <Collapsed>false</Collapsed>
+    <NodeID>00003652</NodeID>
+    <Title>灭菌区-温湿</Title>
+  </ClassShape>
+  <ClassShape>
+    <Resizable>false</Resizable>
+    <SceneIndex>4</SceneIndex>
+    <Hovered>false</Hovered>
+    <Name>GNode</Name>
+    <Rectangle>
+      <Location>
+        <X>315</X>
+        <Y>221</Y>
+      </Location>
+      <Size>
+        <Width>200</Width>
+        <Height>150</Height>
+      </Size>
+      <X>315</X>
+      <Y>221</Y>
+      <Width>200</Width>
+      <Height>150</Height>
+    </Rectangle>
+    <IsSelected>false</IsSelected>
+    <Width>200</Width>
+    <Height>150</Height>
+    <X>315</X>
+    <Y>221</Y>
+    <ShapeColorArgb>-6454910</ShapeColorArgb>
+    <Location>
+      <X>315</X>
+      <Y>221</Y>
+    </Location>
+    <Time xsi:nil="true" />
+    <Pressure xsi:nil="true" />
+    <Temperature>22.19</Temperature>
+    <Humidity>33.97</Humidity>
+    <ReceiveDate>2010-12-20T16:29:12.90625+08:00</ReceiveDate>
+    <TemperatureText>温度: </TemperatureText>
+    <HumidityText>湿度: </HumidityText>
+    <ReceiveDateText>时间: </ReceiveDateText>
+    <Collapsed>false</Collapsed>
+    <NodeID>00002218</NodeID>
+    <Title>低温灭菌区-温湿</Title>
+  </ClassShape>
+  <ClassShape>
+    <Resizable>false</Resizable>
+    <SceneIndex>5</SceneIndex>
+    <Hovered>false</Hovered>
+    <Name>GNode</Name>
+    <Rectangle>
+      <Location>
+        <X>554</X>
+        <Y>219</Y>
+      </Location>
+      <Size>
+        <Width>200</Width>
+        <Height>150</Height>
+      </Size>
+      <X>554</X>
+      <Y>219</Y>
+      <Width>200</Width>
+      <Height>150</Height>
+    </Rectangle>
+    <IsSelected>false</IsSelected>
+    <Width>200</Width>
+    <Height>150</Height>
+    <X>554</X>
+    <Y>219</Y>
+    <ShapeColorArgb>-6454910</ShapeColorArgb>
+    <Location>
+      <X>554</X>
+      <Y>219</Y>
+    </Location>
+    <Time xsi:nil="true" />
+    <Pressure xsi:nil="true" />
+    <Temperature xsi:nil="true" />
+    <Humidity xsi:nil="true" />
+    <ReceiveDate xsi:nil="true" />
+    <TemperatureText>温度: </TemperatureText>
+    <HumidityText>湿度: </HumidityText>
+    <ReceiveDateText>时间: </ReceiveDateText>
+    <Collapsed>false</Collapsed>
+    <NodeID>NodeID</NodeID>
+    <Title>GNode</Title>
+  </ClassShape>
+</ArrayOfClassShape>

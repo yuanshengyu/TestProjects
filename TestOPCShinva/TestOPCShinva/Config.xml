@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <!--0.监控设备(Shinva-Infecon CSSD设备对应关系映射参数设置) 
+    　  属性说明：
+       　　　a.) devicetype　
+          　　　　　　０：清洗设备；
+                　　　４：灭菌设备
+             b.) name:设备名称说明
+             c.) infeconbarcode:　对应CSSD数据库中(表Devices[Barcode］字段)
+             d.) ShinvaTankNo:　对应Shinva D1 Access数据库中(表Collection,Setting,prod_time[TankNo］字段)
+     -->
+  <DeviceConfig>
+    <MonitorDevice devicetype="4" name="1#压力蒸汽灭菌器"  infeconbarcode="11501"  ShinvaKEPSever="MD02.MD02"></MonitorDevice>
+    <MonitorDevice devicetype="4" name="2#压力蒸汽灭菌器"  infeconbarcode="11502"  ShinvaKEPSever="MD01.MD01"></MonitorDevice>
+    <MonitorDevice devicetype="4" name="3#压力蒸汽灭菌器"  infeconbarcode="11503"  ShinvaKEPSever="MD03.MD03"></MonitorDevice>
+  </DeviceConfig>
+
+
+  <!--1.数据库对应的设备类型（新华设备）
+      说明：新华目前灭菌和清洗的监控程序必须分开安装不同的电脑上,DeviceTYpe需要跟新华Shinva的Access数据库对应起来；
+            DeviceType="0" 表示清洗设备
+            DeviceType="4" 表示灭菌设备
+  -->
+  <DeviceType value="4"></DeviceType>
+
+  <!--2.取数间隔时间(秒)-->
+  <GetDataInterval  value="30"></GetDataInterval>
+
+  <!--3.新华Shinva监控数据最早开始日期,格式：yyyy-MM-dd -->
+  <GetDataFromDate  value="2010-06-01"></GetDataFromDate>
+
+  
+  <!--8.监控记录与CSSD的匹配时间(分钟)-->
+  <MatchMonitorTime  value="20"></MatchMonitorTime>
+</config>

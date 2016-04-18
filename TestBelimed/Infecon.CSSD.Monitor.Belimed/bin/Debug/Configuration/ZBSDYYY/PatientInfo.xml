@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <Content Key="GetOperationPopupData" DataBaseType="SqlServer">
+      select
+      bf.PatientCode,   --住院号
+      bf.PatientName,   --姓名
+      bf.MedicalRecordCode, --住院号
+      bf.PatientSex,    --性别
+      bf.PatientBirthday,--出生日期
+      bf.PatientAge,    --年龄
+      bf.PatientIDCard, --身份证号
+      bf.SocialSecurityCard, --社保号
+      bf.PatientAddress,--住址
+      bf.PatientPhone,  --联系电话
+      bf.HighRiskInfectivity, --是否高危
+      bf.WardArea,      --病区
+      bf.BedNumber,     --床位号
+      bf.BedNurse       --护士
+      from Infeconbf bf
+      where 1=1 {0}
+    </Content>
+        
+    <!--门诊病人-->
+    <Content Key="GetPatientCodeInfo" DataBaseType="SqlServer">
+      select
+      mz.PatientCode,    --门诊号
+      mz.PatientName,    --姓名
+      mz.MedicalRecordCode, --卡号
+      mz.PatientSex,     --性别
+      mz.PatientBirthday,--生日
+      mz.PatientAge,     --年龄
+      mz.PatientIDCard,  --身份证号
+      mz.SocialSecurityCard, --社保号
+      mz.PatientAddress, --地址
+      mz.PatientPhone,   --电话
+      mz.HighRiskInfectivity --是否高危
+      from Infeconmz mz
+      where 1=1 {0}
+    </Content>
+  </Contents>
+</SqlConfig>

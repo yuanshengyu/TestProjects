@@ -1,0 +1,8 @@
+E:\MyProjects\TestObserver\TestObserver\bin\Debug\TestObserver.exe.config
+E:\MyProjects\TestObserver\TestObserver\bin\Debug\TestObserver.exe
+E:\MyProjects\TestObserver\TestObserver\bin\Debug\TestObserver.pdb
+E:\MyProjects\TestObserver\TestObserver\obj\Debug\TestObserver.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestObserver\TestObserver\obj\Debug\TestObserver.Properties.Resources.resources
+E:\MyProjects\TestObserver\TestObserver\obj\Debug\TestObserver.csproj.GenerateResource.Cache
+E:\MyProjects\TestObserver\TestObserver\obj\Debug\TestObserver.exe
+E:\MyProjects\TestObserver\TestObserver\obj\Debug\TestObserver.pdb

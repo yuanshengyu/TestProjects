@@ -1,0 +1,5 @@
+E:\MyProjects\c\c\bin\Debug\c.exe
+E:\MyProjects\c\c\bin\Debug\c.pdb
+E:\MyProjects\c\c\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\c\c\obj\Debug\c.exe
+E:\MyProjects\c\c\obj\Debug\c.pdb

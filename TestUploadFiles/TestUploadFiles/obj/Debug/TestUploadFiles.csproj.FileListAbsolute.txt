@@ -1,0 +1,10 @@
+E:\MyProjects\TestUploadFiles\TestUploadFiles\bin\Debug\TestUploadFiles.exe
+E:\MyProjects\TestUploadFiles\TestUploadFiles\bin\Debug\TestUploadFiles.pdb
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.ImagePage.resources
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.Properties.Resources.resources
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.csproj.GenerateResource.Cache
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.exe
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.pdb
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.Form1.resources
+E:\MyProjects\TestUploadFiles\TestUploadFiles\obj\Debug\TestUploadFiles.Form2.resources

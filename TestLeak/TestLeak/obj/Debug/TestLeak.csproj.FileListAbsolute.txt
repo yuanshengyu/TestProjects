@@ -1,0 +1,8 @@
+E:\MyProjects\TestLeak\TestLeak\bin\Debug\TestLeak.exe
+E:\MyProjects\TestLeak\TestLeak\bin\Debug\TestLeak.pdb
+E:\MyProjects\TestLeak\TestLeak\obj\Debug\ResolveAssemblyReference.cache
+E:\MyProjects\TestLeak\TestLeak\obj\Debug\TestLeak.Form1.resources
+E:\MyProjects\TestLeak\TestLeak\obj\Debug\TestLeak.Properties.Resources.resources
+E:\MyProjects\TestLeak\TestLeak\obj\Debug\TestLeak.csproj.GenerateResource.Cache
+E:\MyProjects\TestLeak\TestLeak\obj\Debug\TestLeak.exe
+E:\MyProjects\TestLeak\TestLeak\obj\Debug\TestLeak.pdb

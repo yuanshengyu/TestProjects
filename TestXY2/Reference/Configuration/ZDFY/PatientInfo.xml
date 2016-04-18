@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!-- 获取病人信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetPatientInfo" DataBaseType="Oracle">
+		 
+	</Content>
+    <!-- 获取病人住院信息 根据 Patient_id-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT * from   view_shgx_inPationInfo vii
+	  where 1=1 {0}  
+      ]]>
+    </Content>
+    <!-- 获取病人手术信息-->
+    <!-- 已测试 Oracle 无问题-->
+    <Content Key="GetOperationInfo" DataBaseType="Oracle">
+     <![CDATA[
+      
+      ]]>
+    </Content>
+    <!-- 获取病人挂号信息-->
+    <!-- 未确认 数据库无权限-->
+    <Content Key="GetRegisterInfo" DataBaseType="Oracle">
+     <![CDATA[
+      SELECT * from   view_shgx_outPationInfo vri
+	  where 1=1 {0}
+      ]]>
+    </Content> 
+  </Contents>
+</SqlConfig>

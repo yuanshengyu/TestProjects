@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+  <Contents>
+    <!-- 获取病人信息--> 
+    <Content Key="GetPatientInfo" DataBaseType="Oracle">
+		select patient_id PatientCode,
+		name PatientName,
+		sex PatientSex,
+		date_of_birth PatientBirthday,
+		round((to_date(sysdate) - date_of_birth)/365)  PatientAge ,
+		id_no PatientIDCard,
+		--(select max(insurance_no) from pat_visit where patient_id=a.patient_id ) SocialSecurityCard,
+		mailing_address PatientAddress,
+		phone_number_home PatientPhone ,
+		'' HighRiskInfectivity
+		from pat_master_index inner join Pats_in_hospital
+		on pat_master_index.patient_id=Pats_in_hospital.
+		where 1=1 {0}
+	</Content>
+    <!-- 获取病人住院信息 -->
+    <Content Key="GetInPatientInfo" DataBaseType="Oracle">
+      <![CDATA[
+      SELECT
+      Pats_in_hospital.patient_id as InPatientCode,
+      Pats_in_hospital.Dept_code AS WardArea, 
+      Pats_in_hospital.Bed_no AS BedNumber, 
+      NULL AS BedNurse
+      FROM Pats_in_hospital
+      WHERE 1=1  {0}   
+      ]]>
+    </Content> 
+  </Contents>
+</SqlConfig>

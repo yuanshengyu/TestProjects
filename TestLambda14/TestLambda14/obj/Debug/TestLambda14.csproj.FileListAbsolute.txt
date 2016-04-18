@@ -1,0 +1,6 @@
+E:\MyProjects\TestLambda14\TestLambda14\bin\Debug\TestLambda14.exe
+E:\MyProjects\TestLambda14\TestLambda14\bin\Debug\TestLambda14.pdb
+E:\MyProjects\TestLambda14\TestLambda14\obj\Debug\TestLambda14.csprojResolveAssemblyReference.cache
+E:\MyProjects\TestLambda14\TestLambda14\obj\Debug\TestLambda14.exe
+E:\MyProjects\TestLambda14\TestLambda14\obj\Debug\TestLambda14.pdb
+E:\MyProjects\TestLambda14\TestLambda14\bin\Debug\TestLambda14.exe.config

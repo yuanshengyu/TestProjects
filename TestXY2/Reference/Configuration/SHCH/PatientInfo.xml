@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlConfig>
+	<Contents>
+		<!-- 获取病人信息-->
+		<!-- 已测试 Oracle 无问题-->
+		<Content Key="GetPatientInfo" DataBaseType="Oracle">
+			SELECT
+			Pat_master_index.Patient_id AS PatientCode
+			,Pat_master_index.Inp_no AS MedicalRecordCode
+			,Pat_master_index.Id_no AS PatientIDCard
+			,Pat_master_index.Patient_id AS SocialSecurityCard
+			,Pat_master_index.name AS PatientName
+			,Pat_master_index.sex AS PatientSex
+			,Pat_master_index.Date_of_birth AS PatientBirthday
+			,floor(months_between(sysdate,Pat_master_index.Date_of_birth)/12) AS PatientAge
+			,Pat_master_index.Mailing_address as PatientAddress
+			,NULL AS HighRiskInfectivity
+			FROM Pat_master_index
+			left  join Operation_master
+			on Pat_master_index.Patient_id=Operation_master.Patient_id
+			WHERE 1=1 {0}
+			Order by Start_date_time DESC			
+		</Content>
+		<Content Key="GetPatientInfoInHis" DataBaseType="Oracle">
+			<![CDATA[
+		SELECT
+		Pat_master_index.Patient_id AS PatientCode
+		,Pat_master_index.Inp_no AS MedicalRecordCode
+		,Pat_master_index.Id_no AS PatientIDCard
+		,Pat_master_index.Patient_id AS SocialSecurityCard
+		,Pat_master_index.name AS PatientName
+		,Pat_master_index.sex AS PatientSex
+		,Pat_master_index.Date_of_birth AS PatientBirthday
+		,floor(months_between(sysdate,Pat_master_index.Date_of_birth)/12) AS PatientAge
+		,Pat_master_index.Mailing_address as PatientAddress
+		,NULL AS HighRiskInfectivity,
+		Pats_in_hospital.patient_id as InPatientCode,
+		dept_dict.Dept_name AS WardArea,
+		Pats_in_hospital.Ward_Code AS InDepartment,
+		Pats_in_hospital.Nursing_Class AS Nursing,
+		Pats_in_hospital.Bed_no AS BedNumber,
+		Pats_in_hospital.doctor_in_charge as InPatientDoctor,
+		NULL AS BedNurse,
+		SCHEDULED_OPERATION_NAME.Operation AS OperationName,
+		OPERATION_SCHEDULE.SEQUENCE AS OperationID,
+		dept_dictop.Dept_name AS OperationDepartment,
+		OPERATION_SCHEDULE.Operating_room_no AS OperationRoom,
+		OPERATION_SCHEDULE.surgeon AS OperationDoctor,
+		OPERATION_SCHEDULE.SCHEDULED_DATE_TIME AS OperationDate,
+		OPERATION_SCHEDULE.SCHEDULED_DATE_TIME AS OperationBegin,
+		OPERATION_SCHEDULE.SCHEDULED_DATE_TIME AS OperationEnd,
+		OPERATION_SCHEDULE.First_operation_nurse AS HandWashingNurse1,
+		OPERATION_SCHEDULE.Second_operation_nurse AS HandWashingNurse2,
+		OPERATION_SCHEDULE.First_supply_nurse AS ItinerateNurse1,
+		OPERATION_SCHEDULE.Second_supply_nurse AS ItinerateNurse2,
+		NULL AS OperationOrderCode,
+		NULL AS OperationStatus
+		FROM OPERATION_SCHEDULE left join pat_master_index
+		on  operation_schedule.patient_id = pat_master_index.patient_id 
+		left join Pats_in_hospital
+		on (Pats_in_hospital.patient_id = pat_master_index.patient_id)
+		left join dept_dict
+		on Pats_in_hospital.dept_code = dept_dict.dept_code  
+		left join dept_dict dept_dictop
+		on OPERATION_SCHEDULE.OPERATING_DEPT = dept_dictop.dept_code 
+		left join SCHEDULED_OPERATION_NAME
+		on operation_schedule.patient_id = SCHEDULED_OPERATION_NAME.patient_id  
+		and operation_schedule.visit_id = SCHEDULED_OPERATION_NAME.visit_id 
+		and operation_schedule.SCHEDULE_ID = SCHEDULED_OPERATION_NAME.SCHEDULE_ID
+		 WHERE 1=1 {0}  order by OPERATION_SCHEDULE.scheduled_date_time DESC
+			]]>
+		</Content>
+		<!-- 获取病人住院信息 根据 Patient_id-->
+		<!-- 已测试 Oracle 无问题-->
+		<Content Key="GetInPatientInfo" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Pats_in_hospital.patient_id as InPatientCode,
+      dept_dict.Dept_name AS WardArea,
+      Pats_in_hospital.Ward_Code AS InDepartment,
+      Pats_in_hospital.Nursing_Class AS Nursing,
+      Pats_in_hospital.Bed_no AS BedNumber,
+      Pats_in_hospital.doctor_in_charge as InPatientDoctor,
+      NULL AS BedNurse
+      FROM Pats_in_hospital inner join dept_dict
+      on  Pats_in_hospital.dept_code=dept_dict.dept_code
+      WHERE 1=1 {0}
+      ]]>
+		</Content>
+		<!-- 获取病人手术信息-->
+		<!-- 已测试 Oracle 无问题-->
+		<Content Key="GetOperationInfo" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Operation_Name.Operation AS OperationName,
+      Pat_master_index.Inp_no AS MedicalRecordCode,
+      Operation_master.Oper_id AS OperationID,
+      dept_dict.Dept_name AS OperationDepartment,
+      Operation_master.Operating_room_no AS OperationRoom,
+      Operation_master.surgeon AS OperationDoctor,
+      Operation_master.Start_date_time AS OperationDate,
+      Operation_master.Start_date_time AS OperationBegin,
+      Operation_master.End_date_time AS OperationEnd,
+      Operation_master.First_operation_nurse AS HandWashingNurse1,
+      Operation_master.Second_operation_nurse AS HandWashingNurse2,
+      Operation_master.First_supply_nurse AS ItinerateNurse1,
+      Operation_master.Second_supply_nurse AS ItinerateNurse2,
+      NULL AS OperationOrderCode,
+      NULL AS OperationStatus
+      FROM Operation_master
+      inner join Pat_master_index
+      on Operation_master.Patient_id=Pat_master_index.Patient_id
+      LEFT JOIN Operation_Name
+      ON Operation_master.Patient_Id = Operation_Name.Patient_Id
+      AND Operation_master.Visit_Id = Operation_Name.Visit_Id
+      AND Operation_master.Oper_Id = Operation_Name.Oper_Id
+	  left join dept_dict   on  Operation_master.Operating_dept=dept_dict.dept_code
+      WHERE  1=1  {0} order by Operation_master.Start_date_time DESC
+      ]]>
+		</Content>
+		<!-- 获取病人挂号信息-->
+		<!-- 未确认 数据库无权限-->
+		<Content Key="GetRegisterInfo" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Pat_master_index.Patient_id AS RegisterCode,
+      Clinic_master.Visit_no AS RegisterNumber,
+      Clinic_master.Visit_dept AS RegisterDepartment,
+      Clinic_master.Visit_date AS RegisterDateTime,
+      Clinic_master.Clinic_type AS OutPatientEmergency
+      FROM Clinic_master
+      LEFT JOIN Pat_master_index
+      ON Clinic_master.Patient_id = Pat_master_index.Patient_id
+      WHERE 1=1 {0}
+      Order By Visit_Date DESC
+      ]]>
+		</Content>
+		<Content Key="QueryPatientInfoPopupData" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Pat_master_index.Patient_id AS PatientCode
+      ,Pat_master_index.Inp_no AS MedicalRecordCode
+      ,Pat_master_index.Id_no AS PatientIDCard
+      ,Pat_master_index.Patient_id AS SocialSecurityCard
+      ,Pat_master_index.name AS PatientName
+      ,Pat_master_index.sex AS PatientSex
+      ,Pat_master_index.Date_of_birth AS PatientBirthday
+      ,floor(months_between(sysdate,Pat_master_index.Date_of_birth)/12) AS PatientAge
+      ,Pat_master_index.Mailing_address as PatientAddress
+      FROM Pat_master_index
+      WHERE 1=1  {0}
+      ]]>
+		</Content>
+		<!-- 根据手术信息查询 强制条件,手术室,手术时间-->
+		<!-- 已测试 Oracle 无问题-->
+		<Content Key="GetPatientInfoPopupData" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Pat_master_index.Inp_no AS VALUE,
+      Pat_master_index.Inp_no AS MedicalRecordCode,
+      Operation_Name.Operation AS NAME,
+      Pat_master_index.name AS PatientName,
+      Pat_master_index.sex AS PatientSex,
+      Pat_master_index.name AS DISPLAYNAME,
+      Pat_master_index.Date_of_birth AS PatientBirthday,
+      Operation_Name.Operation AS OperationName,
+      Operation_master.Oper_id AS OperationID,
+      Operation_master.Operating_dept AS OperationDepartment,
+      Operation_master.Operating_room_no AS OperationRoom,
+      Operation_master.surgeon AS OperationDoctor,
+      Operation_master.Start_date_time AS OperationDate
+      FROM Operation_master
+      LEFT JOIN Pat_master_index
+      ON Operation_master.Patient_id = Pat_master_index.Patient_id
+      LEFT JOIN Operation_Name
+      ON Operation_master.Patient_Id = Operation_Name.Patient_Id
+      AND Operation_master.Visit_Id = Operation_Name.Visit_Id
+      AND Operation_master.Oper_Id = Operation_Name.Oper_Id
+      WHERE 1=1 {0}
+      Order By Operation_master.Start_date_time DESC
+      ]]>
+		</Content>
+
+		<!-- 已测试 Oracle 无问题-->
+		<!-- 根据住院信息查询 (需要指定科室) 检索当前住院病人列表供选择 -->
+		<Content Key="GetInPatientPopupData" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Pat_master_index.Patient_id AS VALUE,
+      Pat_master_index.Patient_id AS InPatientCode,
+      Pat_master_index.name AS NAME,
+      Pat_master_index.sex AS PatientSex,
+      Pat_master_index.name AS DISPLAYNAME,
+      Pats_in_hospital.Ward_Code AS WardArea, 
+      floor(months_between(sysdate,Pat_master_index.Date_of_birth)/12) AS PatientAge,
+      Pats_in_hospital.Dept_code AS InDepartment,
+      Pats_in_hospital.Nursing_Class AS Nursing,
+      Pats_in_hospital.bed_no AS Bedno,
+      NULL AS BedNurse,
+      NULL AS InPatientDoctor
+      FROM Pats_in_hospital
+      LEFT JOIN Pat_master_index
+      ON Pats_in_hospital.Patient_id = Pat_master_index.Patient_id
+      WHERE 1=1 {0}
+      Order By InPatientCode DESC
+      ]]>
+		</Content>
+		<!-- 未确认 数据库无权限-->
+		<!-- 根据挂号信息查询 (需要指定科室) -->
+		<Content Key="GetRegisterPopupData" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT
+      Pat_master_index.Patient_id AS VALUE,
+      Clinic_master.Visit_no AS VisitNo,
+      Pat_master_index.name AS NAME,
+      Pat_master_index.sex AS SEX,
+      Pat_master_index.name AS DISPLAYNAME,
+      Clinic_master.Visit_dept AS VisitDepartment,
+      Clinic_master.Visit_date AS VisitDate,
+      Clinic_master.Clinic_type AS ClinicType,
+      Pat_master_index.Date_of_birth AS PatientBirthday
+      FROM Clinic_master
+      LEFT JOIN Pat_master_index
+      ON Clinic_master.Patient_id = Pat_master_index.Patient_id
+      WHERE 1=1 {0}
+      Order By VisitDate DESC
+      ]]>
+		</Content>
+		<!-- 获取排班信息 -->
+		<Content Key="GetOperationArrangeCurrentDate" DataBaseType="Oracle">
+			<![CDATA[
+      SELECT  OPERATION_SCHEDULE.PATIENT_ID PATIENTID,   
+         PAT_MASTER_INDEX.NAME,   
+         OPERATION_SCHEDULE.BED_NO BEDNO,   
+         OPERATION_SCHEDULE.SCHEDULED_DATE_TIME SCHEDULEDDATETIME,   
+         OPERATION_SCHEDULE.OPERATING_ROOM OPERATINGROOM,   
+         DIAG_BEFORE_OPERATION as OPERATOR,   
+		 DIAG_BEFORE_OPERATION as DIAGBEFOREOPERATION, 
+         OPERATION_SCHEDULE.SURGEON ,   
+         OPERATION_SCHEDULE.FIRST_ASSISTANT FIRSTASSISTANT,   
+         OPERATION_SCHEDULE.SECOND_ASSISTANT SECONDASSISTANT,   
+         OPERATION_SCHEDULE.THIRD_ASSISTANT THIRDASSISTANT,   
+         OPERATION_SCHEDULE.FOURTH_ASSISTANT FOURTHASSISTANT, 
+		 OPERATION_SCHEDULE.ANESTHESIA_METHOD ANESTHESIAMETHOD,   
+         OPERATION_SCHEDULE.FIRST_OPERATION_NURSE FIRSTOPERATIONNURSE,  
+		 OPERATION_SCHEDULE.SECOND_OPERATION_NURSE SECONDOPERATIONNURSE,
+         OPERATION_SCHEDULE.NOTES_ON_OPERATION NOTESONOPERATION,   
+		 OPERATION_SCHEDULE.SECOND_SUPPLY_NURSE SECONDSUPPLYNURSE, 
+         0 as  FLAG,   
+         OPERATION_SCHEDULE.VISIT_ID,   
+         OPERATION_SCHEDULE.SCHEDULE_ID,   
+         OPERATION_SCHEDULE.ANESTHESIA_DOCTOR,   
+          
+         ''  DEPT_ALIAS,   
+         PAT_MASTER_INDEX.SEX,   
+         OPERATION_SCHEDULE.DIAG_BEFORE_OPERATION,    
+         PAT_MASTER_INDEX.DATE_OF_BIRTH DATEOFBIRTH ,
+         '' bed_label ,
+          OPERATION_SCHEDULE.DEPT_STAYED,
+          OPERATION_SCHEDULE.OPERATING_ROOM_NO,
+        '' OPERATION_CLASS,
+         OPERATION_SCHEDULE.SEQUENCE,
+         DEPT_DICT.DEPT_NAME DEPTNAME,
+         '' LOCATION  
+    FROM OPERATION_SCHEDULE, DEPT_DICT,   
+         PAT_MASTER_INDEX  
+   WHERE ( operation_schedule.patient_id = pat_master_index.patient_id (+)) 
+   and  ( operation_schedule.dept_stayed =  dept_dict.dept_code (+))
+   {0}  order by OPERATION_SCHEDULE.scheduled_date_time DESC
+      ]]>
+		</Content>
+	</Contents>
+</SqlConfig>
